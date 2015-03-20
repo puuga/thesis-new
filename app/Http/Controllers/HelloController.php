@@ -38,4 +38,8 @@ class HelloController extends Controller {
 		return view('hello.hello',['id'=>$id]);
 	}
 
+	public function helloWithName($name) {
+		return view('hello.hello',['name'=>$name]);
+	}
+
 }
