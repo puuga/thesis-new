@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Message;
+use Illuminate\Http\Request;
 
 class HelloController extends Controller {
 
@@ -58,6 +59,26 @@ class HelloController extends Controller {
 		$message = Message::find($id);
 
 		return view('hello.messages',['message'=>$message]);
+	}
+
+	public function messageCreate(Request $request) {
+		$message = new Message;
+		$message->message = $request->input('message');
+		$message->save();
+
+		return $this->messages();
+	}
+
+	public function getMessages() {
+
+		return Message::all();
+	}
+
+	public function getMessage($id) {
+
+		$message = Message::find($id);
+
+		return Message::find($id)->toJson();
 	}
 
 }
