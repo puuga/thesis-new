@@ -18,6 +18,9 @@ Route::get('home', 'HomeController@index');
 Route::get('hello', 'HelloController@hello');
 Route::get('hello/{id}', 'HelloController@helloWithId');
 
+Route::get('message', 'HelloController@messages');
+Route::get('message/{id}', ['as' => 'messageId', 'uses' => 'HelloController@messageWithId']);
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

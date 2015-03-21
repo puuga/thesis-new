@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use App\Message;
+
 class HelloController extends Controller {
 
 	/*
@@ -40,6 +42,22 @@ class HelloController extends Controller {
 
 	public function helloWithName($name) {
 		return view('hello.hello',['name'=>$name]);
+	}
+
+	public function messages()
+	{
+		// return view('welcome');
+		$messages = Message::all();
+
+		return view('hello.messages',['messages'=>$messages]);
+	}
+
+	public function messageWithId($id)
+	{
+		// return view('welcome');
+		$message = Message::find($id);
+
+		return view('hello.messages',['message'=>$message]);
 	}
 
 }
