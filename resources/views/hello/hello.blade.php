@@ -13,6 +13,13 @@
 					Hello ?
         @endif
 			</div>
+			<div class="">
+				@if (Auth::guest())
+					You are guest!
+				@else
+					You are logged in!
+				@endif
+			</div>
 		</div>
 	</div>
 </div>

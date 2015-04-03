@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Message;
+use App\MessageComment;
 use Illuminate\Http\Request;
 
 class HelloController extends Controller {
@@ -23,7 +24,7 @@ class HelloController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('guest');
+		//$this->middleware('guest');
 	}
 
 	/**
@@ -79,6 +80,18 @@ class HelloController extends Controller {
 		$message = Message::find($id);
 
 		return Message::find($id)->toJson();
+	}
+
+	public function commentCreate(Request $request, $id) {
+		$comment = new MessageComment;
+		$comment->comment = $request->input('comment');
+
+		$message = Message::find($id);
+
+		$comment = $message->comments()->save($comment);
+
+		return redirect()->route('messageId', $id);
+
 	}
 
 }

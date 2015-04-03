@@ -50,6 +50,22 @@
 						</div>
 
 						<div class="form-group">
+							<div class="radio">
+							  <label class="col-md-6 col-md-offset-4">
+							    <input type="radio" name="type" value="teacher">
+							    Teacher
+							  </label>
+							</div>
+
+							<div class="radio">
+							  <label class="col-md-6 col-md-offset-4">
+							    <input type="radio" name="type" value="student">
+							    Student
+							  </label>
+							</div>
+						</div>
+
+						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
 									Register

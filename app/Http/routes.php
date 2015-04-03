@@ -24,6 +24,8 @@ Route::group(array('prefix' => 'test'), function() {
 	Route::get('message/{id}', ['as' => 'messageId', 'uses' => 'HelloController@messageWithId']);
 	Route::get('messageform', ['as' => 'newMessageForm', 'uses' => function() { return View::make('hello.messagesForm'); }]);
 	Route::post('message/create', ['as' => 'newMessage', 'uses' => 'HelloController@messageCreate']);
+
+	Route::post('comment/{id}/create', ['as' => 'newComment', 'uses' => 'HelloController@commentCreate']);
 });
 
 // Web services
