@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\School;
+use App\Category;
+use View;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -33,6 +36,23 @@ class AuthController extends Controller {
 		$this->registrar = $registrar;
 
 		$this->middleware('guest', ['except' => 'getLogout']);
+
+		$categories = Category::all();
+		View::share('categories', $categories);
 	}
+
+	/**
+	 * Show the application registration form.
+	 * Override AuthenticatesAndRegistersUsers.getRegister()
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getRegister()
+	{
+		$schools = School::all();
+		return view('auth.register',['schools'=>$schools]);
+	}
+
+
 
 }

@@ -11,9 +11,28 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'StoreController@home');
 
-Route::get('home', 'HomeController@index');
+// Route::get('home', 'HomeController@index');
+Route::get('home', 'StoreController@home');
+
+// store
+Route::group(array('prefix' => 'store'), function() {
+	Route::get('/', 'StoreController@home');
+	Route::get('content/{id}', ['as'=>'contentById','uses'=>'StoreController@contentById']);
+	Route::get('category/{id}', ['as'=>'categoryById','uses'=>'StoreController@categoryById']);
+});
+
+// content
+Route::group(array('prefix' => 'contents'), function() {
+	Route::get('/new', ['as'=>'newContent','uses'=>'ContentController@newContent']);
+});
+
+// Static pages
+Route::get('about', ['as' => 'about', 'uses'=>'StaticController@about']);
+Route::get('contact', ['as' => 'contact', 'uses'=>'StaticController@contact']);
+
+Route::get('welcome', 'WelcomeController@index');
 
 Route::get('hello', 'HelloController@hello');
 Route::get('hello/{id}', 'HelloController@helloWithId');

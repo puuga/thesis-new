@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Register</div>
+				<div class="panel-heading"><h1>Register</h1></div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -22,9 +22,16 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Name</label>
+							<label class="col-md-4 control-label">Firstname</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
+								<input type="text" class="form-control" name="firstname" value="{{ old('firstname') }}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label">Lastname</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="lastname" value="{{ old('lastname') }}">
 							</div>
 						</div>
 
@@ -49,15 +56,15 @@
 							</div>
 						</div>
 
-						<div class="form-group">
-							<div class="radio">
+						<div class="">
+							<div class="radio radio-success">
 							  <label class="col-md-6 col-md-offset-4">
 							    <input type="radio" name="type" value="teacher">
 							    Teacher
 							  </label>
 							</div>
 
-							<div class="radio">
+							<div class="radio radio-success">
 							  <label class="col-md-6 col-md-offset-4">
 							    <input type="radio" name="type" value="student">
 							    Student
@@ -66,13 +73,30 @@
 						</div>
 
 						<div class="form-group">
+							<label class="col-md-4 control-label">School</label>
+							<div class="col-md-6">
+								<select class="form-control" name="school_id" id="dropdown-menu">
+									@foreach ($schools as $school)
+										<li>
+											<option value="{{ $school->id }}">
+												{{ $school->name }} {{ isset($school->province) ? '('.$school->province.')' : '' }}
+											</option>
+										</li>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Register
+								<button type="submit" class="btn btn-primary btn-raised">
+									<i class="mdi-action-done"></i> Register
 								</button>
 							</div>
 						</div>
+
 					</form>
+
 				</div>
 			</div>
 		</div>

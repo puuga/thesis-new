@@ -54,7 +54,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="{{ url('store') }}">EDU App</a>
+				<a class="navbar-brand" href="#">EDU App</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -65,80 +65,25 @@
 							Store
 						</a>
 					</li>
-					<li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-							<span class="glyphicon glyphicon-th" aria-hidden="true"></span>
-							Categories
-							<span class="caret"></span>
-						</a>
-	          <ul class="dropdown-menu" role="menu">
-							@foreach ($categories as $category)
-	            	<li><a href="{{ route('categoryById', $category->id) }}">{{ $category->name }}</a></li>
-							@endforeach
-	          </ul>
-	        </li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					@if ( Auth::guest() )
-						<li>
-							<a href="{{ url('/auth/login') }}">
-								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-								Login
-							</a>
-						</li>
-						<li>
-							<a href="{{ url('/auth/register') }}">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-								Register
-							</a>
-						</li>
-					@else
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-								{{ Auth::user()->type }}: {{ Auth::user()->name }} <span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu" role="menu">
-								@if ( Auth::user()->isTeacher() )
-									<li><a href="{{ route('newContent') }}">New Content</a></li>
-								@endif
-								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-							</ul>
-						</li>
-					@endif
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+							<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+							{{ Auth::user()->type }}: {{ Auth::user()->name }} <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							@if ( Auth::user()->isTeacher() )
+								<li><a href="#">New Content</a></li>
+							@endif
+							<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-
-	@if ( Request::is('store') || Request::is('/') || Request::is('store/category*'))
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<div class="panel panel-default">
-				    <div class="panel-body">
-
-							<form class="form-inline" action="">
-								<div class="form-group">
-									<label class="sr-only" for="keysearch">Search</label>
-									<input type="text" class="form-control floating-label" name="keysearch" placeholder="Search" size="50" value="{{ Input::has('keysearch') ? Input::get('keysearch') : '' }}">
-								</div>
-								<input type="hidden" name="_token" value="{{ csrf_token() }}">
-								<button type="submit" class="btn btn-primary">
-									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-								</button>
-								<a class="btn btn-primary btn-flat" href="javascript:void(0)">
-									Advance
-								</a>
-							</form>
-
-				    </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	@endif
 
 	@yield('content')
 
@@ -177,17 +122,6 @@
   <script>
     $.material.init();
   </script>
-
-	<!-- Google Analytics -->
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-40963799-4', 'auto');
-	  ga('send', 'pageview');
-	</script>
 
 </body>
 </html>
