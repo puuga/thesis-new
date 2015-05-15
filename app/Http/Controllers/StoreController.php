@@ -30,8 +30,8 @@ class StoreController extends Controller {
 	                    				->get();
 				return view('store.home', ['contents'=>$contents]);
 			}
-			$popContents = Content::orderBy('count', 'desc')->take(8)->get();
-			$newContents = Content::orderBy('updated_at', 'desc')->take(8)->get();
+			$popContents = Content::orderBy('count', 'desc')->take(4)->get();
+			$newContents = Content::orderBy('updated_at', 'desc')->take(4)->get();
 		} else {
 			if ( Request::has('keysearch') ) {
 				$keysearch = Request::input('keysearch');
@@ -43,8 +43,8 @@ class StoreController extends Controller {
 	                    ->get();
 				return view('store.home', ['contents'=>$contents]);
 			}
-			$popContents = Content::where('is_public', 1)->orderBy('count', 'desc')->take(8)->get();
-			$newContents = Content::where('is_public', 1)->orderBy('updated_at', 'desc')->take(8)->get();
+			$popContents = Content::where('is_public', 1)->orderBy('count', 'desc')->take(4)->get();
+			$newContents = Content::where('is_public', 1)->orderBy('updated_at', 'desc')->take(4)->get();
 		}
 
 		return view('store.home', ['popContents'=>$popContents, 'newContents'=>$newContents]);

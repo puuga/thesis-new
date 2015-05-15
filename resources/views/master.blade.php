@@ -75,7 +75,9 @@
 						</a>
 						<ul class="dropdown-menu" role="menu">
 							@if ( Auth::user()->isTeacher() )
-								<li><a href="#">New Content</a></li>
+								<li><a href="{{ route('newContent') }}">New Content</a></li>
+								<li><a href="{{ route('myContents') }}">My Contents</a></li>
+								<li class="divider"></li>
 							@endif
 							<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
 						</ul>

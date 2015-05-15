@@ -102,6 +102,8 @@
 							<ul class="dropdown-menu" role="menu">
 								@if ( Auth::user()->isTeacher() )
 									<li><a href="{{ route('newContent') }}">New Content</a></li>
+									<li><a href="{{ route('myContents') }}">My Contents</a></li>
+									<li class="divider"></li>
 								@endif
 								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
 							</ul>
@@ -146,9 +148,11 @@
 
 	<nav class="navbar navbar-default">
 		<p class="navbar-text">
-			Master Thesis: <strong>A Platform-Independent Framework for Authoring and Monitoring Interactive Contents on Tablets</strong><br/>
+			Master Thesis:
+			<strong>A Platform-Independent Framework for Authoring and Monitoring Interactive Contents on Tablets</strong><br/>
 			Developed by Siwawes Wongcharoen, Jaratsri Rungrattanaubol and Antony Harfield<br/>
-			Department of Computer Science and Information Tecnology, Faculty of Science, Naresuan Univesity, Phitsanulok, Thailand
+			Department of Computer Science and Information Tecnology,
+			Faculty of Science, Naresuan Univesity, Phitsanulok, Thailand
 		</p>
 
 		<ul class="nav navbar-nav">

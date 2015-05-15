@@ -20,10 +20,14 @@
 					</div>
 
 					<div class="panel-body">
-						@if ( $content->placeholder === "" )
-							<img src="{{ asset('/images/placeholder.svg') }}" class="img-responsive img-rounded" alt="placeholder image">
+						@if ( is_null($content->image_entry_id) )
+							<img src="{{ asset('/images/placeholder.svg') }}"
+							class="img-responsive img-rounded"
+							alt="placeholder image">
 						@else
-							underconstruction!
+							<img src="{{ route('getimagebyid', $content->image_entry_id) }}"
+							class="img-responsive img-rounded"
+							alt="placeholder image">
 						@endif
 
 						<p>

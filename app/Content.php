@@ -23,4 +23,8 @@ class Content extends Model {
 		return $this->hasMany('App\Question');
 	}
 
+	public function imageEntries() {
+		return $this->hasMany('App\ImageEntry');
+	}
+
 }

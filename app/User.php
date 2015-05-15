@@ -35,6 +35,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->belongsTo('App\School');
 	}
 
+	public function contents() {
+		return $this->hasMany('App\Content');
+	}
+
+	public function imageEntries() {
+		return $this->hasMany('App\ImageEntry');
+	}
+
 	public function isTeacher() {
 		return $this->type === 'teacher';
 	}
