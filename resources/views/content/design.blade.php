@@ -18,109 +18,113 @@
 
 	<div class="row">
 			<div class="col-sm-6">
+				<div class="panel panel-default">
+			    <div class="panel-body">
 
-				<dl class="dl-horizontal">
-				  <dt>Content name</dt>
-				  <dd>{{ $content->name }}</dd>
-				</dl>
+						<dl class="dl-horizontal">
+						  <dt>Content name</dt>
+						  <dd>{{ $content->name }}</dd>
+						</dl>
 
-				<dl class="dl-horizontal">
-				  <dt>Description</dt>
-				  <dd>{{ $content->description }}</dd>
-				</dl>
+						<dl class="dl-horizontal">
+						  <dt>Description</dt>
+						  <dd>{{ $content->description }}</dd>
+						</dl>
 
-				<dl class="dl-horizontal">
-				  <dt>Level</dt>
-				  <dd>{{ $content->level }}</dd>
-				</dl>
+						<dl class="dl-horizontal">
+						  <dt>Level</dt>
+						  <dd>{{ $content->level }}</dd>
+						</dl>
 
-				<dl class="dl-horizontal">
-				  <dt>Published</dt>
-				  <dd>{{ $content->is_public == 1 ? 'Yes' : 'No' }}</dd>
-				</dl>
+						<dl class="dl-horizontal">
+						  <dt>Published</dt>
+						  <dd>{{ $content->is_public == 1 ? 'Yes' : 'No' }}</dd>
+						</dl>
 
-				<dl class="dl-horizontal">
-				  <dt>Content views</dt>
-				  <dd>{{ $content->count }}</dd>
-				</dl>
+						<dl class="dl-horizontal">
+							<dt>Inprogress || Pubished</dt>
+							<dd>{{ $content->is_inprogress==='1' ? 'Inprogress' : 'Pubished' }}</dd>
+						</dl>
+
+						<dl class="dl-horizontal">
+						  <dt>Content views</dt>
+						  <dd>{{ $content->count }}</dd>
+						</dl>
+
+					</div>
+				</div>
 
 			</div>
 
 			<div class="col-sm-6">
-				<dl>
-				  <dt>Placeholder Image</dt>
-				  <dd>
-						@if ( is_null($content->image_entry_id) )
-							<img src="{{ asset('/images/placeholder.svg') }}"
-							class="img-responsive img-rounded"
-							alt="placeholder image">
-						@else
-							<img src="{{ route('getimagebyid', $content->image_entry_id) }}"
-							class="img-responsive img-rounded"
-							alt="placeholder image">
-						@endif
-					</dd>
-				</dl>
-				<p>
-					Update Placeholder Image<br/>
-					<form
-					action="{{ route('addimageentrytocontent', []) }}"
-					role="form"
-					method="post"
-					enctype="multipart/form-data" >
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="contentid" value="{{ $content->id }}">
-		        <input type="file" class="form-control" name="imagefield" accept="image/*">
-						<button type="submit" class="btn btn-primary" form="formEdit">
-							<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> upload
-						</button>
-			    </form>
-				</p>
+				<div class="panel panel-default">
+			    <div class="panel-body">
+
+						<dl>
+						  <dt>Placeholder Image</dt>
+						  <dd>
+								@if ( is_null($content->image_entry_id) )
+									<img src="{{ asset('/images/placeholder.svg') }}"
+									class="img-responsive img-rounded"
+									alt="placeholder image">
+								@else
+									<img src="{{ route('getimagebyid', $content->image_entry_id) }}"
+									class="img-responsive img-rounded"
+									alt="placeholder image">
+								@endif
+							</dd>
+						</dl>
+						<p>
+							Update Placeholder Image<br/>
+							<form
+							action="{{ route('addimageentrytocontent', []) }}"
+							role="form"
+							method="post"
+							enctype="multipart/form-data" >
+								<input type="hidden" name="_token" value="{{ csrf_token() }}">
+								<input type="hidden" name="contentid" value="{{ $content->id }}">
+				        <input type="file" class="form-control" name="imagefield" accept="image/*">
+								<button type="submit" class="btn btn-primary" form="formEdit">
+									<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> upload
+								</button>
+					    </form>
+						</p>
+					</div>
+				</div>
 			</div>
 	</div>
 
 	<hr/>
 
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-12">
 
 			<h2>
-				Plain Contents
-				<a role="button"
-				class="btn btn-default"
-				aria-label="Center Align"
-				href="#">
-				  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				</a>
+				Activities
+				<div class="btn-group">
+				  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						<span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" role="menu">
+				    <li><a href="#">New Interactive Activity</a></li>
+				    <li><a href="#">New Plain Activity</a></li>
+				  </ul>
+				</div>
 			</h2>
 
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
+
+				</div>
+				<div class="col-md-6">
 
 				</div>
 			</div>
 
 		</div>
 
-		<div class="col-md-6">
 
-			<h2>
-				Interactive Contents
-				<a role="button"
-				class="btn btn-default"
-				aria-label="Center Align"
-				href="#">
-				  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				</a>
-			</h2>
-
-			<div class="row">
-				<div class="col-md-12">
-
-				</div>
-			</div>
-
-		</div>
 	</div>
 
 </div>
@@ -206,6 +210,21 @@
 									value="publish"
 									{{ $content->is_public === '1' ? 'checked' : '' }}> Publish to Every User
 				        </label>
+				      </div>
+				    </div>
+				  </div>
+
+					<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <div class="checkbox">
+				        <label>
+				          <input
+									type="checkbox"
+									name="inProgress"
+									value="inProgress"
+									{{ $content->is_inprogress === '1' ? 'checked' : '' }}> inProgress
+				        </label>
+								<p class="help-block">Check this option if the content is not ready to publish.</p>
 				      </div>
 				    </div>
 				  </div>

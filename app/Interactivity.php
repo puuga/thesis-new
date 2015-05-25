@@ -15,4 +15,8 @@ class Interactivity extends Model {
 		return $this->belongsTo('App\Question');
 	}
 
+	public function activity() {
+		return $this->belongsTo('App\Activity');
+	}
+
 }

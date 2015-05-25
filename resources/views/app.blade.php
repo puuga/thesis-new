@@ -77,6 +77,50 @@
 							@endforeach
 	          </ul>
 	        </li>
+					@if ( !Auth::guest()  )
+						@if ( Auth::user()->isTeacher() )
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+								Authoring Tools
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="{{ route('newContent') }}">New Content</a></li>
+								<li class="divider"></li>
+								<li><a href="{{ route('myContents') }}">My Contents</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+								Monitoring Tools
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">New Content</a></li>
+								<li class="divider"></li>
+								<li><a href="#">My Contents</a></li>
+							</ul>
+						</li>
+						@endif
+						@if ( Auth::user()->isAdmin() )
+						<li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+								Admin
+								<span class="caret"></span>
+							</a>
+		          <ul class="dropdown-menu" role="menu">
+								<li><a href="#">Dashboard</a></li>
+								<li class="divider"></li>
+		            <li><a href="#">Users</a></li>
+								<li><a href="#">Schools</a></li>
+								<li><a href="#">Categories</a></li>
+		          </ul>
+		        </li>
+						@endif
+					@endif
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

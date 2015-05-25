@@ -27,15 +27,17 @@ class StoreController extends Controller {
 				$keysearch = Request::input('keysearch');
 				$contents = Content::where('name', 'like', "%$keysearch%")
 															->orWhere('description', 'like', "%$keysearch%")
+															->where('is_inprogress',0)
 	                    				->get();
 				return view('store.home', ['contents'=>$contents]);
 			}
-			$popContents = Content::orderBy('count', 'desc')->take(4)->get();
-			$newContents = Content::orderBy('updated_at', 'desc')->take(4)->get();
+			$popContents = Content::where('is_inprogress',0)->orderBy('count', 'desc')->take(4)->get();
+			$newContents = Content::where('is_inprogress',0)->orderBy('updated_at', 'desc')->take(4)->get();
 		} else {
 			if ( Request::has('keysearch') ) {
 				$keysearch = Request::input('keysearch');
 				$contents = Content::where('is_public', 1)
+											->where('is_inprogress',0)
 											->where(function($query) {
 												$query->where('name', 'like', "%$keysearch%")
 															->orWhere('description', 'like', "%$keysearch%");
@@ -43,8 +45,8 @@ class StoreController extends Controller {
 	                    ->get();
 				return view('store.home', ['contents'=>$contents]);
 			}
-			$popContents = Content::where('is_public', 1)->orderBy('count', 'desc')->take(4)->get();
-			$newContents = Content::where('is_public', 1)->orderBy('updated_at', 'desc')->take(4)->get();
+			$popContents = Content::where('is_inprogress',0)->where('is_public', 1)->orderBy('count', 'desc')->take(4)->get();
+			$newContents = Content::where('is_inprogress',0)->where('is_public', 1)->orderBy('updated_at', 'desc')->take(4)->get();
 		}
 
 		return view('store.home', ['popContents'=>$popContents, 'newContents'=>$newContents]);
@@ -71,6 +73,7 @@ class StoreController extends Controller {
 	public function categoryByIdWithAuth($id) {
 		$contents = Content::
 			where('is_public', 1)
+			->where('is_inprogress',0)
 			->whereHas('category', function($query) use($id) {
 					$query->where('id',$id);
 			})
@@ -89,6 +92,7 @@ class StoreController extends Controller {
 	public function categoryByIdWithOutAuth($id) {
 		$contents = Category::find($id)->contents()
 			->where('is_public', 1)
+			->where('is_inprogress',0)
 			->paginate($this->kPage);
 			// ->get();
 

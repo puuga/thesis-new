@@ -12,6 +12,11 @@
 						{{ $i }}.
 						<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 						{{ $content->name}}
+						@if( $content->is_inprogress==='1' )
+							<span class="label label-warning">Inprogress</span>
+						@elseif( $content->is_inprogress==='0' )
+							<span class="label label-primary">Pubished</span>
+						@endif
 					</h3>
 				</div>
 
@@ -38,8 +43,13 @@
 						</dl>
 
 						<dl>
-						  <dt>Published</dt>
+						  <dt>Boud to school</dt>
 						  <dd>{{ $content->is_public == 1 ? 'Yes' : 'No' }}</dd>
+						</dl>
+
+						<dl>
+						  <dt>Inprogress || Pubished</dt>
+							<dd>{{ $content->is_inprogress==='1' ? 'Inprogress' : 'Pubished' }}</dd>
 						</dl>
 
 						<dl>

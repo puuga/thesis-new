@@ -49,6 +49,7 @@ class ContentController extends Controller {
 		$content->name = $request->input('inName');
 		$content->description = $request->input('inDescription');
 		$content->is_public = $request->input('inPublish') === "publish" ? 1 : 0 ;
+		$content->is_inprogress = $request->input('inProgress') === "inProgress" ? 1 : 0 ;
 
 		$content->save();
 
