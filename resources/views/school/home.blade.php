@@ -188,7 +188,8 @@
 				console.log(result.school.toString());
 				appendSchoolToTable(result.school);
 				$('#newSchool').button('reset');
-				$('#complete-dialog').modal('hide')
+				$('#complete-dialog').modal('hide');
+				$('#newSchoolForm').reset();
 			}
 	  })
 		.fail(function() {
