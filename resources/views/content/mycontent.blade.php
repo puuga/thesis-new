@@ -1,10 +1,10 @@
-@extends('master')
+@extends('app')
 
 @section('content')
 <?php
 	function cardContent($i, $content) {
 		?>
-		<div class="col-sm-3">
+		<div class="col-sm-4">
 			<div class="panel panel-info">
 
 				<div class="panel-heading">

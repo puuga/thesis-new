@@ -46,6 +46,44 @@ Route::group(array('prefix' => 'contents'), function() {
 		'uses'=>'ContentController@myContent']);
 });
 
+// admin
+Route::group(array('prefix' => 'admin'), function() {
+	Route::get('/home', [
+		'as'=>'adminHome',
+		'uses'=>'AdminController@home']);
+
+	// user
+	Route::group(array('prefix' => 'user'), function() {
+		Route::get('/', [
+			'as'=>'userList',
+			'uses'=>'UserController@userList']);
+		Route::get('/switchpermission/{id}', [
+			'as'=>'switchPermission',
+			'uses'=>'UserController@switchPermission']);
+		Route::get('/grantadmin/{id}', [
+			'as'=>'grantAdmin',
+			'uses'=>'UserController@grantAdmin']);
+	});
+
+	// school
+	Route::group(array('prefix' => 'school'), function() {
+		Route::get('/', [
+			'as'=>'schoolList',
+			'uses'=>'SchoolController@schoolList']);
+		Route::post('/create', [
+			'as'=>'createSchool',
+			'uses'=>'SchoolController@createSchool']);
+	});
+
+	// category
+	Route::group(array('prefix' => 'category'), function() {
+		Route::get('/', [
+			'as'=>'categoryList',
+			'uses'=>'CategoryController@categoryList']);
+	});
+
+});
+
 // image
 Route::group(array('prefix' => 'imageentry'), function() {
 	Route::get('all', 'ImageEntryController@allImageBelongToUser');

@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="csrf-token" content="{{ csrf_token() }}" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 	<meta name="description" content="A Platform-Independent Framework for Authoring and Monitoring Interactive Contents on Tablets">
@@ -45,6 +46,22 @@
 	</style>
 </head>
 <body>
+	<!-- Scripts -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+	<!-- Material Design for Bootstrap -->
+  <script src="{{ asset('/js/material.min.js') }}"></script>
+  <script src="{{ asset('/js/ripples.min.js') }}"></script>
+  <script>
+    $.material.init();
+
+		$.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  </script>
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -65,6 +82,7 @@
 							Store
 						</a>
 					</li>
+					@if ( Request::is('store*') || Request::is('/') )
 					<li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 							<span class="glyphicon glyphicon-th" aria-hidden="true"></span>
@@ -77,9 +95,11 @@
 							@endforeach
 	          </ul>
 	        </li>
+					@endif
+
 					@if ( !Auth::guest()  )
 						@if ( Auth::user()->isTeacher() )
-						<li class="dropdown">
+						<li class="dropdown {{ Request::is('contents/*') ? 'active' : '' }}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 								Authoring Tools
@@ -105,7 +125,7 @@
 						</li>
 						@endif
 						@if ( Auth::user()->isAdmin() )
-						<li class="dropdown">
+						<li class="dropdown {{ Request::is('admin/*') ? 'active' : '' }}">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 								Admin
@@ -114,9 +134,9 @@
 		          <ul class="dropdown-menu" role="menu">
 								<li><a href="#">Dashboard</a></li>
 								<li class="divider"></li>
-		            <li><a href="#">Users</a></li>
-								<li><a href="#">Schools</a></li>
-								<li><a href="#">Categories</a></li>
+		            <li><a href="{{ route('userList') }}">Users</a></li>
+								<li><a href="{{ route('schoolList') }}">Schools</a></li>
+								<li><a href="{{ route('categoryList') }}">Categories</a></li>
 		          </ul>
 		        </li>
 						@endif
@@ -214,17 +234,6 @@
 			</li>
 		</ul>
 	</nav>
-
-	<!-- Scripts -->
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-	<!-- Material Design for Bootstrap -->
-  <script src="{{ asset('/js/material.min.js') }}"></script>
-  <script src="{{ asset('/js/ripples.min.js') }}"></script>
-  <script>
-    $.material.init();
-  </script>
 
 	<!-- Google Analytics -->
 	<script>
