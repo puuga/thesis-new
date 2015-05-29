@@ -1,6 +1,144 @@
 @extends('app')
 
 @section('content')
+<script type="text/javascript">
+
+	<?php
+		$jContents = Array();
+		$jActs = $content->activities;
+		for ($i=0; $i < count($jActs); $i++) {
+			$jAct["id"] = $jActs[$i]->id;
+			$jAct["content_id"] = $jActs[$i]->content_id;
+			$jAct["activity_type_id"] = $jActs[$i]->activity_type_id;
+			$jAct["activity_type_name"] = $jActs[$i]->activityType->name;
+			$jAct["activity_type_layout"] = $jActs[$i]->activityType->layout;
+			$jAct["order"] = $jActs[$i]->order;
+			$jAct["title"] = $jActs[$i]->title;
+			$jAct["content"] = $jActs[$i]->content;
+			$jAct["placeholder"] = $jActs[$i]->placeholder;
+			$jAct["image_placeholder"] = $jActs[$i]->image_placeholder;
+			$jAct["extra1"] = $jActs[$i]->extra1;
+			$jAct["extra2"] = $jActs[$i]->extra2;
+
+			$jContents[] = $jAct;
+		}
+	?>
+
+	// activities = <?php echo json_encode($content->activities); ?>;
+	activities = <?php echo json_encode($jContents); ?>;
+
+	// move activity up
+	function moveActivityUp(orderr) {
+		if (orderr === 1) {
+			return;
+		}
+		var index = orderr-1;
+
+		$.ajax({
+			url: "{{ route('changeactivityorder') }}",
+			method: "POST",
+			data: {
+				act1id : activities[index-1].id,
+				act1order : orderr,
+				act2id : activities[index].id,
+				act2order : orderr-1
+			}
+		})
+		.done(function( result ) {
+			// alert( "done "+result.result );
+			if (result.result==='success') {
+				// swap value
+				activities[index-1].order = orderr;
+				activities[index].order = orderr-1;
+
+				// swap object
+				var temp = activities[index-1];
+				activities[index-1] = activities[index];
+				activities[index] = temp;
+
+				// console.log(activities.length);
+				drawActivity(activities);
+			}
+		})
+		.fail(function() {
+			alert( "error" );
+		});
+
+	}
+	// move activity down
+	function moveActivityDown(orderr) {
+		if (orderr === activities.length) {
+			return;
+		}
+		var index = orderr-1;
+
+		$.ajax({
+			url: "{{ route('changeactivityorder') }}",
+			method: "POST",
+			data: {
+				act1id : activities[index].id,
+				act1order : orderr+1,
+				act2id : activities[index+1].id,
+				act2order : orderr
+			}
+		})
+		.done(function( result ) {
+			// alert( "done "+result.result );
+			if (result.result==='success') {
+				// swap value
+				activities[index].order = orderr+1;
+				activities[index+1].order = orderr;
+
+				// swap object
+				var temp = activities[index+1];
+				activities[index+1] = activities[index];
+				activities[index] = temp;
+
+				// console.log(activities.length);
+				drawActivity(activities);
+			}
+		})
+		.fail(function() {
+			alert( "error" );
+		});
+
+
+	}
+
+	function drawActivity(activities) {
+		var text = "";
+		for (var x in activities) {
+			if (activities.hasOwnProperty(x)) {
+				text += "<div class='panel panel-default'>";
+				text += "<div class='panel-body'>";
+				text += "<div class='col-md-5'>";
+				text += "Activity_id: " + activities[x].id;
+				text += "</div>";
+				text += "<div class='col-md-5'>";
+				text += "Type : "+activities[x].activity_type_name+"<br/>";
+				text += "Layout : "+activities[x].activity_type_layout+"<br/>";
+				text += "</div>";
+				text += "<div class='col-md-2'>";
+				text += "<a ";
+				text += "class='btn btn-warning'";
+				text += "href='javascript:moveActivityUp("+activities[x].order+")'>";
+				text += "<span class='glyphicon glyphicon-arrow-up' aria-hidden='true'></span>";
+				text += "</a>";
+				text += "<br/>";
+				text += "<a ";
+				text += "class='btn btn-warning'";
+				text += "href='javascript:moveActivityDown("+activities[x].order+")'>";
+				text += "<span class='glyphicon glyphicon-arrow-down' aria-hidden='true'></span>";
+				text += "</a>";
+				text += "</div>";
+				text += "</div>";
+				text += "</div>";
+			}
+		}
+		$("#activityContainer").html(text);
+	}
+
+</script>
 <div class="container">
 
 	<div class="row">
@@ -100,36 +238,30 @@
 		<div class="col-md-12">
 
 			<h2>
-				Activities
+				Activities (<span id="activityNumber">{{ count($content->activities)}}</span>)
 				<div class="btn-group">
 				  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						<span class="caret"></span>
 				  </button>
 				  <ul class="dropdown-menu" role="menu">
-				    <li><a href="#">New Interactive Activity</a></li>
-				    <li><a href="#">New Plain Activity</a></li>
+				    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#moNewInteractiveActivity">New Interactive Activity</a></li>
+				    <li><a href="javascript:void(0)">New Plain Activity</a></li>
 				  </ul>
 				</div>
 			</h2>
 
-			<div class="row">
-				<div class="col-md-6">
+			<div id="activityContainer">
 
-				</div>
-				<div class="col-md-6">
-
-				</div>
 			</div>
 
 		</div>
-
 
 	</div>
 
 </div>
 
-<!-- Modal -->
+<!-- Edit Content Desctiption Modal -->
 <div class="modal fade" id="moEditContent" tabindex="-1" role="dialog" aria-labelledby="moEditContentLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -241,4 +373,126 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="moNewInteractiveActivity" tabindex="-1" role="dialog" aria-labelledby="moNewInteractiveActivityLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title" id="moNewInteractiveActivityLabel">New Activity</h2>
+      </div>
+
+      <div class="modal-body">
+				<form class="form-horizontal" id="newActivityForm">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Text</label>
+						<div class="col-sm-10">
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
+									Layout 1
+								</label>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Image</label>
+						<div class="col-sm-10">
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
+									Layout 1
+								</label>
+							</div>
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
+									Layout 2
+								</label>
+							</div>
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios4" value="4">
+									Layout 3
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Multiple Choices</label>
+						<div class="col-sm-10">
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios2" value="5">
+									Layout 1
+								</label>
+							</div>
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="6">
+									Layout 2
+								</label>
+							</div>
+						</div>
+					</div>
+
+				</form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button
+				type="button"
+				class="btn btn-primary"
+				id="newActivity"
+				autocomplete="off"
+				data-loading-text="Creating...">New Activity</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+// submit new activity
+$('#newActivity').on('click', function () {
+	var $btn = $(this).button('loading');
+	// business logic...
+	ajaxNewActivity();
+	//$btn.button('reset');
+});
+
+function ajaxNewActivity() {
+	$.ajax({
+		url: "{{ route('createActivity', $content->id) }}",
+		method: "POST",
+		data: {
+			inActivityTypeId : $('input[name=optionsRadios]:checked', '#newActivityForm').val()
+		}
+	})
+	.done(function( result ) {
+		// alert( "done "+result.result );
+		if (result.result==='success') {
+			//$("#type"+id).html(result.user.type);
+			console.log(result.toString());
+			console.log(result.activity.toString());
+			$("#activityNumber").html(result.activity.order);
+			$('#newActivity').button('reset');
+			$('#moNewInteractiveActivity').modal('hide');
+			$('#newActivityForm').reset();
+		}
+	})
+	.fail(function() {
+		alert( "error" );
+	});
+}
+
+drawActivity(activities);
+
+</script>
 @endsection

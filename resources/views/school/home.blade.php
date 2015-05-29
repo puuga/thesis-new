@@ -160,7 +160,7 @@
 		// business logic...
 		ajaxNewSchool();
 		//$btn.button('reset');
-	})
+	});
 
 	function ajaxNewSchool() {
 		$.ajax({

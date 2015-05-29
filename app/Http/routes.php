@@ -44,6 +44,12 @@ Route::group(array('prefix' => 'contents'), function() {
 	Route::get('/mycontent', [
 		'as'=>'myContents',
 		'uses'=>'ContentController@myContent']);
+	Route::post('/{contentId}/createactivity', [
+		'as'=>'createActivity',
+		'uses'=>'ContentController@createActivity']);
+	Route::post('/changeactivityorder', [
+		'as'=>'changeactivityorder',
+		'uses'=>'ContentController@changeActivityOrder']);
 });
 
 // admin

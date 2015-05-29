@@ -2,6 +2,7 @@
 
 use App\Content;
 use App\Category;
+use App\Activity;
 use View;
 use Illuminate\Http\Request;
 use Auth;
@@ -63,6 +64,34 @@ class ContentController extends Controller {
 		$categories = Category::all();
 
 		return view('content.design', ['content'=>$content, 'categories'=>$categories]);
+	}
+
+	public function createActivity($contentId, Request $request) {
+		$activity = new Activity;
+		$activity->content_id = $contentId;
+		$activity->activity_type_id = $request->input('inActivityTypeId');
+		$activity->order = $this->lastActivityOrder($contentId) + 1;
+
+		$activity->save();
+
+		return response()->json(['result' => 'success', 'activity' => $activity, 'activity_type'=>$activity->activityType]);
+	}
+
+	private function lastActivityOrder($contentId) {
+		$content = Content::find($contentId);
+		return count($content->activities);
+	}
+
+	public function changeActivityOrder(Request $request) {
+		$activity1 = Activity::find($request->input('act1id'));
+		$activity1->order = $request->input('act1order');
+		$activity1->save();
+
+		$activity2 = Activity::find($request->input('act2id'));
+		$activity2->order = $request->input('act2order');
+		$activity2->save();
+
+		return response()->json(['result' => 'success', 'activity1'=>$activity1, 'activity2'=>$activity2]);
 	}
 
 }

@@ -54,7 +54,10 @@
   <script src="{{ asset('/js/material.min.js') }}"></script>
   <script src="{{ asset('/js/ripples.min.js') }}"></script>
   <script>
-    $.material.init();
+		$(document).ready(function() {
+      // This command is used to initialize some elements and make them work properly
+      $.material.init();
+    });
 
 		$.ajaxSetup({
       headers: {
@@ -210,29 +213,34 @@
 
 
 
-	<nav class="navbar navbar-default">
-		<p class="navbar-text">
-			Master Thesis:
-			<strong>A Platform-Independent Framework for Authoring and Monitoring Interactive Contents on Tablets</strong><br/>
-			Developed by Siwawes Wongcharoen, Jaratsri Rungrattanaubol and Antony Harfield<br/>
-			Department of Computer Science and Information Tecnology,
-			Faculty of Science, Naresuan Univesity, Phitsanulok, Thailand
-		</p>
+	<nav class="navbar navbar-default navbar-static-buttom">
+		<div class="container">
+			<p class="navbar-text">
+				Master Thesis:
+				<strong>A Platform-Independent Framework for Authoring and Monitoring Interactive Contents on Tablets</strong><br/>
+				Developed by
+				<a href="mailto:siwawesw55@email.nu.ac.th" class="navbar-link" target="_top">Siwawes Wongcharoen</a>,
+				<a href="mailto:jaratsrir@nu.ac.th" class="navbar-link" target="_top">Jaratsri Rungrattanaubol*</a> and
+				<a href="mailto:antonyh@nu.ac.th" class="navbar-link" target="_top">Antony Harfield</a><br/>
+				Department of Computer Science and Information Tecnology,
+				Faculty of Science, Naresuan Univesity, Phitsanulok, Thailand
+			</p>
 
-		<ul class="nav navbar-nav">
-			<li>
-				<a href="{{ url('about') }}">
-					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					About
-				</a>
-			</li>
-			<li>
-				<a href="{{ url('contact') }}">
-					<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-					Contact
-				</a>
-			</li>
-		</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="{{ url('about') }}">
+						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						About
+					</a>
+				</li>
+				<li>
+					<a href="{{ url('contact') }}">
+						<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+						Contact
+					</a>
+				</li>
+			</ul>
+		</div>
 	</nav>
 
 	<!-- Google Analytics -->

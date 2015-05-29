@@ -27,4 +27,8 @@ class Content extends Model {
 		return $this->hasMany('App\ImageEntry');
 	}
 
+	public function activities() {
+		return $this->hasMany('App\Activity')->orderBy('order');
+	}
+
 }
