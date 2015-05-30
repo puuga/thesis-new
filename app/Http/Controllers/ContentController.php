@@ -94,4 +94,26 @@ class ContentController extends Controller {
 		return response()->json(['result' => 'success', 'activity1'=>$activity1, 'activity2'=>$activity2]);
 	}
 
+	public function deleteActivity(Request $request) {
+		$activity = Activity::find($request->input('activity_id'));
+
+		//delete activity...
+		$activity->delete();
+
+		// reorder
+		$content = Content::find($request->input('content_id'));
+		$this->reActivityOrder($content->activities);
+		return response()->json(['result' => 'success','content'=>$content,'activities'=>$content->activities]);
+	}
+
+	private function reActivityOrder($activities) {
+		if (count($activities)===0) {
+			return;
+		}
+		for ($i=0; $i < count($activities); $i++) {
+			$activities[$i]->order = $i+1;
+			$activities[$i]->save();
+		}
+	}
+
 }

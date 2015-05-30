@@ -63,8 +63,8 @@
 		.fail(function() {
 			alert( "error" );
 		});
-
 	}
+
 	// move activity down
 	function moveActivityDown(orderr) {
 		if (orderr === activities.length) {
@@ -101,41 +101,81 @@
 		.fail(function() {
 			alert( "error" );
 		});
+	}
 
-
+	// deleteActivity
+	function deleteActivity(id) {
+		$.ajax({
+			url: "{{ route('deleteactivity') }}",
+			method: "POST",
+			data: {
+				activity_id : id,
+				content_id : {{ $content->id }}
+			}
+		})
+		.done(function( result ) {
+			if (result.result==='success') {
+				// alert('success');
+				location.reload();
+			}
+		})
+		.fail(function() {
+			alert( "error" );
+		});
 	}
 
 	function drawActivity(activities) {
 		var text = "";
 		for (var x in activities) {
 			if (activities.hasOwnProperty(x)) {
-				text += "<div class='panel panel-default'>";
-				text += "<div class='panel-body'>";
-				text += "<div class='col-md-5'>";
-				text += "Activity_id: " + activities[x].id;
-				text += "</div>";
-				text += "<div class='col-md-5'>";
-				text += "Type : "+activities[x].activity_type_name+"<br/>";
-				text += "Layout : "+activities[x].activity_type_layout+"<br/>";
-				text += "</div>";
-				text += "<div class='col-md-2'>";
-				text += "<a ";
-				text += "class='btn btn-warning'";
-				text += "href='javascript:moveActivityUp("+activities[x].order+")'>";
-				text += "<span class='glyphicon glyphicon-arrow-up' aria-hidden='true'></span>";
-				text += "</a>";
-				text += "<br/>";
-				text += "<a ";
-				text += "class='btn btn-warning'";
-				text += "href='javascript:moveActivityDown("+activities[x].order+")'>";
-				text += "<span class='glyphicon glyphicon-arrow-down' aria-hidden='true'></span>";
-				text += "</a>";
-				text += "</div>";
-				text += "</div>";
-				text += "</div>";
+				text += drawActivityPanel(activities[x]);
 			}
 		}
 		$("#activityContainer").html(text);
+	}
+
+	function drawActivityPanel(activity, activityType) {
+		var text = "";
+		var activity_type_name = (typeof activityType !== "undefined") ? activityType.name : activity.activity_type_name ;
+		var activity_type_layout = (typeof activityType !== "undefined") ? activityType.layout : activity.activity_type_layout ;
+		text += "<div class='panel panel-default'>";
+		text += "<div class='panel-body'>";
+		text += "<div class='col-md-4'>";// start 1st column
+		text += "Activity_id: " + activity.id;
+		text += "</div>";// close 1st column
+		text += "<div class='col-md-4'>";// start 2nd column
+		text += "Type : "+ activity_type_name +"<br/>";
+		text += "Layout : "+ activity_type_layout +"<br/>";
+		text += "</div>";// close 2nd column
+		text += "<div class='col-md-2'>";// start 3rd column
+		text += "<a ";
+		text += "class='btn btn-warning'";
+		text += "href='javascript:moveActivityUp("+activity.order+")'>";
+		text += "<span class='glyphicon glyphicon-arrow-up' aria-hidden='true'></span>";
+		text += "</a>";
+		text += "<br/>";
+		text += "<a ";
+		text += "class='btn btn-warning'";
+		text += "href='javascript:moveActivityDown("+activity.order+")'>";
+		text += "<span class='glyphicon glyphicon-arrow-down' aria-hidden='true'></span>";
+		text += "</a>";
+		text += "</div>";// close 3rd column
+		text += "<div class='col-md-2'>";// start 4th column
+		text += "<a ";
+		text += "class='btn btn-info'";
+		text += "href='#'>";
+		text += "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>";
+		text += "</a>";
+		text += "<br/>";
+		text += "<a ";
+		text += "class='btn btn-danger'";
+		text += "href='javascript:deleteActivity("+activity.id+")'>";
+		text += "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>";
+		text += "</a>";
+		text += "</div>";// close 4th column
+		text += "</div>";// close panel-body
+		text += "</div>";// close panel
+		return text;
 	}
 
 </script>
@@ -478,13 +518,17 @@ function ajaxNewActivity() {
 	.done(function( result ) {
 		// alert( "done "+result.result );
 		if (result.result==='success') {
-			//$("#type"+id).html(result.user.type);
-			console.log(result.toString());
-			console.log(result.activity.toString());
+			// $("#type"+id).html(result.user.type);
+			// console.log(result.toString());
+			// console.log(result.activity.toString());
 			$("#activityNumber").html(result.activity.order);
+
+			$('#activityContainer').append(drawActivityPanel(result.activity,result.activity_type));
+
+			// reset button
 			$('#newActivity').button('reset');
 			$('#moNewInteractiveActivity').modal('hide');
-			$('#newActivityForm').reset();
+			$('#newActivityForm')[0].reset();
 		}
 	})
 	.fail(function() {

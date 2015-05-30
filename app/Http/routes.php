@@ -50,6 +50,9 @@ Route::group(array('prefix' => 'contents'), function() {
 	Route::post('/changeactivityorder', [
 		'as'=>'changeactivityorder',
 		'uses'=>'ContentController@changeActivityOrder']);
+	Route::post('/deleteactivity', [
+		'as'=>'deleteactivity',
+		'uses'=>'ContentController@deleteActivity']);
 });
 
 // admin

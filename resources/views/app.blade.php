@@ -53,6 +53,10 @@
 	<!-- Material Design for Bootstrap -->
   <script src="{{ asset('/js/material.min.js') }}"></script>
   <script src="{{ asset('/js/ripples.min.js') }}"></script>
+
+	<!-- include BlockUI -->
+	<script src="{{ asset('/js/jquery.blockUI.js') }}"></script>
+
   <script>
 		$(document).ready(function() {
       // This command is used to initialize some elements and make them work properly
@@ -242,6 +246,11 @@
 			</ul>
 		</div>
 	</nav>
+
+	<!-- eneble block ui while ajax-->
+	<script type="text/javascript">
+		$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+	</script>
 
 	<!-- Google Analytics -->
 	<script>
