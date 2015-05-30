@@ -37,7 +37,7 @@ class SchoolController extends Controller {
 		$school->zip = $request->input('inZip');
 		$school->save();
 
-		return response()->json(['result' => 'success', 'school' => $school]);
+		return response()->json(['result' => 'success','school' => $school,'count'=>count(School::all())]);
 	}
 
 

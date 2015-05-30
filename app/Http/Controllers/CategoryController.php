@@ -3,7 +3,7 @@
 use App\User;
 use App\Category;
 use View;
-use Request;
+use Illuminate\Http\Request;
 use Auth;
 
 class CategoryController extends Controller {
@@ -21,6 +21,14 @@ class CategoryController extends Controller {
 		$categorys = Category::all();
 
 		return view('category.home', ['categorys'=>$categorys]);
+	}
+
+	public function createCategory(Request $request) {
+		$category = new Category;
+		$category->name = $request->input('inName');
+		$category->save();
+
+		return response()->json(['result' => 'success','category' => $category,'count'=>count(Category::all())]);
 	}
 
 

@@ -8,7 +8,7 @@
 
 		<h1>
 			All Schools
-			<span class="label label-info">{{ count($schools) }}</span>
+			<span class="label label-info" id="schoolCount">{{ count($schools) }}</span>
 			<button class="btn btn-primary" data-toggle="modal" data-target="#complete-dialog">New School</button>
 		</h1>
 
@@ -164,7 +164,7 @@
 
 	function ajaxNewSchool() {
 		$.ajax({
-		  url: "school/create",
+		  url: "{{ route('createSchool') }}",
 			method: "POST",
 		  data: {
 				inName : $("#inName").val(),
@@ -189,7 +189,8 @@
 				appendSchoolToTable(result.school);
 				$('#newSchool').button('reset');
 				$('#complete-dialog').modal('hide');
-				$('#newSchoolForm').reset();
+				$('#newSchoolForm')[0].reset();
+				$('#schoolCount').html(result.count);
 			}
 	  })
 		.fail(function() {

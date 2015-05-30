@@ -89,6 +89,9 @@ Route::group(array('prefix' => 'admin'), function() {
 		Route::get('/', [
 			'as'=>'categoryList',
 			'uses'=>'CategoryController@categoryList']);
+		Route::post('/create', [
+			'as'=>'createCategory',
+			'uses'=>'CategoryController@createCategory']);
 	});
 
 });
