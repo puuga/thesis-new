@@ -6,7 +6,7 @@
 	<h1>Contact</h1>
 
 	<p>
-		<h2>Siwawes Wongcharoen</h2>
+		<h3>SIWAWES WONGCHAROEN</h3>
 
 		<dl class="dl-horizontal">
 			<dt>Contact Address</dt>
@@ -25,7 +25,7 @@
 	</p>
 
 	<p>
-		<h2>Jaratsri Rungrattanaubol</h2>
+		<h3>JARATSRI RUNGRATTANAUBOL</h3>
 
 		<dl class="dl-horizontal">
 			<dt>Contact Address</dt>
@@ -37,14 +37,14 @@
 
 		<dl class="dl-horizontal">
 			<dt>Email</dt>
-			<dd>jaratsrir@nu.ac.th
+			<dd>
 				<a href="mailto:jaratsrir@nu.ac.th">jaratsrir@nu.ac.th</a>
 			</dd>
 		</dl>
 	</p>
 
 	<p>
-		<h2>Antony Harfield</h2>
+		<h3>ANTONY HARFIELD</h3>
 
 		<dl class="dl-horizontal">
 			<dt>Contact Address</dt>
