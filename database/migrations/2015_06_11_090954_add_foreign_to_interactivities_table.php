@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignToInteractivities extends Migration {
+class AddForeignToInteractivitiesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,8 +14,11 @@ class AddForeignToInteractivities extends Migration {
 	{
 		Schema::table('interactivities', function(Blueprint $table)
 		{
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+			// add history_id column
+			$table->integer('history_id')->unsigned()->nullable()->after('activity_id');
+
+			// add key
+			$table->foreign('history_id')->references('id')->on('histories')->onDelete('cascade');
 		});
 	}
 
@@ -28,8 +31,7 @@ class AddForeignToInteractivities extends Migration {
 	{
 		Schema::table('interactivities', function(Blueprint $table)
 		{
-			$table->dropForeign('interactivities_user_id_foreign');
-			$table->dropForeign('interactivities_question_id_foreign');
+			$table->dropForeign('interactivities_history_id_foreign');
 		});
 	}
 

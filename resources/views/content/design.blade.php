@@ -17,6 +17,7 @@
 			$jAct["content"] = $jActs[$i]->content;
 			$jAct["placeholder"] = $jActs[$i]->placeholder;
 			$jAct["image_placeholder"] = $jActs[$i]->image_placeholder;
+			$jAct["image_path"] = $jActs[$i]->image_path;
 			$jAct["extra1"] = $jActs[$i]->extra1;
 			$jAct["extra2"] = $jActs[$i]->extra2;
 
@@ -105,23 +106,26 @@
 
 	// deleteActivity
 	function deleteActivity(id) {
-		$.ajax({
-			url: "{{ route('deleteactivity') }}",
-			method: "POST",
-			data: {
-				activity_id : id,
-				content_id : {{ $content->id }}
-			}
-		})
-		.done(function( result ) {
-			if (result.result==='success') {
-				// alert('success');
-				location.reload();
-			}
-		})
-		.fail(function() {
-			alert( "error" );
-		});
+		var r = confirm("Delete Activity: " + id);
+		if (r == true) {
+			$.ajax({
+				url: "{{ route('deleteactivity') }}",
+				method: "POST",
+				data: {
+					activity_id : id,
+					content_id : {{ $content->id }}
+				}
+			})
+			.done(function( result ) {
+				if (result.result==='success') {
+					// alert('success');
+					location.reload();
+				}
+			})
+			.fail(function() {
+				alert( "error" );
+			});
+		}
 	}
 
 	function drawActivity(activities) {
@@ -140,14 +144,21 @@
 		var activity_type_layout = (typeof activityType !== "undefined") ? activityType.layout : activity.activity_type_layout ;
 		text += "<div class='panel panel-default'>";
 		text += "<div class='panel-body'>";
-		text += "<div class='col-md-4'>";// start 1st column
-		text += "Activity_id: " + activity.id;
-		text += "</div>";// close 1st column
-		text += "<div class='col-md-4'>";// start 2nd column
+		text += "<div class='col-md-3'>";// start 1st column
+		text += "Activity_id: " + activity.id +"<br/>";
 		text += "Type : "+ activity_type_name +"<br/>";
 		text += "Layout : "+ activity_type_layout +"<br/>";
+		text += "</div>";// close 1st column
+		text += "<div class='col-md-3'>";// start 2nd column
+		if (activity_type_name==="TEXT" && activity_type_layout==="1") {
+			text += "Title : "+ activity.title +"<br/>";
+			text += "Text : "+ activity.content +"<br/>";
+		}
 		text += "</div>";// close 2nd column
 		text += "<div class='col-md-2'>";// start 3rd column
+		text += "<img class='img-responsive img-rounded' style='max-width:100px;max-height:100px;' src='"+activity.image_path+"'>";
+		text += "</div>";// close 3rd column
+		text += "<div class='col-md-2'>";// start 4rd column
 		text += "<a ";
 		text += "class='btn btn-warning'";
 		text += "href='javascript:moveActivityUp("+activity.order+")'>";
@@ -159,11 +170,11 @@
 		text += "href='javascript:moveActivityDown("+activity.order+")'>";
 		text += "<span class='glyphicon glyphicon-arrow-down' aria-hidden='true'></span>";
 		text += "</a>";
-		text += "</div>";// close 3rd column
-		text += "<div class='col-md-2'>";// start 4th column
+		text += "</div>";// close 4rd column
+		text += "<div class='col-md-2'>";// start 5th column
 		text += "<a ";
 		text += "class='btn btn-info'";
-		text += "href='#'>";
+		text += "href='/contents/designactivity/"+activity.id+"'>";
 		text += "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>";
 		text += "</a>";
 		text += "<br/>";
@@ -172,7 +183,7 @@
 		text += "href='javascript:deleteActivity("+activity.id+")'>";
 		text += "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>";
 		text += "</a>";
-		text += "</div>";// close 4th column
+		text += "</div>";// close 5th column
 		text += "</div>";// close panel-body
 		text += "</div>";// close panel
 		return text;

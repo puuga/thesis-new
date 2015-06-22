@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignToActivitiesTable extends Migration {
+class AddColumnsToActivitiesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,8 +14,8 @@ class AddForeignToActivitiesTable extends Migration {
 	{
 		Schema::table('activities', function(Blueprint $table)
 		{
-			$table->foreign('content_id')->references('id')->on('contents')->onDelete('cascade');
-			$table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('cascade');
+			$table->smallInteger('correct_animation')->unsigned()->default(1)->after('extra2');
+			$table->smallInteger('incorrect_animation')->unsigned()->default(1)->after('correct_animation');
 		});
 	}
 
@@ -28,8 +28,7 @@ class AddForeignToActivitiesTable extends Migration {
 	{
 		Schema::table('activities', function(Blueprint $table)
 		{
-			$table->dropForeign('activities_content_id_foreign');
-			$table->dropForeign('activities_activity_type_id_foreign');
+			//
 		});
 	}
 

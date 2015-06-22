@@ -27,7 +27,7 @@ class AddForeignToQuestions extends Migration {
 	{
 		Schema::table('questions', function(Blueprint $table)
 		{
-			//
+			$table->dropForeign('questions_content_id_foreign');
 		});
 	}
 

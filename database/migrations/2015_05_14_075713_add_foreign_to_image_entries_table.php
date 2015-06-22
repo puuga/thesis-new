@@ -28,7 +28,7 @@ class AddForeignToImageEntriesTable extends Migration {
 	{
 		Schema::table('image_entries', function(Blueprint $table)
 		{
-			//
+			$table->dropForeign('image_entries_user_id_foreign');
 		});
 	}
 

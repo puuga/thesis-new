@@ -55,4 +55,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->is_admin === '1';
 	}
 
+	public function histories()
+  {
+    return $this->hasMany('App\History');
+  }
+
 }

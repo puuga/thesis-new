@@ -28,7 +28,7 @@ class AddForeignToContentsTable extends Migration {
 	{
 		Schema::table('contents', function(Blueprint $table)
 		{
-			//
+			$table->dropForeign('contents_image_entry_id_foreign');
 		});
 	}
 

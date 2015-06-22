@@ -41,11 +41,6 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
-	<style>
-		body { padding-top: 70px; }
-	</style>
-</head>
-<body>
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -57,10 +52,22 @@
 	<!-- include BlockUI -->
 	<script src="{{ asset('/js/jquery.blockUI.js') }}"></script>
 
+	@yield('headExtend')
+
+	<style>
+		body { padding-top: 70px; }
+		@yield('styleextend')
+	</style>
+</head>
+<body>
+
+
   <script>
 		$(document).ready(function() {
       // This command is used to initialize some elements and make them work properly
       $.material.init();
+
+			@yield('jsReadyExtend')
     });
 
 		$.ajaxSetup({
@@ -69,6 +76,8 @@
       }
     });
   </script>
+
+
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -118,6 +127,7 @@
 								<li><a href="{{ route('myContents') }}">My Contents</a></li>
 							</ul>
 						</li>
+
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -130,8 +140,10 @@
 								<li><a href="#">My Contents</a></li>
 							</ul>
 						</li>
+
 						@endif
 						@if ( Auth::user()->isAdmin() )
+
 						<li class="dropdown {{ Request::is('admin/*') ? 'active' : '' }}">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -146,6 +158,7 @@
 								<li><a href="{{ route('categoryList') }}">Categories</a></li>
 		          </ul>
 		        </li>
+
 						@endif
 					@endif
 				</ul>
@@ -185,6 +198,7 @@
 		</div>
 	</nav>
 
+
 	@if ( Request::is('store') || Request::is('/') || Request::is('store/category*'))
 		<div class="container">
 			<div class="row">
@@ -216,41 +230,45 @@
 	@yield('content')
 
 
+	@if ( !Request::is('play*') )
+		<nav class="navbar navbar-default navbar-static-buttom">
+			<div class="container">
+				<p class="navbar-text">
+					Master Thesis:
+					<strong>A Platform-Independent Framework for Authoring and Monitoring Interactive Contents on Tablets</strong><br/>
+					Developed by
+					<a href="mailto:siwawesw55@email.nu.ac.th" class="navbar-link" target="_top">Siwawes Wongcharoen</a>,
+					<a href="mailto:jaratsrir@nu.ac.th" class="navbar-link" target="_top">Jaratsri Rungrattanaubol*</a> and
+					<a href="mailto:antonyh@nu.ac.th" class="navbar-link" target="_top">Antony Harfield</a><br/>
+					Department of Computer Science and Information Tecnology,
+					Faculty of Science, Naresuan Univesity, Phitsanulok, Thailand
+				</p>
 
-	<nav class="navbar navbar-default navbar-static-buttom">
-		<div class="container">
-			<p class="navbar-text">
-				Master Thesis:
-				<strong>A Platform-Independent Framework for Authoring and Monitoring Interactive Contents on Tablets</strong><br/>
-				Developed by
-				<a href="mailto:siwawesw55@email.nu.ac.th" class="navbar-link" target="_top">Siwawes Wongcharoen</a>,
-				<a href="mailto:jaratsrir@nu.ac.th" class="navbar-link" target="_top">Jaratsri Rungrattanaubol*</a> and
-				<a href="mailto:antonyh@nu.ac.th" class="navbar-link" target="_top">Antony Harfield</a><br/>
-				Department of Computer Science and Information Tecnology,
-				Faculty of Science, Naresuan Univesity, Phitsanulok, Thailand
-			</p>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href="{{ url('about') }}">
+							<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+							About
+						</a>
+					</li>
+					<li>
+						<a href="{{ url('contact') }}">
+							<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+							Contact
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	@endif
 
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href="{{ url('about') }}">
-						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-						About
-					</a>
-				</li>
-				<li>
-					<a href="{{ url('contact') }}">
-						<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-						Contact
-					</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
 
 	<!-- eneble block ui while ajax-->
+	@if ( !Request::is('play*') )
 	<script type="text/javascript">
 		$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 	</script>
+	@endif
 
 	<!-- Google Analytics -->
 	<script>

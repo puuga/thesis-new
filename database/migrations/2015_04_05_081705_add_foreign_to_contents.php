@@ -28,7 +28,8 @@ class AddForeignToContents extends Migration {
 	{
 		Schema::table('contents', function(Blueprint $table)
 		{
-			//
+			$table->dropForeign('contents_user_id_foreign');
+			$table->dropForeign('contents_category_id_foreign');
 		});
 	}
 

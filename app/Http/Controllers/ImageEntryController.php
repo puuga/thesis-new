@@ -3,6 +3,7 @@
 use App\Content;
 use App\Category;
 use App\ImageEntry;
+use App\Activity;
 use View;
 use Request;
 use Auth;
@@ -30,9 +31,7 @@ class ImageEntryController extends Controller {
 		return view('', ['images'=>$images]);
 	}
 
-	public function add() {
-
-		$file = Request::file('imagefield');
+	private function saveImage($file) {
 		$extension = $file->getClientOriginalExtension();
 		Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
 		$entry = new ImageEntry();
@@ -43,29 +42,36 @@ class ImageEntryController extends Controller {
 
 		$entry->save();
 
-		return redirect()->back();
+		return $entry;
+	}
 
+	public function add() {
+		$file = Request::file('imagefield');
+		$entry = $this->saveImage($file);
+
+		return redirect()->back();
 	}
 
 	public function addToContent() {
-
 		$file = Request::file('imagefield');
-		$extension = $file->getClientOriginalExtension();
-		Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
-		$entry = new ImageEntry();
-		$entry->user_id = Auth::user()->id;
-		$entry->filename = $file->getFilename().'.'.$extension;
-		$entry->mime = $file->getClientMimeType();
-		$entry->original_filename = $file->getClientOriginalName();
-
-		$entry->save();
+		$entry = $this->saveImage($file);
 
 		$content = Content::find(Request::input('contentid'));
 		$content->image_entry_id = $entry->id;
 		$content->save();
 
 		return redirect()->back();
+	}
 
+	public function addToActivity() {
+		$file = Request::file('inImage');
+		$entry = $this->saveImage($file);
+
+		$activity = Activity::find(Request::input('activity_id'));
+		$activity->image_placeholder = $entry->id;
+		$activity->save();
+
+		return response()->json(['result'=>'success','action'=>'upload image','activity'=>$activity,'image'=>$entry]);;
 	}
 
 	public function getByFilename($filename) {

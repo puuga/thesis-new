@@ -6,12 +6,19 @@ use App\Activity;
 use View;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Http\Response;
 
 class ContentController extends Controller {
 
 	public function __construct()
 	{
 		$this->middleware('auth');
+	}
+
+	public function allContents() {
+		// return response()->json(['result' => 'success', 'contents' => Content::all()]);
+		$content = Content::with('activities')->get()->toJson();
+		return response($content, 200)->header('Content-Type', 'application/json');
 	}
 
 	public function myContent() {
@@ -114,6 +121,46 @@ class ContentController extends Controller {
 			$activities[$i]->order = $i+1;
 			$activities[$i]->save();
 		}
+	}
+
+	public function designActivity($id) {
+		$activity = Activity::find($id);
+		switch ($activity->activity_type_id) {
+			case '1':
+				return view('content.activity.designtype1', ['activity'=>$activity]);
+				break;
+			default:
+				return redirect()->back();
+				break;
+		}
+	}
+
+	public function updateActivityInformation(Request $request) {
+		$activity = Activity::find($request->input('activity_id'));
+
+		// update
+		// inTitle => title
+		// inText => content
+		// inHint => placeholder
+		$activity->title = $request->input('inTitle');
+		$activity->content = strtoupper($request->input('inText'));
+		$activity->placeholder = $request->input('inHint');
+
+		// save
+		$activity->save();
+		return response()->json(['result'=>'success','action'=>'update','activity'=>$activity]);
+	}
+
+	public function updateActivityAnimation(Request $request) {
+		$activity = Activity::find($request->input('activity_id'));
+
+		// update
+		$activity->correct_animation = $request->input('correct_animation');
+		$activity->incorrect_animation = $request->input('incorrect_animation');
+
+		// save
+		$activity->save();
+		return response()->json(['result'=>'success','action'=>'update','activity'=>$activity]);
 	}
 
 }

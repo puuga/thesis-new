@@ -27,8 +27,24 @@ Route::group(array('prefix' => 'store'), function() {
 		'uses'=>'StoreController@categoryById']);
 });
 
+// play
+Route::group(array('prefix' => 'play'), function() {
+	Route::get('/{id}', [
+		'as'=>'play',
+		'uses'=>'PlayController@play']);
+	Route::get('score/{id}', [
+		'as'=>'scoreByHistory',
+		'uses'=>'PlayController@scoreByHistory']);
+	Route::get('activity/{id}', [
+		'as'=>'getActivities',
+		'uses'=>'PlayController@getActivities']);
+});
+
 // content
 Route::group(array('prefix' => 'contents'), function() {
+	Route::get('/all', [
+		'as'=>'allContents',
+		'uses'=>'ContentController@allContents']);
 	Route::get('/new', [
 		'as'=>'newContent',
 		'uses'=>'ContentController@newContent']);
@@ -53,6 +69,15 @@ Route::group(array('prefix' => 'contents'), function() {
 	Route::post('/deleteactivity', [
 		'as'=>'deleteactivity',
 		'uses'=>'ContentController@deleteActivity']);
+	Route::get('/designactivity/{id}', [
+		'as'=>'designActivity',
+		'uses'=>'ContentController@designActivity']);
+	Route::post('/updateactivityinformation', [
+		'as'=>'updateActivityInformation',
+		'uses'=>'ContentController@updateActivityInformation']);
+	Route::post('/updateactivityanimation', [
+		'as'=>'updateActivityAnimation',
+		'uses'=>'ContentController@updateActivityAnimation']);
 });
 
 // admin
@@ -111,6 +136,9 @@ Route::group(array('prefix' => 'imageentry'), function() {
 	Route::post('addtocontent',[
 		'as'=>'addimageentrytocontent',
 		'uses'=>'ImageEntryController@addToContent']);
+	Route::post('addtoactivity',[
+		'as'=>'addimageentrytoctivity',
+		'uses'=>'ImageEntryController@addToActivity']);
 });
 
 // Static pages

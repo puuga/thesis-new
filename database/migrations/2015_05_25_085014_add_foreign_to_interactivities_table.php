@@ -28,7 +28,7 @@ class AddForeignToInteractivitiesTable extends Migration {
 	{
 		Schema::table('interactivities', function(Blueprint $table)
 		{
-			$table->dropForeign('posts_activity_id_foreign');
+			$table->dropForeign('interactivities_activity_id_foreign');
 		});
 	}
 
