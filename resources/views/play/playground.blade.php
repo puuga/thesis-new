@@ -2,9 +2,6 @@
 
 @section('headExtend')
 
-	<script src="{{ asset('/js/jquery.pep.js') }}"></script>
-	<script src="{{ asset('/js/extend.array.js') }}"></script>
-
 	<!-- prefetch images -->
 	@foreach ($history->content->activities as $activity)
 		@if( !is_null($activity->image_placeholder) )
@@ -30,6 +27,9 @@
 	</style>
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('/css/main.css') }}">
+
+	<script src="{{ asset('/js/jquery.pep2.js') }}"></script>
+	<script src="{{ asset('/js/extend.array.js') }}"></script>
 
 	<script type="text/javascript">
 		activityCount = {{ count($history->content->activities) }};
@@ -235,7 +235,7 @@
         rotate(obj.$el, rot)
       },
       stop: function(ev, obj) {
-        handleCentering(ev, obj);
+        // handleCentering(ev, obj);
         rotate(obj.$el, 0);
         //for (var key in obj.$container) {
         //	console.log(key);
