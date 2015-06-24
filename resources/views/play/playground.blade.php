@@ -59,6 +59,17 @@
 
 <script type="text/javascript">
 	function nextActivity() {
+		// correct/incorrect logic
+		var cString = checkHoldObj();
+    if ( cString.toString() === currentOptionTrueArr.toString() ) {
+			// correct anwser
+      alert(true);
+    } else {
+			// incorrect anwser
+			alert(false);
+		}
+
+		// next activity logic
 		currentActivityIndex++;
 		if (currentActivityIndex<activityCount) {
 			// load nextActivity();
@@ -372,10 +383,11 @@
       }
     }
 
+		// toggle fabBtn if full length answer
 		var cString = checkHoldObj();
-    if ( cString.toString() === currentOptionTrueArr.toString() ) {
+    if ( isFullLengthAnswer(cString,currentOptionTrueArr.length) ) {
 			// correct anwser
-      console.log("true obj");
+      console.log("full answer");
       //$('#simple-dialog').modal('show');
 
 			// change reset button to next button
@@ -392,6 +404,18 @@
 			.addClass("mdi-av-replay");
 		}
   }
+
+	function isFullLengthAnswer(arr, answerLength) {
+		if (arr.length != answerLength) {
+			return false;
+		}
+		for ( k=0; k<arr.length; k++ ) {
+      if ( typeof arr[k]==="undefined" || arr[k]==="" ) {
+        return false;
+      }
+    }
+		return true;
+	}
 
 	function checkHoldObj() {
 		var cString = [];
