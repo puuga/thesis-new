@@ -42,7 +42,6 @@
     var currentOptionTrueArr;
     var currentHold;
     var currentHoldObj;
-    var currentFocusPep;
     var currentFocusPepObj;
 	</script>
 @endsection
@@ -97,7 +96,10 @@
     // 1. detect how many pep
     // 2. move pep one by one
 
-    var numberOfPep = activityJson[currentActivityIndex].content.option.length
+    var numberOfPep = $(".pep").length;
+		if (numberOfPep===0) {
+			return;
+		}
     for (i=1; i<=numberOfPep; i++) {
       // read old pos
       var oldTop = $(".pep.qz"+i).position().top;
@@ -117,7 +119,7 @@
 
 	// reset pep position to init
   function resetPep() {
-    var numberOfPep = activityJson[currentActivityIndex].content.option.length;
+    var numberOfPep = $(".pep").length;
     var margin = 100/(numberOfPep+1);
     for (i=0; i<numberOfPep; i++) {
       // $(".pep.qz"+(i+1)).css({"top":$(".droppable.hz"+(i+1)).position().top-120});
@@ -128,6 +130,7 @@
     track("reset","pep");
     currentHold = [];
     currentHoldObj = [];
+		checkHoldObj();
   }
 
 	function renderActivity(activity) {
@@ -135,7 +138,7 @@
 		console.log(activity);
 
 		// track
-    track("activity",activity.id);
+    track("start activity",activity.id);
 
 		currentOptionTrueArr = activity.content_arr;
 		currentHold = [];
@@ -148,6 +151,7 @@
 			default:
 				console.log("Can not render activity");
 		}
+		$(window).resize( moveWhenResize );
 	}
 
 	function renderActivityType1(activity) {
@@ -174,6 +178,7 @@
     // set data
     for (i=0; i<activity.shuffled_content.length; i++) {
       output += "<div class='pep qz"+(i+1)+"'";
+			output += " id='pepqz"+(i+1)+"'";
       output += " onmousedown='logOnMouseDown(this)' ";
       output += " ontouchstart='logOnMouseDown(this)' ";
       output += " onmouseup='logOnMouseUp(this)' ";
@@ -254,6 +259,7 @@
 
   function centerWithin(obj) {
     var $parent = obj.activeDropRegions[0];
+		var hold = $parent.context.innerHTML;
     var pTop    = $parent.offset().top;
     var pLeft   = $parent.offset().left;
     var pHeight = $parent.outerHeight();
@@ -272,9 +278,9 @@
       //console.log("drop2 "+ obj);
       // console.log("on "+ $parent.context.innerHTML);
       // track
-      track("on",$parent.context.innerHTML);
-      updateHold("on", $parent.context.innerHTML)
-      updateHoldObj("on", $parent.context.innerHTML)
+			track("focus",obj.$container.context.innerHTML);
+      track("on", hold);
+      updateHoldObj("on", hold, document.getElementById(obj.$container.context.id));
 
       if ( !obj.shouldUseCSSTranslation() ) {
         var moveTop = cTop - (oHeight/2);
@@ -315,13 +321,11 @@
   function logOnMouseDown(obj) {
     // console.log("choose "+ obj.innerHTML);
 
-    currentFocusPep = obj.innerHTML;
-    currentFocusPepObj = obj;
-    updateHold("choose",obj.innerHTML);
-    updateHoldObj("choose",obj.innerHTML);
+		// track
+		track("choose",obj.innerHTML);
 
-    // track
-    track("choose",obj.innerHTML);
+    currentFocusPepObj = obj;
+    updateHoldObj("choose",obj);
   }
 
 
@@ -355,50 +359,57 @@
     // });
   }
 
-	function updateHold(action, detail) {
-    if ( action=="on" ) {
-      mDetail = parseInt(detail);
-      currentHold[mDetail-1] = currentFocusPep;
-    } else if ( action=="choose" ){
-      var index=currentHold.indexOf(detail);
-      if ( index!=-1 ) {
-        currentHold[index] = "";
-      }
-    }
-    console.log("currentHold:"+currentHold.toString());
-    console.log("currentOptionTrueArr:"+currentOptionTrueArr.toString());
-    if ( currentHold.equals(currentOptionTrueArr) ) {
-      console.log("true");
-      // $('#simple-dialog').modal('show');
-    }
-  }
-
-  function updateHoldObj(action, obj) {
+  function updateHoldObj(action, obj, pep) {
     if ( action=="on" ) {
       mDetail = parseInt(obj);
-      currentHoldObj[mDetail-1] = currentFocusPepObj;
+      currentHoldObj[mDetail-1] = pep;
     } else if ( action=="choose" ){
-      var index=currentHoldObj.indexOf(currentFocusPepObj);
+      var index=currentHoldObj.indexOf(obj);
+			// var index=currentHoldObj.indexOf(obj);
+			console.log("index:"+index);
       if ( index!=-1 ) {
         currentHoldObj[index] = "";
       }
     }
-    var cString = "";
-    for ( k=0; k<currentHoldObj.length; k++ ) {
-      if ( typeof currentHoldObj[k]==="undefined") {
-        cString += "" + ",";
-      } else {
-        cString += currentHoldObj[k].innerHTML + ",";
-      }
-    }
-    cString = cString.substr(0, cString.length-1);
-    console.log("currentHoldObj:"+cString);
-    console.log("currentOptionTrueArr:"+currentOptionTrueArr.toString());
-    if ( cString === currentOptionTrueArr.toString() ) {
+
+		var cString = checkHoldObj();
+    if ( cString.toString() === currentOptionTrueArr.toString() ) {
+			// correct anwser
       console.log("true obj");
       //$('#simple-dialog').modal('show');
-    }
+
+			// change reset button to next button
+			$("#fabBtn")
+			.attr('href','javascript:nextActivity()')
+			.removeClass("mdi-av-replay")
+			.addClass("mdi-content-forward");
+    } else {
+			// incorrect anwser
+			// change next button to reset button
+			$("#fabBtn")
+			.attr('href','javascript:resetPep()')
+			.removeClass("mdi-content-forward")
+			.addClass("mdi-av-replay");
+		}
   }
+
+	function checkHoldObj() {
+		var cString = [];
+    for ( k=0; k<currentHoldObj.length; k++ ) {
+      if ( typeof currentHoldObj[k]==="undefined") {
+        cString.push("");
+      } else {
+				cString.push(currentHoldObj[k].innerHTML);
+      }
+    }
+    // console.log("currentHoldObj:"+currentHoldObj.toString());
+		// console.log(currentHoldObj);
+		console.log("cString:"+cString);
+		console.log(cString);
+    console.log("currentOptionTrueArr:"+currentOptionTrueArr.toString());
+		console.log(currentOptionTrueArr);
+		return cString;
+	}
 
 </script>
 
@@ -441,6 +452,6 @@
 <div id="dropZone"></div>
 
 <div class="btn-next" id="btnNext">
-	<a href="javascript:nextActivity()" class="btn btn-danger btn-fab btn-raised mdi-content-forward"></a>
+	<a href="javascript:resetPep()" class="btn btn-danger btn-fab btn-raised mdi-av-replay" id="fabBtn"></a>
 </div>
 @endsection
