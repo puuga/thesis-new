@@ -4,6 +4,7 @@ use App\Content;
 use App\Category;
 use App\Activity;
 use App\History;
+use App\Interactivity;
 use View;
 use Illuminate\Http\Request;
 use Auth;
@@ -74,6 +75,23 @@ class PlayController extends Controller {
 		$activity = Content::find($id)->activities->toJson();
 
 		return response($activity, 200)->header('Content-Type', 'application/json');
+
+	}
+
+	public function track(Request $request) {
+		$interactivity = new Interactivity;
+		$interactivity->user_id = Auth::user()->id;
+		$interactivity->content_id = $request->input('content_id');
+		$interactivity->activity_id = $request->input('activity_id');
+		$interactivity->history_id = $request->input('history_id');
+		$interactivity->action = $request->input('action');
+		$interactivity->action_at = $request->input('action_at');
+		$interactivity->detail = $request->input('detail');
+		$interactivity->sequence_number = $request->input('action_sequence_number');
+
+		// $interactivity-save();
+
+		return response()->json(['result' => 'success','interactivity' => $interactivity]);
 
 	}
 

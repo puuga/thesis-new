@@ -38,6 +38,9 @@ Route::group(array('prefix' => 'play'), function() {
 	Route::get('activity/{id}', [
 		'as'=>'getActivities',
 		'uses'=>'PlayController@getActivities']);
+	Route::post('/track', [
+		'as'=>'trackInteractivity',
+		'uses'=>'PlayController@track']);
 });
 
 // content

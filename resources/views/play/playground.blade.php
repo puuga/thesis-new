@@ -43,6 +43,8 @@
     var currentHold;
     var currentHoldObj;
     var currentFocusPepObj;
+		var sequenceNumber = 0;
+		var currentActivityId = 0;
 	</script>
 @endsection
 
@@ -61,11 +63,12 @@
 	function nextActivity() {
 		// correct/incorrect logic
 		var cString = checkHoldObj();
+		track("answer",cString.toString());
     if ( cString.toString() === currentOptionTrueArr.toString() ) {
-			// correct anwser
+			// correct answer
       alert(true);
     } else {
-			// incorrect anwser
+			// incorrect answer
 			alert(false);
 		}
 
@@ -147,6 +150,8 @@
 	function renderActivity(activity) {
 		console.log("render activity id:"+activity.id);
 		console.log(activity);
+
+		currentActivityId = activity.id;
 
 		// track
     track("start activity",activity.id);
@@ -349,25 +354,30 @@
       ('00' + now.getMinutes()).slice(-2) + ':' +
       ('00' + now.getSeconds()).slice(-2);
 
+		;
+
 		console.log("action:"+action+" detail:"+detail);
 
-    // $.ajax({
-    //   type: "POST",
-    //   url: "observe_add.php",
-    //   data: { student_name: studentName,
-    //     question_id: jsonData.pages[currentPage-1].question_id,
-    //     access_id: accessId,
-    //     action: action,
-    //     detail: detail,
-    //     action_at: now,
-    //     action_sequence_number: sequenceNumber++ }
-    // })
-    // .done(function( msg ) {
-    //   console.log( "Data Saved: " + msg.toString() );
-    // })
-    // .fail(function( msg ) {
-    //   console.log( "error: " + msg.toString() );
-    // });
+    $.ajax({
+      type: "POST",
+      url: "{{ route('trackInteractivity') }}",
+      data: {
+        content_id: {{ count($history->content->id) }},
+		    activity_id: currentActivityId,
+        history_id: {{ count($history->id) }},
+        action: action,
+        action_at: now,
+        detail: detail,
+        action_sequence_number: sequenceNumber++ }
+    })
+    .done(function( msg ) {
+      console.log( "Data Saved: " + msg.toString() );
+      console.log( msg );
+    })
+    .fail(function( msg ) {
+      console.log( "error: " + msg.toString() );
+      console.log( msg );
+    });
   }
 
   function updateHoldObj(action, obj, pep) {
