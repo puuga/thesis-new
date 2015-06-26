@@ -24,6 +24,36 @@
 			max-width: 100%;
 			max-height: 100%;
 		}
+
+		.result1 {
+			/*display: none;*/
+			position: fixed;
+	    top: 0px;
+	    right: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: -10;
+		}
+
+		@-webkit-keyframes pulse {
+			from {
+				opacity: 0.0;
+				font-size: 100%;
+			}
+			to {
+				opacity: 1.0;
+				font-size: 2000%;
+			}
+		}
+
+		.anim1 {
+			z-index: 2000;
+		  -webkit-animation-name: pulse;
+		  -webkit-animation-duration: 2s;
+		  -webkit-animation-iteration-count: infinite;
+		  -webkit-animation-timing-function: ease-in-out;
+		  -webkit-animation-direction: alternate;
+		}
 	</style>
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('/css/main.css') }}">
@@ -45,6 +75,31 @@
     var currentFocusPepObj;
 		var sequenceNumber = 0;
 		var currentActivityId = 0;
+
+		function launchIntoFullscreen(element) {
+		  if(element.requestFullscreen) {
+		    element.requestFullscreen();
+		  } else if(element.mozRequestFullScreen) {
+		    element.mozRequestFullScreen();
+		  } else if(element.webkitRequestFullscreen) {
+		    element.webkitRequestFullscreen();
+		  } else if(element.msRequestFullscreen) {
+		    element.msRequestFullscreen();
+		  }
+
+			loadActivities({{ $history->content->id }});
+		}
+
+		// Whack fullscreen
+		function exitFullscreen() {
+		  if(document.exitFullscreen) {
+		    document.exitFullscreen();
+		  } else if(document.mozCancelFullScreen) {
+		    document.mozCancelFullScreen();
+		  } else if(document.webkitExitFullscreen) {
+		    document.webkitExitFullscreen();
+		  }
+		}
 	</script>
 @endsection
 
@@ -54,23 +109,33 @@
   documentWidth = $(document).width();
 
 	console.log("activityIds: "+activityIds.toString());
-	loadActivities({{ $history->content->id }});
+	{{-- loadActivities({{ $history->content->id }}); --}}
 @endsection
 
 @section('content')
 
 <script type="text/javascript">
-	function nextActivity() {
+	function beforePerformNextActivity() {
 		// correct/incorrect logic
 		var cString = checkHoldObj();
 		track("answer",cString.toString());
     if ( cString.toString() === currentOptionTrueArr.toString() ) {
 			// correct answer
-      alert(true);
+			$("#correctAnswer").addClass("anim1");
+			alert(true);
+			$("#correctAnswer").removeClass("anim1");
     } else {
 			// incorrect answer
+			$("#incorrectAnswer").addClass("anim1");
 			alert(false);
+			$("#incorrectAnswer").removeClass("anim1");
 		}
+	}
+
+	// main logic when perform next activity
+	function nextActivity() {
+		// correct/incorrect logic
+		beforePerformNextActivity();
 
 		// next activity logic
 		currentActivityIndex++;
@@ -81,6 +146,9 @@
 		} else {
 			// finish();
 			alert("End");
+
+			// exit fullscreen
+			exitFullscreen();
 		}
 	}
 
@@ -94,9 +162,7 @@
 			console.log("load id:"+contentId);
 			console.log(result);
 			activityJson = result;
-			// console.log("load activity id:"+(parseInt(activityOrder[currentActivityIndex])-1));
-			// console.log(activityJson);
-			// console.log(activityJson[(parseInt(activityOrder[currentActivityIndex])-1)]);
+
 			renderActivity(activityJson[(parseInt(activityOrder[currentActivityIndex])-1)]);
 
 	  })
@@ -159,6 +225,8 @@
 		currentOptionTrueArr = activity.content_arr;
 		currentHold = [];
     currentHoldObj = [];
+
+		fabBtnToReset();
 
 		switch (activity.activity_type_id) {
 			case "1":
@@ -401,19 +469,27 @@
       //$('#simple-dialog').modal('show');
 
 			// change reset button to next button
-			$("#fabBtn")
-			.attr('href','javascript:nextActivity()')
-			.removeClass("mdi-av-replay")
-			.addClass("mdi-content-forward");
+			fabBtnToNext();
     } else {
 			// incorrect anwser
 			// change next button to reset button
-			$("#fabBtn")
-			.attr('href','javascript:resetPep()')
-			.removeClass("mdi-content-forward")
-			.addClass("mdi-av-replay");
+			fabBtnToReset();
 		}
   }
+
+	function fabBtnToNext() {
+		$("#fabBtn")
+		.attr('href','javascript:nextActivity()')
+		.removeClass("mdi-av-replay")
+		.addClass("mdi-content-forward");
+	}
+
+	function fabBtnToReset() {
+		$("#fabBtn")
+		.attr('href','javascript:resetPep()')
+		.removeClass("mdi-content-forward")
+		.addClass("mdi-av-replay");
+	}
 
 	function isFullLengthAnswer(arr, answerLength) {
 		if (arr.length != answerLength) {
@@ -452,11 +528,16 @@
 	<div class="row" id="preview" style="height:100%">
 
 		<div class="text-center" style="height:15%">
-			<h1><span id="pTitle"></span></h1>
+			<h1>
+				<span id="pTitle">
+					<button onclick="launchIntoFullscreen(document.documentElement);" class="btn btn-primary">
+						Play Activity
+					</button>
+				</span>
+			</h1>
 		</div>
 
 		<div class="text-center text-uppercase" id="pText" style="height:15%; visibility: hidden;">
-
 		</div>
 
 		<div class="col-xs-6" style="height:50%">
@@ -484,6 +565,14 @@
 
 <div id="pepZone"></div>
 <div id="dropZone"></div>
+
+<div id="correctAnswer" class="result1">
+	Very Good!
+</div>
+
+<div id="incorrectAnswer" class="result1">
+	Try more!
+</div>
 
 <div class="btn-next" id="btnNext">
 	<a href="javascript:resetPep()" class="btn btn-danger btn-fab btn-raised mdi-av-replay" id="fabBtn"></a>
