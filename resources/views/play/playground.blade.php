@@ -27,6 +27,8 @@
 
 		.result1 {
 			/*display: none;*/
+			background-color: rgba(224, 242, 241, .5);
+
 			position: fixed;
 	    top: 0px;
 	    right: 0px;
@@ -46,8 +48,11 @@
 			}
 		}
 
-		.anim1 {
+		.bringToTop {
 			z-index: 2000;
+		}
+
+		.anim1 {
 		  -webkit-animation-name: pulse;
 		  -webkit-animation-duration: 2s;
 		  -webkit-animation-iteration-count: infinite;
@@ -77,6 +82,9 @@
 		var currentActivityId = 0;
 
 		function launchIntoFullscreen(element) {
+			$("#pText").hide();
+			$("#txt-hint").show();
+			$("#pImage").show();
 		  if(element.requestFullscreen) {
 		    element.requestFullscreen();
 		  } else if(element.mozRequestFullScreen) {
@@ -109,7 +117,7 @@
   documentWidth = $(document).width();
 
 	console.log("activityIds: "+activityIds.toString());
-	{{-- loadActivities({{ $history->content->id }}); --}}
+	// loadActivities({{ $history->content->id }});
 @endsection
 
 @section('content')
@@ -121,14 +129,16 @@
 		track("answer",cString.toString());
     if ( cString.toString() === currentOptionTrueArr.toString() ) {
 			// correct answer
-			$("#correctAnswer").addClass("anim1");
-			alert(true);
-			$("#correctAnswer").removeClass("anim1");
+			$("#correctAnswer").addClass("bringToTop");
+			$("#correctTextAnswer").addClass("anim1");bringToTop
+			// alert(true);
+			// $("#correctAnswer").removeClass("anim1");
     } else {
 			// incorrect answer
-			$("#incorrectAnswer").addClass("anim1");
-			alert(false);
-			$("#incorrectAnswer").removeClass("anim1");
+			$("#incorrectAnswer").addClass("bringToTop");
+			$("#incorrectTextAnswer").addClass("anim1");
+			// alert(false);
+			// $("#incorrectAnswer").removeClass("anim1");
 		}
 	}
 
@@ -138,6 +148,17 @@
 		beforePerformNextActivity();
 
 		// next activity logic
+		// nextActivityLogic();
+	}
+
+	function nextActivityLogic() {
+		// hide result div
+		$("#correctAnswer").removeClass("bringToTop");
+		$("#correctTextAnswer").removeClass("anim1");
+		$("#incorrectAnswer").removeClass("bringToTop");
+		$("#incorrectTextAnswer").removeClass("anim1");
+
+		// logic
 		currentActivityIndex++;
 		if (currentActivityIndex<activityCount) {
 			// load nextActivity();
@@ -530,18 +551,24 @@
 		<div class="text-center" style="height:15%">
 			<h1>
 				<span id="pTitle">
-					<button onclick="launchIntoFullscreen(document.documentElement);" class="btn btn-primary">
-						Play Activity
-					</button>
+
 				</span>
 			</h1>
 		</div>
 
-		<div class="text-center text-uppercase" id="pText" style="height:15%; visibility: hidden;">
+		<div
+		class="text-center text-uppercase"
+		id="pText"
+		style="height:15%;">
+			<button onclick="launchIntoFullscreen(document.documentElement);"
+			id="btn-fullscreen"
+			class="btn btn-primary btn-lg">
+				Play Activity
+			</button>
 		</div>
 
 		<div class="col-xs-6" style="height:50%">
-			<div class="text-center">
+			<div class="text-center" id="txt-hint">
 				Hint:<br/>
 				<span id="pHint"></span>
 			</div>
@@ -566,15 +593,32 @@
 <div id="pepZone"></div>
 <div id="dropZone"></div>
 
-<div id="correctAnswer" class="result1">
-	Very Good!
+<div id="correctAnswer"
+	class="result1"
+	onclick="nextActivityLogic()"
+	ontouchstart="nextActivityLogic()">
+	<div id="correctTextAnswer">
+		Very Good!
+	</div>
 </div>
 
-<div id="incorrectAnswer" class="result1">
-	Try more!
+<div id="incorrectAnswer"
+	class="result1"
+	onclick="nextActivityLogic()"
+	ontouchstart="nextActivityLogic()">
+	<div id="incorrectTextAnswer">
+		Try more!
+	</div>
 </div>
 
 <div class="btn-next" id="btnNext">
-	<a href="javascript:resetPep()" class="btn btn-danger btn-fab btn-raised mdi-av-replay" id="fabBtn"></a>
+	<a href="javascript:resetPep()"
+	class="btn btn-danger btn-fab btn-raised mdi-av-replay"
+	id="fabBtn"></a>
 </div>
+
+<script type="text/javascript">
+	$("#txt-hint").hide();
+	$("#pImage").hide();
+</script>
 @endsection
