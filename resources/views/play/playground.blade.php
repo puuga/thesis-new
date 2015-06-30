@@ -123,23 +123,96 @@
 @section('content')
 
 <script type="text/javascript">
+	function playSound(element) {
+		//starts playing
+		element.trigger('play');
+	}
+
+	function stopSound(element) {
+		//pause playing
+	  element.trigger('pause');
+	  //set play time to 0
+	  element.prop("currentTime",0);
+	}
 	function beforePerformNextActivity() {
 		// correct/incorrect logic
 		var cString = checkHoldObj();
 		track("answer",cString.toString());
     if ( cString.toString() === currentOptionTrueArr.toString() ) {
 			// correct answer
-			$("#correctAnswer").addClass("bringToTop");
-			$("#correctTextAnswer").addClass("anim1");bringToTop
-			// alert(true);
-			// $("#correctAnswer").removeClass("anim1");
+			activateEndCorrectAnswerAnimation();
     } else {
 			// incorrect answer
-			$("#incorrectAnswer").addClass("bringToTop");
-			$("#incorrectTextAnswer").addClass("anim1");
-			// alert(false);
-			// $("#incorrectAnswer").removeClass("anim1");
+			activateEndIncorrectAnswerAnimation();
 		}
+	}
+
+	function activateEndCorrectAnswerAnimation() {
+		var className = "";
+		var soundId = "";
+		switch (activityJson[currentActivityIndex].correct_animation) {
+			case "1":
+				className = "anim1";
+				soundId = "#correctSound1";
+				break;
+			default:
+				console.log("Can not render activity");
+		}
+
+		$("#correctAnswer").addClass("bringToTop");
+		$("#correctTextAnswer").addClass(className);
+		playSound($(soundId));
+	}
+
+	function deactivateEndCorrectAnswerAnimation() {
+		var className = "";
+		var soundId = "";
+		switch (activityJson[currentActivityIndex].correct_animation) {
+			case "1":
+				className = "anim1";
+				soundId = "#correctSound1";
+				break;
+			default:
+				console.log("Can not render activity");
+		}
+
+		$("#correctAnswer").removeClass("bringToTop");
+		$("#correctTextAnswer").removeClass(className);
+		stopSound($(soundId));
+	}
+
+	function activateEndIncorrectAnswerAnimation() {
+		var className = "";
+		var soundId = "";
+		switch (activityJson[currentActivityIndex].incorrect_animation) {
+			case "1":
+				className = "anim1";
+				soundId = "#incorrectSound1";
+				break;
+			default:
+				console.log("Can not render activity");
+		}
+
+		$("#incorrectAnswer").addClass("bringToTop");
+		$("#incorrectTextAnswer").addClass(className);
+		playSound($(soundId));
+	}
+
+	function deactivateEndIncorrectAnswerAnimation() {
+		var className = "";
+		var soundId = "";
+		switch (activityJson[currentActivityIndex].incorrect_animation) {
+			case "1":
+				className = "anim1";
+				soundId = "#incorrectSound1";
+				break;
+			default:
+				console.log("Can not render activity");
+		}
+
+		$("#incorrectAnswer").removeClass("bringToTop");
+		$("#incorrectTextAnswer").removeClass(className);
+		stopSound($(soundId));
 	}
 
 	// main logic when perform next activity
@@ -153,10 +226,8 @@
 
 	function nextActivityLogic() {
 		// hide result div
-		$("#correctAnswer").removeClass("bringToTop");
-		$("#correctTextAnswer").removeClass("anim1");
-		$("#incorrectAnswer").removeClass("bringToTop");
-		$("#incorrectTextAnswer").removeClass("anim1");
+		deactivateEndCorrectAnswerAnimation();
+		deactivateEndIncorrectAnswerAnimation();
 
 		// logic
 		currentActivityIndex++;
@@ -383,8 +454,9 @@
       //console.log("drop2 "+ obj);
       // console.log("on "+ $parent.context.innerHTML);
       // track
+			var focusedPep = obj.$container.context.innerHTML;
 			track("focus",obj.$container.context.innerHTML);
-      track("on", hold);
+      track("on", focusedPep+" on "+hold);
       updateHoldObj("on", hold, document.getElementById(obj.$container.context.id));
 
       if ( !obj.shouldUseCSSTranslation() ) {
@@ -610,6 +682,26 @@
 		Try more!
 	</div>
 </div>
+
+<div class="" style="visibility: hidden;">
+	<audio id="correctSound1">
+	  <source
+		src="{{ asset('/sounds/Final-Fantasy-VII-Victory-Fanfare.mp3') }}"
+		type="audio/mpeg">
+	  Your browser does not support the audio tag.
+	</audio>
+</div>
+
+<div class="" style="visibility: hidden;">
+	<audio id="incorrectSound1">
+	  <source
+		src="{{ asset('/sounds/Final-Fantasy-VII-Victory-Fanfare.mp3') }}"
+		type="audio/mpeg">
+	  Your browser does not support the audio tag.
+	</audio>
+</div>
+
+
 
 <div class="btn-next" id="btnNext">
 	<a href="javascript:resetPep()"
