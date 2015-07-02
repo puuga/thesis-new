@@ -184,11 +184,7 @@
 								{{ Auth::user()->type }}: {{ Auth::user()->name }} <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								@if ( Auth::user()->isTeacher() )
-									<li><a href="{{ route('newContent') }}">New Content</a></li>
-									<li><a href="{{ route('myContents') }}">My Contents</a></li>
-									<li class="divider"></li>
-								@endif
+								<li><a href="{{ route('histories') }}">History</a></li>
 								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
 							</ul>
 						</li>

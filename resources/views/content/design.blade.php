@@ -456,19 +456,19 @@
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
+									<input type="radio" name="optionsRadios" id="optionsRadios2" value="2" disabled>
 									Layout 1
 								</label>
 							</div>
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3" disabled>
 									Layout 2
 								</label>
 							</div>
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios4" value="4">
+									<input type="radio" name="optionsRadios" id="optionsRadios4" value="4" disabled>
 									Layout 3
 								</label>
 							</div>
@@ -480,13 +480,13 @@
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios2" value="5">
+									<input type="radio" name="optionsRadios" id="optionsRadios2" value="5" disabled>
 									Layout 1
 								</label>
 							</div>
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios3" value="6">
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="6" disabled>
 									Layout 2
 								</label>
 							</div>

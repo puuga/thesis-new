@@ -237,10 +237,13 @@
 			renderActivity(activityJson[(parseInt(activityOrder[currentActivityIndex])-1)]);
 		} else {
 			// finish();
-			alert("End");
+			// alert("End");
 
 			// exit fullscreen
 			exitFullscreen();
+
+			// goto result page
+			location.href = "{{ route('scoreByHistory',$history->id) }}";
 		}
 	}
 
@@ -523,9 +526,9 @@
       type: "POST",
       url: "{{ route('trackInteractivity') }}",
       data: {
-        content_id: {{ count($history->content->id) }},
+        content_id: {{ $history->content->id }},
 		    activity_id: currentActivityId,
-        history_id: {{ count($history->id) }},
+        history_id: {{ $history->id }},
         action: action,
         action_at: now,
         detail: detail,

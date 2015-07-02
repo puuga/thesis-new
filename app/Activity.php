@@ -22,7 +22,7 @@ class Activity extends Model {
 	}
 
 	public function getImagePathAttribute() {
-		if ( is_null($this->attributes['image_placeholder']) ) {
+		if ( !isset($this->attributes['image_placeholder']) || is_null($this->attributes['image_placeholder']) ) {
 			return "";
 		}
 		return route('getimagebyid',$this->attributes['image_placeholder']);
@@ -33,6 +33,10 @@ class Activity extends Model {
 	}
 
 	private function genShuffleContent() {
+		if ( !isset($this->attributes['content']) ) {
+			return "";
+		}
+
 		if ( $this->shuffleContent === "" ) {
 			$this->shuffleContent = str_shuffle($this->attributes['content']);
 		}

@@ -27,12 +27,19 @@ Route::group(array('prefix' => 'store'), function() {
 		'uses'=>'StoreController@categoryById']);
 });
 
+// user
+Route::group(array('prefix' => 'user'), function() {
+	Route::get('history', [
+		'as'=>'histories',
+		'uses'=>'UserController@histories']);
+});
+
 // play
 Route::group(array('prefix' => 'play'), function() {
 	Route::get('/{id}', [
 		'as'=>'play',
 		'uses'=>'PlayController@play']);
-	Route::get('score/{id}', [
+	Route::get('score/{history_id}', [
 		'as'=>'scoreByHistory',
 		'uses'=>'PlayController@scoreByHistory']);
 	Route::get('activity/{id}', [

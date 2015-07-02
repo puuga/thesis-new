@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Category;
+use App\History;
 use View;
 use Request;
 use Auth;
@@ -35,6 +36,11 @@ class UserController extends Controller {
 		$user->is_admin = $user->is_admin === '1' ? '0' : '1';
 		$user->save();
 		return response()->json(['result' => 'success', 'user' => $user]);
+	}
+
+	public function histories() {
+		$histories = Auth::user()->histories;
+		return view('user.history', ['histories'=>$histories]);
 	}
 
 }

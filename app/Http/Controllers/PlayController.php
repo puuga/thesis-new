@@ -8,6 +8,7 @@ use App\Interactivity;
 use View;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 class PlayController extends Controller {
 
@@ -35,7 +36,7 @@ class PlayController extends Controller {
 		// $history->activity_order = $this->randomNumberArray($length);
 
 		// 3. save history
-		// $history->save();
+		$history->save();
 
 		return view('play.playground', [
 			'history'=>$history,
@@ -89,10 +90,22 @@ class PlayController extends Controller {
 		$interactivity->detail = $request->input('detail');
 		$interactivity->sequence_number = $request->input('action_sequence_number');
 
-		// $interactivity-save();
+		$interactivity->save();
 
 		return response()->json(['result' => 'success','interactivity' => $interactivity]);
 
+	}
+
+	public function scoreByHistory($history_id) {
+		$history = History::find($history_id);
+
+		$answers = DB::select("
+		select activity_id,detail
+		from interactivities
+		where history_id = :history_id and action='answer'",
+		['history_id' => $history_id]);
+
+		return view('play.result', ['history'=>$history,'answers'=>$answers]);
 	}
 
 }
