@@ -27,7 +27,7 @@
 				activitt_id: {{ $act->id }}<br/>
 				title: {{ $act->title }}<br/>
 				content: {{ $act->content }}<br/>
-				@if ( $act->id === $answers[$i]->activity_id)
+				@if ( isset($answers[$i]) && $act->id === $answers[$i]->activity_id)
 			    answer: {{ $answers[$i]->detail }}
 					@if( $act->content===str_replace(",","",$answers[$i]->detail) )
 						+1
