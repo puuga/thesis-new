@@ -71,6 +71,12 @@
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 							design
 						</a>
+						<a role="button"
+						class="btn btn-default btn-flat"
+						href="{{ route('contentHistory',[$content->id]) }}">
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							history
+						</a>
 					</div>
 				</div>
 

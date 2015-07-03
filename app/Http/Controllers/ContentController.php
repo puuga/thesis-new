@@ -163,4 +163,10 @@ class ContentController extends Controller {
 		return response()->json(['result'=>'success','action'=>'update','activity'=>$activity]);
 	}
 
+	public function contentHistory($id) {
+		$histories = Content::find($id)->histories;
+
+		return view('content.history', ['histories'=>$histories]);
+	}
+
 }

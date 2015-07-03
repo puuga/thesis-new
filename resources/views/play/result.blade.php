@@ -12,7 +12,12 @@
 			$activity_arr = explode(",",$history->activity_order);
 			$score = 0;
 		?>
-		{{ print_r($activity_arr) }}
+		<p>
+			{{ print_r($activity_arr) }}
+		</p>
+		<p>
+			{{ print_r($answers) }}
+		</p>
 
 		@for ( $i = 0; $i < count($activity_arr); $i++ )
 			<?php

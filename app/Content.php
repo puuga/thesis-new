@@ -40,4 +40,8 @@ class Content extends Model {
 		return route('getimagebyid',$this->attributes['image_entry_id']);
 	}
 
+	public function histories() {
+		return $this->hasMany('App\History');
+	}
+
 }

@@ -64,9 +64,12 @@ Route::group(array('prefix' => 'contents'), function() {
 	Route::post('/{id}/update', [
 		'as'=>'updateContent',
 		'uses'=>'ContentController@updateContent']);
-	Route::get('/design/{id}', [
+	Route::get('/{id}/design', [
 		'as'=>'designContent',
 		'uses'=>'ContentController@designContent']);
+	Route::get('/{id}/history', [
+		'as'=>'contentHistory',
+		'uses'=>'ContentController@contentHistory']);
 	Route::get('/mycontent', [
 		'as'=>'myContents',
 		'uses'=>'ContentController@myContent']);
