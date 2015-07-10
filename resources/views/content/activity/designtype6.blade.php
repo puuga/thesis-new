@@ -300,15 +300,20 @@
 		var op2 = $("#inOption2").val();
 		var op3 = $("#inOption3").val();
 		var op4 = $("#inOption4").val();
-		text += op1 !== "" ? optionPreview(op1,1)+"<br/>" : "<br/>" ;
-		text += op2 !== "" ? optionPreview(op2,2)+"<br/>" : "<br/>" ;
-		text += op3 !== "" ? optionPreview(op3,3)+"<br/>" : "<br/>" ;
-		text += op4 !== "" ? optionPreview(op4,4)+"<br/>" : "<br/>" ;
+		text += op1 !== "" ? optionPreview(op1,1,$("#inOptionChk1").is(':checked'))+"<br/>" : "<br/>" ;
+		text += op2 !== "" ? optionPreview(op2,2,$("#inOptionChk2").is(':checked'))+"<br/>" : "<br/>" ;
+		text += op3 !== "" ? optionPreview(op3,3,$("#inOptionChk3").is(':checked'))+"<br/>" : "<br/>" ;
+		text += op4 !== "" ? optionPreview(op4,4,$("#inOptionChk4").is(':checked'))+"<br/>" : "<br/>" ;
 		$("#pOptions").html(text);
 	}
 
-	function optionPreview(text, i) {
-		var output = "<a href='#' class='btn btn-primary btn-xs' id='optionP"+i+"'>"+text+"</a>";
+	function optionPreview(text, i, checked) {
+		var output = "";
+		if (checked) {
+			output = "<a href='#' class='btn btn-info btn-xs' id='optionP"+i+"'>"+text+"</a>";
+		} else {
+			output = "<a href='#' class='btn btn-primary btn-xs' id='optionP"+i+"'>"+text+"</a>";
+		}
 		return output;
 	}
 
