@@ -271,6 +271,7 @@
 			method: "POST",
 			data: {
 				activity_id : {{ $activity->id }},
+				activity_type_id : {{ $activity->activity_type_id}},
 				inTitle : inTitle,
 				inText : inText,
 				inHint : inHint

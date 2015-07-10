@@ -129,6 +129,9 @@ class ContentController extends Controller {
 			case '1':
 				return view('content.activity.designtype1', ['activity'=>$activity]);
 				break;
+			case '6':
+				return view('content.activity.designtype6', ['activity'=>$activity]);
+				break;
 			default:
 				return redirect()->back();
 				break;
@@ -138,13 +141,41 @@ class ContentController extends Controller {
 	public function updateActivityInformation(Request $request) {
 		$activity = Activity::find($request->input('activity_id'));
 
+		switch ($activity->activity_type_id) {
+			case '1':
+				// inTitle => title
+				// inText => content
+				// inHint => placeholder
+				$activity->title = $request->input('inTitle');
+				$activity->content = strtoupper($request->input('inText'));
+				$activity->placeholder = $request->input('inHint');
+				break;
+			case '6':
+				// inTitle => title
+				// inSubTitle => content
+				// message1,message2,message3,message4 => extra1
+				// isAnswer1,isAnswer2,isAnswer3,isAnswer4 => extra2
+				$activity->title = $request->input('inTitle');
+				$activity->content = $request->input('inSubTitle');
+
+				$message = $request->input('message1');
+				$message .= ",".$request->input('message2');
+				$message .= ",".$request->input('message3');
+				$message .= ",".$request->input('message4');
+				$activity->extra1 = $message;
+
+				$isAnswer = $request->input('isAnswer1');
+				$isAnswer .= ",".$request->input('isAnswer2');
+				$isAnswer .= ",".$request->input('isAnswer3');
+				$isAnswer .= ",".$request->input('isAnswer4');
+				$activity->extra2 = $isAnswer;
+				break;
+			default:
+				// return redirect()->back();
+				break;
+		}
 		// update
-		// inTitle => title
-		// inText => content
-		// inHint => placeholder
-		$activity->title = $request->input('inTitle');
-		$activity->content = strtoupper($request->input('inText'));
-		$activity->placeholder = $request->input('inHint');
+
 
 		// save
 		$activity->save();
