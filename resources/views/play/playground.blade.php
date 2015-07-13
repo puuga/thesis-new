@@ -190,7 +190,7 @@
 				soundId = "#incorrectSound1";
 				break;
 			default:
-				console.log("Can not render activity");
+				console.log("Can not set animation");
 		}
 
 		$("#incorrectAnswer").addClass("bringToTop");
@@ -207,7 +207,7 @@
 				soundId = "#incorrectSound1";
 				break;
 			default:
-				console.log("Can not render activity");
+				console.log("Can not set animation");
 		}
 
 		$("#incorrectAnswer").removeClass("bringToTop");
@@ -294,18 +294,40 @@
 
 	// reset pep position to init
   function resetPep() {
-    var numberOfPep = $(".pep").length;
-    var margin = 100/(numberOfPep+1);
-    for (i=0; i<numberOfPep; i++) {
-      // $(".pep.qz"+(i+1)).css({"top":$(".droppable.hz"+(i+1)).position().top-120});
-      $(".pep.qz"+(i+1)).css({"top":"20%"});
-      $(".pep.qz"+(i+1)).css({"left":(i*margin+10)+"%"});
 
-    }
-    track("reset","pep");
-    currentHold = [];
-    currentHoldObj = [];
-		checkHoldObj();
+		var activity = activityJson[(parseInt(activityOrder[currentActivityIndex])-1)];
+		switch (activity.activity_type_id) {
+			case "1":
+				var numberOfPep = $(".pep").length;
+		    var margin = 100/(numberOfPep+1);
+		    for (i=0; i<numberOfPep; i++) {
+		      // $(".pep.qz"+(i+1)).css({"top":$(".droppable.hz"+(i+1)).position().top-120});
+		      $(".pep.qz"+(i+1)).css({"top":"20%"});
+		      $(".pep.qz"+(i+1)).css({"left":(i*margin+10)+"%"});
+
+		    }
+		    track("reset","pep");
+		    currentHold = [];
+		    currentHoldObj = [];
+				checkHoldObj();
+				break;
+			case "6":
+				currentHold = [];
+				currentHoldObj = defaultAnswerForOprions(activity);
+
+				// reset button
+				for (var i = 0; i < activity.extra1.length; i++) {
+					if ( $("#option"+i).hasClass("btn-raised") ) {
+						$("#option"+i).removeClass("btn-raised");
+						$("#option"+i).addClass("btn-flat");
+					}
+				}
+
+				track("reset","options");
+				break;
+			default:
+				console.log("Can not reset");
+		}
   }
 
 	function renderActivity(activity) {
@@ -317,7 +339,7 @@
 		// track
     track("start activity",activity.id);
 
-		currentOptionTrueArr = activity.content_arr;
+
 		currentHold = [];
     currentHoldObj = [];
 
@@ -326,6 +348,11 @@
 		switch (activity.activity_type_id) {
 			case "1":
 				renderActivityType1(activity);
+				currentOptionTrueArr = activity.content_arr;
+				break;
+			case "6":
+				renderActivityType6(activity);
+				currentOptionTrueArr = activity.extra2.split(",");
 				break;
 			default:
 				console.log("Can not render activity");
@@ -348,6 +375,87 @@
 	    makePep(activity);
 		}
 
+	}
+
+	function renderActivityType6(activity) {
+		$('#pTitle').html(activity.title);
+		$('#pText').html(activity.content);
+		if ( activity.image_placeholder!=null ) {
+			$('#pImage').attr('src', activity.image_path);
+		} else {
+			$('#pImage').attr('src', "");
+		}
+
+		if (activity.extra1 !== null) {
+			makeOptions(activity);
+		}
+
+	}
+
+	function makeOptions(activity) {
+		$("#pepZone").html("");
+		$("#dropZone").html("");
+		//<a href="javascript:void(0)" class="btn btn-flat btn-primary">Primary</a>
+		var options = activity.extra1.split(",");
+		var answerOptions = activity.extra2.split(",");
+		var output = "";
+
+		// set default answer
+		currentHoldObj = defaultAnswerForOprions(activity);
+
+		for (var i = 0; i < options.length; i++) {
+			output += "<a href='javascript:void(0)' ";
+			output += "id='option"+i+"' ";
+			output += "class='btn btn-flat btn-primary btn-lg' ";
+			output += "data-answer='"+answerOptions[i]+"' ";
+			output += "data-index='"+i+"' ";
+			output += "data-val1='"+options[i]+"' ";
+			output += "onclick='toggleOption("+i+")' >";
+			output += options[i];
+			output += "</a><br/>";
+		}
+		$('#pHint').html(output);
+	}
+
+	function defaultAnswerForOprions(activity) {
+		var def = [];
+		for (var i = 0; i < activity.extra2.split(",").length; i++) {
+			def.push('false');
+		}
+		return def;
+	}
+
+	function toggleOption(i) {
+		// console.log(i);
+		if ($("#option"+i).hasClass("btn-flat")) {
+			$("#option"+i).removeClass("btn-flat");
+			$("#option"+i).addClass("btn-raised");
+
+			currentHoldObj[i] = "true";
+			track("click", $("#option"+i).attr("data-val1"));
+		} else {
+			$("#option"+i).removeClass("btn-raised");
+			$("#option"+i).addClass("btn-flat");
+
+			currentHoldObj[i] = "false";
+			track("click", $("#option"+i).attr("data-val1"));
+		}
+		// console.log(currentHoldObj);
+
+		// toggle fabBtn if atlast one answer
+		var activity = activityJson[(parseInt(activityOrder[currentActivityIndex])-1)];
+    if ( currentHoldObj.indexOf("true")>=0 ) {
+			// correct anwser
+      console.log("full answer");
+      //$('#simple-dialog').modal('show');
+
+			// change reset button to next button
+			fabBtnToNext();
+    } else {
+			// incorrect anwser
+			// change next button to reset button
+			fabBtnToReset();
+		}
 	}
 
 	function makePep(activity) {
@@ -551,7 +659,7 @@
     } else if ( action=="choose" ){
       var index=currentHoldObj.indexOf(obj);
 			// var index=currentHoldObj.indexOf(obj);
-			console.log("index:"+index);
+			// console.log("index:"+index);
       if ( index!=-1 ) {
         currentHoldObj[index] = "";
       }
@@ -604,6 +712,8 @@
     for ( k=0; k<currentHoldObj.length; k++ ) {
       if ( typeof currentHoldObj[k]==="undefined") {
         cString.push("");
+      } else if ( typeof currentHoldObj[k]==="string" ) {
+      	cString.push(currentHoldObj[k]);
       } else {
 				cString.push(currentHoldObj[k].innerHTML);
       }
