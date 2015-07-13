@@ -128,16 +128,16 @@
 							</ul>
 						</li>
 
-						<li class="dropdown">
+						<li class="dropdown {{ Request::is('monitor/*') ? 'active' : '' }}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 								Monitoring Tools
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">New Content</a></li>
+								<li><a href="#">Real time</a></li>
 								<li class="divider"></li>
-								<li><a href="#">My Contents</a></li>
+								<li><a href="#">By History</a></li>
 							</ul>
 						</li>
 

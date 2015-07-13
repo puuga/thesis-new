@@ -24,14 +24,21 @@
 				$act = $history->content->activities[$activity_arr[$i]-1];
 			?>
 	    <p>
-				activitt_id: {{ $act->id }}<br/>
+				activity_id: {{ $act->id }}<br/>
 				title: {{ $act->title }}<br/>
 				content: {{ $act->content }}<br/>
 				@if ( isset($answers[$i]) && $act->id === $answers[$i]->activity_id)
 			    answer: {{ $answers[$i]->detail }}
-					@if( $act->content===str_replace(",","",$answers[$i]->detail) )
-						+1
-						<?php $score++; ?>
+					@if ( $act->activity_type_id === "1" )
+						@if( $act->content===str_replace(",","",$answers[$i]->detail) )
+							+1
+							<?php $score++; ?>
+						@endif
+					@elseif ( $act->activity_type_id === "6" )
+						@if( $act->extra2===$answers[$i]->detail )
+							+1
+							<?php $score++; ?>
+						@endif
 					@endif
 				@else
 			    answer: not answer!
