@@ -21,7 +21,7 @@ class UserController extends Controller {
 	{
 		$users = User::all();
 
-		return view('user.home', ['users'=>$users]);
+		return view('admin.user', ['users'=>$users]);
 	}
 
 	public function switchPermission($id) {

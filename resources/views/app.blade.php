@@ -151,7 +151,7 @@
 								<span class="caret"></span>
 							</a>
 		          <ul class="dropdown-menu" role="menu">
-								<li><a href="#">Dashboard</a></li>
+								<li><a href="{{ route('adminHome') }}">Dashboard</a></li>
 								<li class="divider"></li>
 		            <li><a href="{{ route('userList') }}">Users</a></li>
 								<li><a href="{{ route('schoolList') }}">Schools</a></li>

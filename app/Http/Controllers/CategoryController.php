@@ -20,7 +20,7 @@ class CategoryController extends Controller {
 	{
 		$categorys = Category::all();
 
-		return view('category.home', ['categorys'=>$categorys]);
+		return view('admin.category', ['categorys'=>$categorys]);
 	}
 
 	public function createCategory(Request $request) {

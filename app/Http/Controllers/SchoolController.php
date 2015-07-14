@@ -20,7 +20,7 @@ class SchoolController extends Controller {
 	{
 		$schools = School::all();
 
-		return view('school.home', ['schools'=>$schools]);
+		return view('admin.school', ['schools'=>$schools]);
 	}
 
 	public function createSchool(Request $request) {
