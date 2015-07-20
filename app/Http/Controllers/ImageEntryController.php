@@ -52,6 +52,17 @@ class ImageEntryController extends Controller {
 		return redirect()->back();
 	}
 
+	public function addWithResponse() {
+		$file = Request::file('imagefield');
+		$entry = $this->saveImage($file);
+
+		return response()->json([
+			'result'=>'success',
+			'action'=>'upload image',
+			'entry'=>$entry
+		]);
+	}
+
 	public function addToContent() {
 		$file = Request::file('imagefield');
 		$entry = $this->saveImage($file);
@@ -71,7 +82,11 @@ class ImageEntryController extends Controller {
 		$activity->image_placeholder = $entry->id;
 		$activity->save();
 
-		return response()->json(['result'=>'success','action'=>'upload image','activity'=>$activity,'image'=>$entry]);;
+		return response()->json([
+			'result'=>'success',
+			'action'=>'upload image',
+			'activity'=>$activity,'image'=>$entry
+		]);
 	}
 
 	public function getByFilename($filename) {

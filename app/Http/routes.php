@@ -146,6 +146,9 @@ Route::group(array('prefix' => 'imageentry'), function() {
 	Route::post('add',[
 		'as'=>'addimageentry',
 		'uses'=>'ImageEntryController@add']);
+	Route::post('addwithresponse',[
+		'as'=>'addWithResponse',
+		'uses'=>'ImageEntryController@addWithResponse']);
 	Route::post('addtocontent',[
 		'as'=>'addimageentrytocontent',
 		'uses'=>'ImageEntryController@addToContent']);

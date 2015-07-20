@@ -17,6 +17,7 @@ class AdminController extends Controller {
 		$users = User::all();
 		$schools = School::all();
 		$categories = Category::all();
+		
 		return view('admin.dashboard',[
 			'users' => $users,
 			'schools' => $schools,

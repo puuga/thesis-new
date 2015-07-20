@@ -81,7 +81,11 @@ class ContentController extends Controller {
 
 		$activity->save();
 
-		return response()->json(['result' => 'success', 'activity' => $activity, 'activity_type'=>$activity->activityType]);
+		return response()->json([
+			'result' => 'success',
+			'activity' => $activity,
+			'activity_type'=>$activity->activityType
+		]);
 	}
 
 	private function lastActivityOrder($contentId) {
@@ -98,7 +102,11 @@ class ContentController extends Controller {
 		$activity2->order = $request->input('act2order');
 		$activity2->save();
 
-		return response()->json(['result' => 'success', 'activity1'=>$activity1, 'activity2'=>$activity2]);
+		return response()->json([
+			'result' => 'success',
+			'activity1'=>$activity1,
+			'activity2'=>$activity2
+		]);
 	}
 
 	public function deleteActivity(Request $request) {
@@ -110,7 +118,11 @@ class ContentController extends Controller {
 		// reorder
 		$content = Content::find($request->input('content_id'));
 		$this->reActivityOrder($content->activities);
-		return response()->json(['result' => 'success','content'=>$content,'activities'=>$content->activities]);
+		return response()->json([
+			'result' => 'success',
+			'content'=>$content,
+			'activities'=>$content->activities
+		]);
 	}
 
 	private function reActivityOrder($activities) {
@@ -128,6 +140,9 @@ class ContentController extends Controller {
 		switch ($activity->activity_type_id) {
 			case '1':
 				return view('content.activity.designtype1', ['activity'=>$activity]);
+				break;
+			case '5':
+				return view('content.activity.designtype5', ['activity'=>$activity]);
 				break;
 			case '6':
 				return view('content.activity.designtype6', ['activity'=>$activity]);
@@ -150,6 +165,27 @@ class ContentController extends Controller {
 				$activity->content = strtoupper($request->input('inText'));
 				$activity->placeholder = $request->input('inHint');
 				break;
+			case '5':
+				// inTitle => title
+				// inSubTitle => content
+				// imageId1,imageId2,imageId3,imageId4 => placeholder
+				// message1,message2,message3,message4 => extra1
+				// isAnswer1,isAnswer2,isAnswer3,isAnswer4 => extra2
+				$activity->title = $request->input('inTitle');
+				$activity->content = $request->input('inSubTitle');
+
+				$message = $request->input('imageId1');
+				$message .= ",".$request->input('imageId2');
+				$message .= ",".$request->input('imageId3');
+				$message .= ",".$request->input('imageId4');
+				$activity->extra1 = $message;
+
+				$isAnswer = $request->input('isAnswer1');
+				$isAnswer .= ",".$request->input('isAnswer2');
+				$isAnswer .= ",".$request->input('isAnswer3');
+				$isAnswer .= ",".$request->input('isAnswer4');
+				$activity->extra2 = $isAnswer;
+				break;
 			case '6':
 				// inTitle => title
 				// inSubTitle => content
@@ -171,15 +207,21 @@ class ContentController extends Controller {
 				$activity->extra2 = $isAnswer;
 				break;
 			default:
-				// return redirect()->back();
+				return response()->json([
+					'result'=>'unsuccess',
+					'action'=>'update'
+				]);
 				break;
 		}
+
 		// update
-
-
 		// save
 		$activity->save();
-		return response()->json(['result'=>'success','action'=>'update','activity'=>$activity]);
+		return response()->json([
+			'result'=>'success',
+			'action'=>'update',
+			'activity'=>$activity
+		]);
 	}
 
 	public function updateActivityAnimation(Request $request) {
@@ -191,7 +233,11 @@ class ContentController extends Controller {
 
 		// save
 		$activity->save();
-		return response()->json(['result'=>'success','action'=>'update','activity'=>$activity]);
+		return response()->json([
+			'result'=>'success',
+			'action'=>'update',
+			'activity'=>$activity
+		]);
 	}
 
 	public function contentHistory($id) {

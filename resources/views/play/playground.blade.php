@@ -59,6 +59,11 @@
 		  -webkit-animation-timing-function: ease-in-out;
 		  -webkit-animation-direction: alternate;
 		}
+
+		.image-option-preview {
+			max-width: 120px;
+			max-height: 120px;
+		}
 	</style>
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('/css/main.css') }}">
@@ -350,6 +355,10 @@
 				renderActivityType1(activity);
 				currentOptionTrueArr = activity.content_arr;
 				break;
+			case "5":
+				renderActivityType5(activity);
+				currentOptionTrueArr = activity.extra2.split(",");
+				break;
 			case "6":
 				renderActivityType6(activity);
 				currentOptionTrueArr = activity.extra2.split(",");
@@ -377,6 +386,21 @@
 
 	}
 
+	function renderActivityType5(activity) {
+		$('#pTitle').html(activity.title);
+		$('#pText').html(activity.content);
+		if ( activity.image_placeholder!=null ) {
+			$('#pImage').attr('src', activity.image_path);
+		} else {
+			$('#pImage').attr('src', "");
+		}
+
+		if (activity.extra1 !== null) {
+			makeOptionsImage(activity);
+		}
+
+	}
+
 	function renderActivityType6(activity) {
 		$('#pTitle').html(activity.title);
 		$('#pText').html(activity.content);
@@ -390,6 +414,36 @@
 			makeOptions(activity);
 		}
 
+	}
+
+	function makeOptionsImage(activity) {
+		$("#pepZone").html("");
+		$("#dropZone").html("");
+		//<a href="javascript:void(0)" class="btn btn-flat btn-primary">Primary</a>
+		var options = activity.extra1.split(",");
+		var answerOptions = activity.extra2.split(",");
+		var output = "";
+
+		// set default answer
+		currentHoldObj = defaultAnswerForOprions(activity);
+
+		for (var i = 0; i < options.length; i++) {
+			output += "<a href='javascript:void(0)' ";
+			output += "id='option"+i+"' ";
+			output += "class='btn btn-flat btn-primary btn-lg' ";
+			output += "data-answer='"+answerOptions[i]+"' ";
+			output += "data-index='"+i+"' ";
+			output += "data-val1='"+options[i]+"' ";
+			output += "onclick='toggleOption("+i+")' >";
+			// output += options[i];
+			output += "<img class='image-option-preview' ";
+			output += "src='/imageentry/getbyid/"+options[i]+"' />";
+			output += "</a>";
+			if ( i!=0 && i%2==1) {
+				output += "<br/>";
+			}
+		}
+		$('#pHint').html(output);
 	}
 
 	function makeOptions(activity) {

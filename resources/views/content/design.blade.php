@@ -281,7 +281,7 @@
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<input type="hidden" name="contentid" value="{{ $content->id }}">
 				        <input type="file" class="form-control" name="imagefield" accept="image/*">
-								<button type="submit" class="btn btn-primary" form="formEdit">
+								<button type="submit" class="btn btn-primary">
 									<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> upload
 								</button>
 					    </form>
@@ -488,7 +488,7 @@
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios2" value="5" disabled>
+									<input type="radio" name="optionsRadios" id="optionsRadios2" value="5">
 									Layout 1
 								</label>
 							</div>

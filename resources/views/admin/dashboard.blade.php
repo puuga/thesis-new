@@ -18,7 +18,12 @@
 					Schools
 				</div>
 		    <div class="panel-body">
-	        {{ count($schools) }}
+					<p>
+						{{ count($schools) }}
+					</p>
+					<p class="text-right">
+						<a href="{{ route('schoolList') }}" class="btn btn-flat btn-primary">Explore</a>
+					</p>
 		    </div>
 			</div>
 		</div>
@@ -29,7 +34,12 @@
 					Users
 				</div>
 		    <div class="panel-body">
-	        {{ count($users) }}
+					<p>
+						{{ count($users) }}
+					</p>
+					<p class="text-right">
+						<a href="{{ route('userList') }}" class="btn btn-flat btn-primary">Explore</a>
+					</p>
 		    </div>
 			</div>
 		</div>
@@ -40,7 +50,12 @@
 					Categories
 				</div>
 		    <div class="panel-body">
-	        {{ count($categories) }}
+					<p>
+						{{ count($categories) }}
+					</p>
+					<p class="text-right">
+						<a href="{{ route('categoryList') }}" class="btn btn-flat btn-primary">Explore</a>
+					</p>
 		    </div>
 			</div>
 		</div>

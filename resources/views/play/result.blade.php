@@ -34,6 +34,11 @@
 							+1
 							<?php $score++; ?>
 						@endif
+					@elseif ( $act->activity_type_id === "5" )
+						@if( $act->extra2===$answers[$i]->detail )
+							+1
+							<?php $score++; ?>
+						@endif
 					@elseif ( $act->activity_type_id === "6" )
 						@if( $act->extra2===$answers[$i]->detail )
 							+1
