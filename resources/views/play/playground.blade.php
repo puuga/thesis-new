@@ -27,14 +27,21 @@
 
 		.result1 {
 			/*display: none;*/
-			background-color: rgba(224, 242, 241, .5);
+			background-color: rgba(224, 242, 241, .8);
 
 			position: fixed;
 	    top: 0px;
 	    right: 0px;
 			width: 100%;
 			height: 100%;
-			z-index: -10;
+			z-index: -100;
+
+			text-align: center;
+		}
+
+		.text-in-result {
+			top: 20%;
+		  vertical-align: middle;
 		}
 
 		@-webkit-keyframes pulse {
@@ -55,9 +62,11 @@
 		.anim1 {
 		  -webkit-animation-name: pulse;
 		  -webkit-animation-duration: 2s;
-		  -webkit-animation-iteration-count: infinite;
+		  -webkit-animation-iteration-count: 1;
 		  -webkit-animation-timing-function: ease-in-out;
-		  -webkit-animation-direction: alternate;
+		  /*-webkit-animation-direction: alternate;*/
+			-webkit-animation-direction: normal;
+			-webkit-animation-fill-mode:forwards
 		}
 
 		.image-option-preview {
@@ -836,7 +845,8 @@
 	class="result1"
 	onclick="nextActivityLogic()"
 	ontouchstart="nextActivityLogic()">
-	<div id="correctTextAnswer">
+	<div>Tab To Continue.</div>
+	<div id="correctTextAnswer" class="text-in-result">
 		Very Good!
 	</div>
 </div>
@@ -845,7 +855,8 @@
 	class="result1"
 	onclick="nextActivityLogic()"
 	ontouchstart="nextActivityLogic()">
-	<div id="incorrectTextAnswer">
+	<div>Tab To Continue.</div>
+	<div id="incorrectTextAnswer" class="text-in-result">
 		Try more!
 	</div>
 </div>
@@ -853,7 +864,7 @@
 <div class="" style="visibility: hidden;">
 	<audio id="correctSound1">
 	  <source
-		src="{{ asset('/sounds/Final-Fantasy-VII-Victory-Fanfare.mp3') }}"
+		src="{{ asset('/sounds/FFXIV_Victory_Fanfare.ogg') }}"
 		type="audio/mpeg">
 	  Your browser does not support the audio tag.
 	</audio>
@@ -862,7 +873,7 @@
 <div class="" style="visibility: hidden;">
 	<audio id="incorrectSound1">
 	  <source
-		src="{{ asset('/sounds/Final-Fantasy-VII-Victory-Fanfare.mp3') }}"
+		src="{{ asset('/sounds/Sad_Trombone-Joe_Lamb-665429450.mp3') }}"
 		type="audio/mpeg">
 	  Your browser does not support the audio tag.
 	</audio>
