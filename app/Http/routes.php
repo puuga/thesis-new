@@ -70,6 +70,9 @@ Route::group(array('prefix' => 'contents'), function() {
 	Route::get('/{id}/history', [
 		'as'=>'contentHistory',
 		'uses'=>'ContentController@contentHistory']);
+	Route::get('/{id}/history/{history_id}', [
+		'as'=>'contentScoreByHistory',
+		'uses'=>'ContentController@scoreByHistory']);
 	Route::get('/mycontent', [
 		'as'=>'myContents',
 		'uses'=>'ContentController@myContent']);

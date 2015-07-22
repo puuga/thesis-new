@@ -15,7 +15,7 @@
 				activity_order {{ $history->activity_order }}<br/>
 				at {{ $history->created_at }}<br/>
 				by user_id {{ $history->user->id }}, {{ $history->user->name }} <br/>
-				<a href="{{ route('scoreByHistory',$history->id) }}">score</a><br/>
+				<a href="{{ route('contentScoreByHistory',[$history->content_id,$history->id]) }}">score</a><br/>
 			</p>
 		@endforeach
 

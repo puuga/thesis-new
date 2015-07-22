@@ -3,10 +3,12 @@
 use App\Content;
 use App\Category;
 use App\Activity;
+use App\History;
 use View;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Http\Response;
+use DB;
 
 class ContentController extends Controller {
 
@@ -244,6 +246,18 @@ class ContentController extends Controller {
 		$histories = Content::find($id)->histories;
 
 		return view('content.history', ['histories'=>$histories]);
+	}
+
+	public function scoreByHistory($id, $history_id) {
+		$history = History::find($history_id);
+
+		$answers = DB::select("
+		select activity_id,detail
+		from interactivities
+		where history_id = :history_id and action='answer'",
+		['history_id' => $history_id]);
+
+		return view('content.result', ['history'=>$history,'answers'=>$answers]);
 	}
 
 }
