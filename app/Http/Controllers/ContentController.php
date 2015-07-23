@@ -245,7 +245,32 @@ class ContentController extends Controller {
 	public function contentHistory($id) {
 		$histories = Content::find($id)->histories;
 
-		return view('content.history', ['histories'=>$histories]);
+		$frequencies = DB::select('SELECT
+			    YEAR(created_at) year_ac,
+			    MONTH(created_at) month_ac,
+			    DAY(created_at) day_ac,
+			    COUNT(id) count
+			FROM
+			    histories
+			WHERE
+			    content_id = ?
+			GROUP BY DATE(created_at)',[$id]
+		);
+
+		$year_count = DB::select('SELECT
+			    count(distinct YEAR(created_at)) year_count
+			FROM
+			    histories
+			WHERE
+			    content_id = ?
+			GROUP BY YEAR(created_at)',[$id]
+		);
+
+		return view('content.history', [
+			'histories'=>$histories,
+			'frequencies'=>$frequencies,
+			'year_count'=>$year_count
+		]);
 	}
 
 	public function scoreByHistory($id, $history_id) {

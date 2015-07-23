@@ -13,9 +13,9 @@
 						<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 						{{ $content->name}}
 						@if( $content->is_inprogress==='1' )
-							<span class="label label-warning">Inprogress</span>
+							<span class="label label-warning">Draft</span>
 						@elseif( $content->is_inprogress==='0' )
-							<span class="label label-primary">Pubished</span>
+							<span class="label label-primary">Done</span>
 						@endif
 					</h3>
 				</div>
@@ -43,39 +43,39 @@
 						</dl>
 
 						<dl>
-						  <dt>Boud to school</dt>
-						  <dd>{{ $content->is_public == 1 ? 'Yes' : 'No' }}</dd>
+						  <dt>Access</dt>
+						  <dd>{{ $content->is_public == 1 ? 'Public' : 'Limit' }}</dd>
 						</dl>
 
 						<dl>
-						  <dt>Inprogress || Pubished</dt>
-							<dd>{{ $content->is_inprogress==='1' ? 'Inprogress' : 'Pubished' }}</dd>
+						  <dt>Progress</dt>
+							<dd>{{ $content->is_inprogress==='1' ? 'Draft' : 'Done' }}</dd>
 						</dl>
 
 						<dl>
-						  <dt>Content views</dt>
+						  <dt>Access Count</dt>
 						  <dd>{{ $content->count }}</dd>
 						</dl>
 					</p>
 
 					<div class="text-right">
 						<a role="button"
-						class="btn btn-default btn-flat"
+						class="btn btn-flat btn-danger"
 						href="#">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 							delete
 						</a>
 						<a role="button"
-						class="btn btn-default btn-flat"
+						class="btn btn-flat btn-default"
+						href="{{ route('contentHistory',[$content->id]) }}">
+							<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+							access history
+						</a>
+						<a role="button"
+						class="btn btn-flat btn-info"
 						href="{{ route('designContent',[$content->id]) }}">
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 							design
-						</a>
-						<a role="button"
-						class="btn btn-default btn-flat"
-						href="{{ route('contentHistory',[$content->id]) }}">
-							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-							history
 						</a>
 					</div>
 				</div>

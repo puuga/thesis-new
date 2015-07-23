@@ -234,17 +234,23 @@
 						</dl>
 
 						<dl class="dl-horizontal">
-						  <dt>Published</dt>
-						  <dd>{{ $content->is_public == 1 ? 'Yes' : 'No' }}</dd>
+						  <dt>Access</dt>
+						  <dd>
+								{{ $content->is_public == 1 ? 'Public' : 'Limit' }}<br/>
+								<small>
+									Public : Every body can access<br/>
+									Limit : Only Students are in same Author's school can access.
+								</small>
+							</dd>
 						</dl>
 
 						<dl class="dl-horizontal">
-							<dt>Inprogress || Pubished</dt>
-							<dd>{{ $content->is_inprogress==='1' ? 'Inprogress' : 'Pubished' }}</dd>
+							<dt>Progress</dt>
+							<dd>{{ $content->is_inprogress==='1' ? 'Draft' : 'Done' }}</dd>
 						</dl>
 
 						<dl class="dl-horizontal">
-						  <dt>Content views</dt>
+						  <dt>Access Count</dt>
 						  <dd>{{ $content->count }}</dd>
 						</dl>
 
