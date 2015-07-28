@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignToInteractivitiesTable extends Migration {
+class AddForeignToInteractivitiesTable2 extends Migration {
 
 	/**
 	 * Run the migrations.
