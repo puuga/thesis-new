@@ -157,10 +157,12 @@
 		} else if (activity_type_name==="MULTIPLE CHOICE" && activity_type_layout==="2") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "SubTitle : "+ activity.content +"<br/>";
-			text += "option 1: "+ activity.extra1.split(",")[0] +", "+ activity.extra2.split(",")[0] +"<br/>";
-			text += "option 2: "+ activity.extra1.split(",")[1] +", "+ activity.extra2.split(",")[1] +"<br/>";
-			text += "option 3: "+ activity.extra1.split(",")[2] +", "+ activity.extra2.split(",")[2] +"<br/>";
-			text += "option 4: "+ activity.extra1.split(",")[3] +", "+ activity.extra2.split(",")[3] +"<br/>";
+			if (activity.extra1 !== null) {
+				text += "option 1: "+ activity.extra1.split(",")[0] +", "+ activity.extra2.split(",")[0] +"<br/>";
+				text += "option 2: "+ activity.extra1.split(",")[1] +", "+ activity.extra2.split(",")[1] +"<br/>";
+				text += "option 3: "+ activity.extra1.split(",")[2] +", "+ activity.extra2.split(",")[2] +"<br/>";
+				text += "option 4: "+ activity.extra1.split(",")[3] +", "+ activity.extra2.split(",")[3] +"<br/>";
+			}
 		}
 		text += "</div>";// close 2nd column
 		text += "<div class='col-md-2'>";// start 3rd column
