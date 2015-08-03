@@ -35,6 +35,8 @@
 
 	function saveImage() {
 		var data = new FormData($("#imageForm")[0]);
+		console.log('upload placeholder image');
+		console.log(data);
 		$.ajax({
 			url : "{{ route('addimageentrytoctivity') }}",
 			method : 'POST',

@@ -154,6 +154,15 @@
 		if (activity_type_name==="TEXT" && activity_type_layout==="1") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "Text : "+ activity.content +"<br/>";
+		} else if (activity_type_name==="MULTIPLE CHOICE" && activity_type_layout==="1") {
+			text += "Title : "+ activity.title +"<br/>";
+			text += "SubTitle : "+ activity.content +"<br/>";
+			if (activity.extra1 !== null) {
+				text += "option 1: "+ activity.extra1.split(",")[0] +", "+ activity.extra2.split(",")[0] +"<br/>";
+				text += "option 2: "+ activity.extra1.split(",")[1] +", "+ activity.extra2.split(",")[1] +"<br/>";
+				text += "option 3: "+ activity.extra1.split(",")[2] +", "+ activity.extra2.split(",")[2] +"<br/>";
+				text += "option 4: "+ activity.extra1.split(",")[3] +", "+ activity.extra2.split(",")[3] +"<br/>";
+			}
 		} else if (activity_type_name==="MULTIPLE CHOICE" && activity_type_layout==="2") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "SubTitle : "+ activity.content +"<br/>";
@@ -460,6 +469,8 @@
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
 									Layout 1
+									<img class="img-responsive img-thumbnail"
+										src="{{ asset('/images/text-1.png') }}" alt="Layout 1" />
 								</label>
 							</div>
 						</div>
@@ -498,12 +509,16 @@
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios2" value="5">
 									Layout 1
+									<img class="img-responsive img-thumbnail"
+										src="{{ asset('/images/multiple_choices-1.png') }}" alt="Layout 1" />
 								</label>
 							</div>
 							<div class="radio radio-primary">
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios3" value="6">
 									Layout 2
+									<img class="img-responsive img-thumbnail"
+										src="{{ asset('/images/multiple_choices-2.png') }}" alt="Layout 2" />
 								</label>
 							</div>
 						</div>
