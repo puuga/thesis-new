@@ -22,6 +22,7 @@
 	<title>EDU App</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+	<!-- Optional theme -->
 
 	<!-- Material Design for Bootstrap -->
   <link href="{{ asset('/css/roboto.min.css') }}" rel="stylesheet">
@@ -51,6 +52,9 @@
 
 	<!-- include BlockUI -->
 	<script src="{{ asset('/js/jquery.blockUI.js') }}"></script>
+
+	<!-- include jQuery.tipsy plugin -->
+	<script src="{{ asset('/js/jquery.tipsy.js') }}"></script>
 
 	@yield('headExtend')
 

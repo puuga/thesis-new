@@ -143,6 +143,9 @@ class ContentController extends Controller {
 			case '1':
 				return view('content.activity.designtype1', ['activity'=>$activity]);
 				break;
+			case '2':
+				return view('content.activity.designtype2', ['activity'=>$activity]);
+				break;
 			case '5':
 				return view('content.activity.designtype5', ['activity'=>$activity]);
 				break;
@@ -166,6 +169,18 @@ class ContentController extends Controller {
 				$activity->title = $request->input('inTitle');
 				$activity->content = strtoupper($request->input('inText'));
 				$activity->placeholder = $request->input('inHint');
+				break;
+			case '2':
+				// inTitle => title
+				// inText => content
+				// inHint => placeholder
+				// placeholder of hold => extra1
+				// member of each hold  => extra2
+				$activity->title = $request->input('inTitle');
+				$activity->content = $request->input('inText');
+				$activity->placeholder = $request->input('inHint');
+				$activity->extra1 = $request->input('extra1');
+				$activity->extra2 = $request->input('extra2');
 				break;
 			case '5':
 				// inTitle => title

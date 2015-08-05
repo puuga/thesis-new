@@ -154,6 +154,9 @@
 		if (activity_type_name==="TEXT" && activity_type_layout==="1") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "Text : "+ activity.content +"<br/>";
+		} else if (activity_type_name==="TEXT" && activity_type_layout==="2") {
+			text += "Title : "+ activity.title +"<br/>";
+			text += "SubTitle : "+ activity.content +"<br/>";
 		} else if (activity_type_name==="MULTIPLE CHOICE" && activity_type_layout==="1") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "SubTitle : "+ activity.content +"<br/>";
@@ -473,6 +476,12 @@
 										src="{{ asset('/images/text-1.png') }}" alt="Layout 1" />
 								</label>
 							</div>
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
+									Layout 2
+								</label>
+							</div>
 						</div>
 
 					</div>
@@ -483,20 +492,14 @@
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios2" value="2" disabled>
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3" disabled>
 									Layout 1
 								</label>
 							</div>
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3" disabled>
-									Layout 2
-								</label>
-							</div>
-							<div class="radio radio-primary">
-								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios4" value="4" disabled>
-									Layout 3
+									Layout 2
 								</label>
 							</div>
 						</div>
