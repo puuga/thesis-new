@@ -62,7 +62,7 @@
 						name="inText"
 						type="text"
 						placeholder="Text"
-						data-hint="You should really write something here"
+						data-hint="maximum is 8"
 						onkeyup="javascript:updateText()"
 						value="{{ !is_null($activity->content) || $activity->content!=="" ? $activity->content : ''}}">
 					</div>
@@ -297,7 +297,17 @@
 
 		var holds = "";
 		for (var i = 0; i < number; i++) {
-			holds += "<div class='holdcustom' id='pHold"+(i+1)+"'>&nbsp;</div>";
+			holds += "<div class='holdcustom' id='pHold"+(i+1)+"'>";
+			holds += "<div id='pPlaceholderHold"+(i+1)+"'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_1'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_2'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_3'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_4'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_5'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_6'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_7'></div>";
+			holds += "<div id='pMemberHold"+(i+1)+"_8'></div>";
+			holds += "</div>";
 		}
 		$("#pHold").html(holds);
 
@@ -318,28 +328,27 @@
 
 		for (var i = 1; i <= number; i++ ) {
 			$('#inHold'+i).show();
-			$('#pHold'+i).html( $('#inHold'+i+'Text').val() );
+			$('#pPlaceholderHold'+i).html( $('#inHold'+i+'Text').val() );
 		}
 
 		updateTextOption();
 	}
 
 	function updateTextOption() {
-		console.log("...");
 		var numberOfOption = $("#inText").val().split(",").length;
 		for (var i = 1; i <= numberOfOption; i++) {
 			$('#pepcustom'+i).popover('destroy')
 			var options = {
 				container: 'body',
 				placement: 'auto top',
-				content: getContent(),
+				content: getContent(i),
 				html: true,
 			};
 			$('#pepcustom'+i).popover(options);
 		}
 	}
 
-	function getContent() {
+	function getContent(id) {
 		var out = "";
 		var number = parseInt($("#inNumberOfHold").val());
 		if ( isNaN(number) || number<1 || number>4) {
@@ -347,10 +356,34 @@
 		}
 
 		for (var i = 1; i <= number; i++) {
-			var text = $('#inHold'+i+'Text').val();
-			out += '<label><input type="radio" name="dd" value="'+text+'"> '+text+'</label><br/>';
+			var holdText = $('#inHold'+i+'Text').val();
+			var text = $('#inHold'+id).text();
+			var thisId = text+'Op'+i;
+			out += '<label><input ';
+			out += 'type="radio" ';
+			out += 'id="'+thisId+'" ';
+			out += 'name="dd" ';
+			out += 'value="'+holdText+'" ';
+			out += 'data-text="'+text+'" ';
+			out += 'onclick="addToMenber(\''+id+'\',\''+i+'\')" ';
+			out += '>';
+			out += ' '+holdText;
+			out += '</label><br/>';
 		}
 		return out;
+	}
+
+	function addToMenber(textId, memberHoldId) {
+		// console.log('textId: '+textId);
+		// console.log('holdId: '+memberHoldId);
+		// clear all old
+		for (var i = 1; i <= 4; i++) {
+			$('#pMemberHold'+i+'_'+textId).text('');
+		}
+
+		// add to member
+		var text = $('#pepcustom'+textId).text();
+		$('#pMemberHold'+memberHoldId+'_'+textId).text(text);
 	}
 
 	function updateHint() {
@@ -393,9 +426,28 @@
 		var extra1 = "";
 		var extra2 = parseInt($("#inNumberOfHold").val());
 
+		// make extra1
 		for (var i = 1; i <= extra2; i++) {
 			extra1 += $('#inHold'+i+'Text').val();
 			extra1 += i===extra2 ? "" : "," ;
+		}
+
+		// make extra2
+		var arr = [];
+		for (var i = 0; i < parseInt($("#inNumberOfHold").val()); i++) {
+			var member = {};
+			member.head = $('#pPlaceholderHold'+(i+1)).text();
+			member.number = i+1;
+			member.child1 = $('#pMemberHold'+(i+1)+'_1').text();
+			member.child2 = $('#pMemberHold'+(i+1)+'_2').text();
+			member.child3 = $('#pMemberHold'+(i+1)+'_3').text();
+			member.child4 = $('#pMemberHold'+(i+1)+'_4').text();
+			member.child5 = $('#pMemberHold'+(i+1)+'_5').text();
+			member.child6 = $('#pMemberHold'+(i+1)+'_6').text();
+			member.child7 = $('#pMemberHold'+(i+1)+'_7').text();
+			member.child8 = $('#pMemberHold'+(i+1)+'_8').text();
+
+			arr.push(member);
 		}
 
 		var data = {
@@ -405,7 +457,7 @@
 			inText : inText,
 			inHint : inHint,
 			extra1 : extra1,
-			extra2 : extra2
+			extra2 : JSON.stringify(arr)
 		};
 
 		console.log(data);
@@ -432,8 +484,25 @@
 		});
 	}
 
+	function updateMember() {
+		var phpData = JSON.parse({!! json_encode($activity->extra2) !!});
+		// console.log(phpData);
+		for (var i = 0; i < phpData.length; i++) {
+			$('#pMemberHold'+(i+1)+'_1').text(phpData[i].child1);
+			$('#pMemberHold'+(i+1)+'_2').text(phpData[i].child2);
+			$('#pMemberHold'+(i+1)+'_3').text(phpData[i].child3);
+			$('#pMemberHold'+(i+1)+'_4').text(phpData[i].child4);
+			$('#pMemberHold'+(i+1)+'_5').text(phpData[i].child5);
+			$('#pMemberHold'+(i+1)+'_6').text(phpData[i].child6);
+			$('#pMemberHold'+(i+1)+'_7').text(phpData[i].child7);
+			$('#pMemberHold'+(i+1)+'_8').text(phpData[i].child8);
+		}
+	}
+
 	// check data
 	updateInformation();
+
+	updateMember();
 
 </script>
 
