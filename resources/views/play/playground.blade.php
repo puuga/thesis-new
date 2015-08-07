@@ -86,6 +86,7 @@
 		activityIds = [{{ implode(",",$activityIdByOrders) }}];
 		activityOrder = [{{ $history->activity_order }}];
 		activityJson = null;
+		var currentActivity = null;
 		var documentHeight = 0;
     var documentWidth = 0;
     var currentOptionTrueArr;
@@ -94,6 +95,10 @@
     var currentFocusPepObj;
 		var sequenceNumber = 0;
 		var currentActivityId = 0;
+
+		var isPepInDropable = false;
+		var focusPepText = "";
+		var focusDropText = "";
 
 		function launchIntoFullscreen(element) {
 			$("#pText").hide();
@@ -151,13 +156,31 @@
 	function beforePerformNextActivity() {
 		// correct/incorrect logic
 		var cString = checkHoldObj();
+		if ( currentActivity.activity_type_id === "2" ) {
+			cString = JSON.stringify(currentHoldObj);
+			track("answer_correct",JSON.stringify(currentOptionTrueArr).toString());
+		}
+		console.log("beforePerformNextActivity");
+		console.log(cString);
+		console.log(JSON.stringify(currentOptionTrueArr).toString());
 		track("answer",cString.toString());
-    if ( cString.toString() === currentOptionTrueArr.toString() ) {
-			// correct answer
-			activateEndCorrectAnswerAnimation();
-    } else {
-			// incorrect answer
-			activateEndIncorrectAnswerAnimation();
+		if ( currentActivity.activity_type_id === "2" ) {
+			cString = JSON.stringify(currentHoldObj);
+			if ( cString.toString() === JSON.stringify(currentOptionTrueArr).toString() ) {
+				// correct answer
+				activateEndCorrectAnswerAnimation();
+	    } else {
+				// incorrect answer
+				activateEndIncorrectAnswerAnimation();
+			}
+		} else {
+			if ( cString.toString() === currentOptionTrueArr.toString() ) {
+				// correct answer
+				activateEndCorrectAnswerAnimation();
+	    } else {
+				// incorrect answer
+				activateEndIncorrectAnswerAnimation();
+			}
 		}
 	}
 
@@ -325,6 +348,22 @@
 		    currentHoldObj = [];
 				checkHoldObj();
 				break;
+			case "2":
+				var numberOfPep = $(".pep").length;
+		    var margin = 100/(numberOfPep+1);
+		    for (i=0; i<numberOfPep; i++) {
+		      // $(".pep.qz"+(i+1)).css({"top":$(".droppable.hz"+(i+1)).position().top-120});
+		      $(".pep.qz"+(i+1)).css({"top":"20%"});
+		      $(".pep.qz"+(i+1)).css({"left":(i*margin+10)+"%"});
+
+		    }
+		    track("reset","pep");
+		    currentHold = [];
+		    // currentHoldObj = [];
+				currentHoldObj = makeClearCurrentHoldObj(currentOptionTrueArr);
+				// checkHoldObj();
+				break;
+			case "5":
 			case "6":
 				currentHold = [];
 				currentHoldObj = defaultAnswerForOprions(activity);
@@ -348,6 +387,8 @@
 		console.log("render activity id:"+activity.id);
 		console.log(activity);
 
+		currentActivity = activity;
+
 		currentActivityId = activity.id;
 
 		// track
@@ -363,6 +404,17 @@
 			case "1":
 				renderActivityType1(activity);
 				currentOptionTrueArr = activity.content_arr;
+				break;
+			case "2":
+				renderActivityType2(activity);
+				currentOptionTrueArr = getCurrentOptionTrueArr(JSON.parse(activity.extra2));
+				currentHoldObj = makeClearCurrentHoldObj(currentOptionTrueArr);
+				// console.log("renderActivityType2");
+				// console.log(activity);
+				// console.log("currentOptionTrueArr");
+				// console.log(currentOptionTrueArr);
+				// console.log("currentHoldObj");
+				// console.log(currentHoldObj);
 				break;
 			case "5":
 				renderActivityType5(activity);
@@ -395,6 +447,23 @@
 
 	}
 
+	function renderActivityType2(activity) {
+		$('#pTitle').html(activity.title);
+		// $('#pText').html(activity.shuffled_content);
+		// $('#pHint').html(activity.placeholder);
+		if ( activity.image_placeholder!=null ) {
+			$('#pImage').attr('src', activity.image_path);
+		} else {
+			$('#pImage').attr('src', "");
+		}
+
+		if (activity.content !== null) {
+			makeDropType2(activity);
+	    makePepType2(activity);
+		}
+
+	}
+
 	function renderActivityType5(activity) {
 		$('#pTitle').html(activity.title);
 		$('#pText').html(activity.content);
@@ -423,6 +492,66 @@
 			makeOptions(activity);
 		}
 
+	}
+
+	function getCurrentOptionTrueArr(ansSet) {
+		// console.log("ans");
+		// console.log(ansSet);
+		var newAnsSet = [];
+
+		for (var i = 0; i < ansSet.length; i++) {
+			var ans = ansSet[i];
+			var newAns = {};
+			var members = [];
+			if ( ans.child1 !== "" ) {
+				members.push(ans.child1);
+			}
+			if ( ans.child2 !== "" ) {
+				members.push(ans.child2);
+			}
+			if ( ans.child3 !== "" ) {
+				members.push(ans.child3);
+			}
+			if ( ans.child4 !== "" ) {
+				members.push(ans.child4);
+			}
+			if ( ans.child5 !== "" ) {
+				members.push(ans.child5);
+			}
+			if ( ans.child6 !== "" ) {
+				members.push(ans.child6);
+			}
+			if ( ans.child7 !== "" ) {
+				members.push(ans.child7);
+			}
+			if ( ans.child8 !== "" ) {
+				members.push(ans.child8);
+			}
+
+			newAns.members = members;
+			newAns.head = ans.head;
+
+			newAnsSet.push(newAns);
+		}
+
+		// console.log(newAnsSet);
+		return newAnsSet;
+	}
+
+	function makeClearCurrentHoldObj(ansSet) {
+		var newAnsSet = [];
+		for (var i = 0; i < ansSet.length; i++) {
+			var ans = ansSet[i];
+			var newAns = {};
+			var members = [];
+
+			newAns.members = members;
+			newAns.head = ans.head;
+
+			newAnsSet.push(newAns);
+		}
+		// console.log(newAnsSet);
+		return newAnsSet;
 	}
 
 	function makeOptionsImage(activity) {
@@ -558,6 +687,39 @@
     activatePep();
 	}
 
+	function makePepType2(activity) {
+		console.log("makePepType2");
+		var output="";
+		var content = activity.content.split(",");
+
+    // set data
+    for (i=0; i<content.length; i++) {
+      output += "<div class='pep qz"+(i+1)+"'";
+			output += " id='pepqz"+(i+1)+"'";
+      output += " onmousedown='logOnMouseDown(this)' ";
+      output += " ontouchstart='logOnMouseDown(this)' ";
+      output += " onmouseup='logOnMouseUp(this)' ";
+      output += " ontouchend='logOnMouseUp(this)'>";
+      output += content[i]+"</div>";
+    }
+    $("#pepZone").html(output);
+
+		// set css
+    var margin = 100/(content.length+1);
+    for (i=0; i<content.length; i++) {
+
+      // $(".pep.qz"+(i+1)).css({"top":$(".droppable.hz"+(i+1)).position().top-120});
+      $(".pep.qz"+(i+1)).css({"top":"20%"});
+      $(".pep.qz"+(i+1)).css({"left":""+(i*margin+10)+"%"});
+      $(".pep.qz"+(i+1)).css({"border":"1"});
+      $(".pep.qz"+(i+1)).css({"padding":"10px"});
+			$(".pep.qz"+(i+1)).css({"width":"auto"});
+			$(".pep.qz"+(i+1)).css({"display":"inline-block"});
+    }
+
+		activatePepType2();
+	}
+
 	function makeDrop(activity) {
 		var output="";
     // set data
@@ -574,6 +736,52 @@
       $(".droppable.hz"+(i+1)).css({"border":"1"});
       $(".droppable.hz"+(i+1)).html(i+1);
     }
+	}
+
+	function makeDropType2(activity) {
+		var drop = activity.extra1.split(",");
+		var output="";
+    // set data
+    for (i=0; i<drop.length; i++) {
+      output += "<div class='droppable hz"+(i+1)+"'>"+drop[i]+"</div>";
+    }
+    $("#dropZone").html(output);
+
+		// set css
+    var margin = 100/(drop.length+1);
+    for (i=0; i<drop.length; i++) {
+      $(".droppable.hz"+(i+1)).css({"bottom":"10%"});
+      $(".droppable.hz"+(i+1)).css({"left":""+(i*margin+10)+"%"});
+			$(".droppable.hz"+(i+1)).css({"width":""+((100/drop.length)*0.6)+"%"});
+      $(".droppable.hz"+(i+1)).css({"border":"1"});
+    }
+	}
+
+	function activatePepType2() {
+		$('.pep').pep({
+		  droppable: '.droppable',
+		  overlapFunction: function($a, $b) {
+		    var rect1 = $a[0].getBoundingClientRect(); // drop
+		    var rect2 = $b[0].getBoundingClientRect(); // pep
+
+				var result = (  rect2.left    > rect1.left  &&
+		              rect2.right   < rect1.right &&
+		              rect2.top     > rect1.top   &&
+		              rect2.bottom  < rect1.bottom  );
+
+				isPepInDropable = result | isPepInDropable;
+				focusPepText = $b[0].innerText;
+				if (result) {
+					focusDropText = $a[0].innerText;
+				}
+
+				// console.log($a);
+				// console.log($b);
+				// console.log(isPepInDropable);
+
+		    return result;
+		  }
+		})
 	}
 
 	function activatePep() {
@@ -667,6 +875,12 @@
 
     // track
     track("drop",obj.innerHTML);
+
+		if ( currentActivity.activity_type_id === "2" && isPepInDropable ) {
+			// track
+	    track("on", focusDropText);
+			updateHoldObjType2("on", focusPepText, focusDropText)
+		}
   }
 
   function logOnMouseDown(obj) {
@@ -675,8 +889,13 @@
 		// track
 		track("choose",obj.innerHTML);
 
+		focusPepText = obj.innerHTML;
     currentFocusPepObj = obj;
-    updateHoldObj("choose",obj);
+		if ( currentActivity.activity_type_id === "2" ) {
+			updateHoldObjType2("choose", focusPepText, focusDropText)
+		} else {
+			updateHoldObj("choose",obj);
+		}
   }
 
 
@@ -743,6 +962,49 @@
 			fabBtnToReset();
 		}
   }
+
+	function updateHoldObjType2(action, pep, drop) {
+		if ( action==="on" ) {
+      // add pep to drop member
+			for (var i = 0; i < currentHoldObj.length; i++) {
+				if (currentHoldObj[i].head === drop) {
+					currentHoldObj[i].members.push(pep);
+					currentHoldObj[i].members.sort();
+				}
+			}
+    } else if ( action==="choose" ){
+      // remove pep from currentHoldObj members
+			for (var i = 0; i < currentHoldObj.length; i++) {
+				var index = currentHoldObj[i].members.indexOf(pep);
+				if ( index !== -1 ) {
+					currentHoldObj[i].members.splice(index, 1);
+					currentHoldObj[i].members.sort();
+				}
+			}
+    }
+		// console.log("updateHoldObjType2");
+		// console.log(currentHoldObj);
+
+		// toggle fabBtn if atlast one answer
+		var isAnswered = false;
+		for (var i = 0; i < currentHoldObj.length; i++) {
+			if ( currentHoldObj[i].members.length > 0 ) {
+				isAnswered = true;
+				break;
+			}
+		}
+		if (isAnswered) {
+			// correct anwser
+      console.log("full answer");
+
+			// change reset button to next button
+			fabBtnToNext();
+		} else {
+			// incorrect anwser
+			// change next button to reset button
+			fabBtnToReset();
+		}
+	}
 
 	function fabBtnToNext() {
 		$("#fabBtn")

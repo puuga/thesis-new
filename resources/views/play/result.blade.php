@@ -21,7 +21,21 @@
 								$score++;
 							}
 							break;
+						case '2':
+							$correctAnswer = DB::table('interactivities')
+																->where('activity_id',$act->id)
+																->where('history_id',$history->id)
+																->where('action','answer_correct')
+																->first();
+							if ( $correctAnswer->detail === $answers[$i]->detail ) {
+								$score++;
+							}
+							break;
 						case '5':
+							if ( $act->extra2===$answers[$i]->detail ) {
+								$score++;
+							}
+							break;
 						case '6':
 							if ( $act->extra2===$answers[$i]->detail ) {
 								$score++;

@@ -258,7 +258,7 @@ class ContentController extends Controller {
 	}
 
 	public function contentHistory($id) {
-		$histories = Content::find($id)->histories;
+		$histories = Content::find($id)->histories()->orderBy('created_at', 'desc')->get();
 
 		$frequencies = DB::select('SELECT
 			    YEAR(created_at) year_ac,

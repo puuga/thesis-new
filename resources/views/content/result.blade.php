@@ -34,6 +34,19 @@
 							+1
 							<?php $score++; ?>
 						@endif
+					@elseif ( $act->activity_type_id === "2" )
+						<?php
+							$correctAnswer = DB::table('interactivities')
+																->where('activity_id',$act->id)
+																->where('history_id',$history->id)
+																->where('action','answer_correct')
+																->first();
+						?>
+						@if( $correctAnswer->detail === $answers[$i]->detail )
+							<br/>answer: {{ $correctAnswer->detail }} --> c_answer<br/>
+							+1
+							<?php $score++; ?>
+						@endif
 					@elseif ( $act->activity_type_id === "5" )
 						@if( $act->extra2===$answers[$i]->detail )
 							+1

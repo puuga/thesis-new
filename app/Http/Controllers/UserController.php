@@ -40,7 +40,7 @@ class UserController extends Controller {
 	}
 
 	public function histories() {
-		$histories = Auth::user()->histories;
+		$histories = Auth::user()->histories()->orderBy('created_at', 'desc')->get();
 
 		$frequencies = DB::select('SELECT
 			    YEAR(created_at) year_ac,
