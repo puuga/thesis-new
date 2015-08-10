@@ -157,6 +157,9 @@
 		} else if (activity_type_name==="TEXT" && activity_type_layout==="2") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "SubTitle : "+ activity.content +"<br/>";
+		} else if (activity_type_name==="IMAGE" && activity_type_layout==="1") {
+			text += "Title : "+ activity.title +"<br/>";
+			text += "SubTitle : "+ activity.content +"<br/>";
 		} else if (activity_type_name==="MULTIPLE CHOICE" && activity_type_layout==="1") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "SubTitle : "+ activity.content +"<br/>";
@@ -492,7 +495,7 @@
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3" disabled>
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
 									Layout 1
 								</label>
 							</div>

@@ -69,6 +69,16 @@
 			-webkit-animation-fill-mode:forwards
 		}
 
+		.anim2 {
+		  -webkit-animation-name: pulse;
+		  -webkit-animation-duration: 2s;
+		  -webkit-animation-iteration-count: 1;
+		  -webkit-animation-timing-function: ease-in-out;
+		  /*-webkit-animation-direction: alternate;*/
+			-webkit-animation-direction: normal;
+			-webkit-animation-fill-mode:forwards
+		}
+
 		.image-option-preview {
 			max-width: 120px;
 			max-height: 120px;
@@ -192,6 +202,10 @@
 				className = "anim1";
 				soundId = "#correctSound1";
 				break;
+			case "2":
+				className = "anim2";
+				soundId = "#correctSound2";
+				break;
 			default:
 				console.log("Can not render activity");
 		}
@@ -208,6 +222,10 @@
 			case "1":
 				className = "anim1";
 				soundId = "#correctSound1";
+				break;
+			case "2":
+				className = "anim2";
+				soundId = "#correctSound2";
 				break;
 			default:
 				console.log("Can not render activity");
@@ -226,6 +244,10 @@
 				className = "anim1";
 				soundId = "#incorrectSound1";
 				break;
+			case "2":
+				className = "anim2";
+				soundId = "#incorrectSound2";
+				break;
 			default:
 				console.log("Can not set animation");
 		}
@@ -242,6 +264,10 @@
 			case "1":
 				className = "anim1";
 				soundId = "#incorrectSound1";
+				break;
+			case "2":
+				className = "anim2";
+				soundId = "#incorrectSound2";
 				break;
 			default:
 				console.log("Can not set animation");
@@ -1133,9 +1159,27 @@
 </div>
 
 <div class="" style="visibility: hidden;">
+	<audio id="correctSound2">
+	  <source
+		src="{{ asset('/sounds/d2ef5d_Angry_Birds_Level_Complete_Sound_Effect.mp3') }}"
+		type="audio/mpeg">
+	  Your browser does not support the audio tag.
+	</audio>
+</div>
+
+<div class="" style="visibility: hidden;">
 	<audio id="incorrectSound1">
 	  <source
 		src="{{ asset('/sounds/Sad_Trombone-Joe_Lamb-665429450.mp3') }}"
+		type="audio/mpeg">
+	  Your browser does not support the audio tag.
+	</audio>
+</div>
+
+<div class="" style="visibility: hidden;">
+	<audio id="incorrectSound2">
+	  <source
+		src="{{ asset('/sounds/e264ad_Angry_Birds_Level_Failed_Piglets_Sound_Effect.mp3') }}"
 		type="audio/mpeg">
 	  Your browser does not support the audio tag.
 	</audio>

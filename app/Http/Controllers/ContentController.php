@@ -146,6 +146,9 @@ class ContentController extends Controller {
 			case '2':
 				return view('content.activity.designtype2', ['activity'=>$activity]);
 				break;
+			case '3':
+				return view('content.activity.designtype3', ['activity'=>$activity]);
+				break;
 			case '5':
 				return view('content.activity.designtype5', ['activity'=>$activity]);
 				break;
