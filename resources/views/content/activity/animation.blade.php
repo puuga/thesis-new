@@ -36,6 +36,23 @@
       	  Your browser does not support the audio element.
       	</audio>
       </div>
+      <div class="radio radio-primary">
+        <label>
+          <input
+          type="radio"
+          name="caOptions"
+          id="caOptions3"
+          value="3"
+          {{ $activity->correct_animation === '3' ? 'checked' : '' }}>
+          Set 3
+        </label>
+        <audio controls>
+      	  <source
+            src="{{ asset('/sounds/mario-state-clear.mp3') }}"
+        		type="audio/mpeg">
+      	  Your browser does not support the audio element.
+      	</audio>
+      </div>
     </div>
   </div>
 
@@ -72,6 +89,23 @@
         <audio controls>
       	  <source
             src="{{ asset('/sounds/e264ad_Angry_Birds_Level_Failed_Piglets_Sound_Effect.mp3') }}"
+        		type="audio/mpeg">
+      	  Your browser does not support the audio element.
+      	</audio>
+      </div>
+      <div class="radio radio-primary">
+        <label>
+          <input
+          type="radio"
+          name="iaOptions"
+          id="iaOptions3"
+          value="3"
+          {{ $activity->correct_animation === '3' ? 'checked' : '' }}>
+          Set 3
+        </label>
+        <audio controls>
+      	  <source
+            src="{{ asset('/sounds/mario-die.mp3') }}"
         		type="audio/mpeg">
       	  Your browser does not support the audio element.
       	</audio>

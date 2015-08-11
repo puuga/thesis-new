@@ -54,19 +54,34 @@
 				</div>
 
 				<div class="form-group">
-					<label for="inText" class="col-xs-2 control-label">Text</label>
-					<div class="col-xs-10">
+					<label for="inText" class="col-xs-2 control-label">Number of Object</label>
+					<div class="col-xs-2">
 				    <input
 						class="form-control"
 						id="inText"
 						name="inText"
-						type="text"
+						type="number"
+						min="1"
+						max="8"
 						placeholder="Text"
-						data-hint="maximum is 8"
-						onkeyup="javascript:updateText()"
-						value="{{ !is_null($activity->content) || $activity->content!=="" ? $activity->content : ''}}">
+						onkeyup="javascript:updateNumberOfObject()"
+						onchange="javascript:updateNumberOfObject()"
+						value="{{ is_null($activity->content) || $activity->content==="" ? '0' : $activity->content }}">
+					</div>
+					Minimum is 1 and maximum is 8
+				</div>
+
+				@for ($i = 1; $i <= 8; $i++)
+				<div class="form-group" id="inObject{{$i}}">
+					<label for="inObject{{$i}}img" class="col-xs-4 control-label">Object {{$i}}</label>
+					<div class="col-xs-8">
+						<input class="form-control" type="file" accept="image/*"
+						name="inObject{{$i}}img" id="inObject{{$i}}img"
+						value=""
+						placeholder="{{$i}}">
 					</div>
 				</div>
+				@endfor
 
 				<div class="form-group">
 					<label for="inNumberOfHold" class="col-xs-2 control-label">Number Of Hold</label>
@@ -243,6 +258,22 @@
 			}
 			$("#pText").html(output);
 			updateTextOption();
+		}
+	}
+
+	function updateNumberOfObject() {
+		var number = parseInt($("#inText").val());
+		if ( isNaN(number) || number<1 || number>8) {
+			return;
+		}
+
+		for (var i = 1; i <= 8; i++) {
+			if ( i<=number ) {
+				$('#inObject'+i).show();
+			} else {
+				$('#inObject'+i).hide();
+			}
+
 		}
 	}
 

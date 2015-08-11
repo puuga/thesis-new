@@ -79,6 +79,16 @@
 			-webkit-animation-fill-mode:forwards
 		}
 
+		.anim3 {
+		  -webkit-animation-name: pulse;
+		  -webkit-animation-duration: 2s;
+		  -webkit-animation-iteration-count: 1;
+		  -webkit-animation-timing-function: ease-in-out;
+		  /*-webkit-animation-direction: alternate;*/
+			-webkit-animation-direction: normal;
+			-webkit-animation-fill-mode:forwards
+		}
+
 		.image-option-preview {
 			max-width: 120px;
 			max-height: 120px;
@@ -206,6 +216,10 @@
 				className = "anim2";
 				soundId = "#correctSound2";
 				break;
+			case "3":
+				className = "anim3";
+				soundId = "#correctSound3";
+				break;
 			default:
 				console.log("Can not render activity");
 		}
@@ -226,6 +240,10 @@
 			case "2":
 				className = "anim2";
 				soundId = "#correctSound2";
+				break;
+			case "3":
+				className = "anim3";
+				soundId = "#correctSound3";
 				break;
 			default:
 				console.log("Can not render activity");
@@ -248,6 +266,10 @@
 				className = "anim2";
 				soundId = "#incorrectSound2";
 				break;
+			case "3":
+				className = "anim3";
+				soundId = "#incorrectSound3";
+				break;
 			default:
 				console.log("Can not set animation");
 		}
@@ -268,6 +290,10 @@
 			case "2":
 				className = "anim2";
 				soundId = "#incorrectSound2";
+				break;
+			case "3":
+				className = "anim3";
+				soundId = "#incorrectSound3";
 				break;
 			default:
 				console.log("Can not set animation");
@@ -1168,6 +1194,15 @@
 </div>
 
 <div class="" style="visibility: hidden;">
+	<audio id="correctSound3">
+	  <source
+		src="{{ asset('/sounds/mario-state-clear.mp3') }}"
+		type="audio/mpeg">
+	  Your browser does not support the audio tag.
+	</audio>
+</div>
+
+<div class="" style="visibility: hidden;">
 	<audio id="incorrectSound1">
 	  <source
 		src="{{ asset('/sounds/Sad_Trombone-Joe_Lamb-665429450.mp3') }}"
@@ -1180,6 +1215,15 @@
 	<audio id="incorrectSound2">
 	  <source
 		src="{{ asset('/sounds/e264ad_Angry_Birds_Level_Failed_Piglets_Sound_Effect.mp3') }}"
+		type="audio/mpeg">
+	  Your browser does not support the audio tag.
+	</audio>
+</div>
+
+<div class="" style="visibility: hidden;">
+	<audio id="incorrectSound3">
+	  <source
+		src="{{ asset('/sounds/mario-die.mp3') }}"
 		type="audio/mpeg">
 	  Your browser does not support the audio tag.
 	</audio>
