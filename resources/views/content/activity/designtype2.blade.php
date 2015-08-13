@@ -62,7 +62,7 @@
 						name="inText"
 						type="text"
 						placeholder="Text"
-						data-hint="maximum is 8"
+						data-hint="maximum is 8, parttern: xxx,yyy,zzz,... "
 						onkeyup="javascript:updateText()"
 						value="{{ !is_null($activity->content) || $activity->content!=="" ? $activity->content : ''}}">
 					</div>

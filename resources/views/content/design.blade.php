@@ -156,7 +156,7 @@
 			text += "Text : "+ activity.content +"<br/>";
 		} else if (activity_type_name==="TEXT" && activity_type_layout==="2") {
 			text += "Title : "+ activity.title +"<br/>";
-			text += "SubTitle : "+ activity.content +"<br/>";
+			text += "Options : "+ activity.content +"<br/>";
 		} else if (activity_type_name==="IMAGE" && activity_type_layout==="1") {
 			text += "Title : "+ activity.title +"<br/>";
 			text += "SubTitle : "+ activity.content +"<br/>";

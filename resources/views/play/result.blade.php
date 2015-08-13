@@ -2,6 +2,12 @@
 
 @section('content')
 
+<?php
+function getColor($percent) {
+	return $percent>=0.8 ? 'text-success' : ($percent>=0.4 ? 'text-info' : 'text-mute');
+}
+?>
+
 <div class="container">
 
 	<div class="row">
@@ -66,16 +72,19 @@
 			@endif
 		</p>
 
+		{{-- if score is more than 80% star will green --}}
+		{{-- if score is more than 40% star will blue --}}
+		{{-- if not star will gray --}}
 		<p class="text-center">
 			<h1 class="text-center">
 				@for ( $i = 1; $i <= count($activity_arr); $i++ )
 					@if ( $i <= $score )
 						<i class="mdi-action-stars
-						{{ $percent >= 0.8 ? 'text-success' : 'text-info' }}"
+						{{ getColor($percent) }}"
 						style="font-size: 75px;"></i>
 					@else
 						<i class="mdi-action-star-rate
-						{{ $percent >= 0.8 ? 'text-success' : 'text-info' }}"
+						{{ getColor($percent) }}"
 						style="font-size: 75px;"></i>
 					@endif
 				@endfor
