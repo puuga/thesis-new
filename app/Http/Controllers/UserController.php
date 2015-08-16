@@ -70,4 +70,38 @@ class UserController extends Controller {
 		]);
 	}
 
+	function createSeedUserA() {
+		$users = [];
+		for ($i=1; $i <= 100 ; $i++) {
+			$users[] = User::create([
+				'name' => "a$i a$i",
+				'firstname' => "a$i",
+				'lastname' => "a$i",
+				'email' => "a$i@nu.ac.th",
+				'password' => bcrypt("123456"),
+				'type' => "student",
+				'school_id' => "1",
+			]);
+		}
+
+		return response()->json(['result' => 'success', 'users' => $users]);
+	}
+
+	function createSeedUserB() {
+		$users = [];
+		for ($i=1; $i <= 100 ; $i++) {
+			$users[] = User::create([
+				'name' => "b$i b$i",
+				'firstname' => "b$i",
+				'lastname' => "b$i",
+				'email' => "b$i@nu.ac.th",
+				'password' => bcrypt("123456"),
+				'type' => "student",
+				'school_id' => "1",
+			]);
+		}
+
+		return response()->json(['result' => 'success', 'users' => $users]);
+	}
+
 }
