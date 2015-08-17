@@ -29,10 +29,18 @@ class Activity extends Model {
 	}
 
 	public function getContentArrAttribute() {
+		if ($this->attributes['activity_type_id'] === "2") {
+			return "";
+		}
+		
 		return str_split($this->content);
 	}
 
 	private function genShuffleContent() {
+		if ($this->attributes['activity_type_id'] === "2") {
+			return "";
+		}
+
 		if ( !isset($this->attributes['content']) ) {
 			return "";
 		}
@@ -45,6 +53,10 @@ class Activity extends Model {
 	}
 
 	private function genShuffleContentArr() {
+		if ($this->attributes['activity_type_id'] === "2") {
+			return "";
+		}
+
 		if ( $this->shuffleContent === "" ) {
 			$this->genShuffleContent();
 		}
