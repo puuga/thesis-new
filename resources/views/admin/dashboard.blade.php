@@ -1,13 +1,43 @@
 @extends('app')
 
+@section('headExtend')
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1.1", {packages:["bar"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Content name', 'Accesses'],
+			@foreach ($top10Contents as $content)
+		    ['{{ $content->name }}',{{ $content->countt }}],
+			@endforeach
+    ]);
+
+    var options = {
+      chart: {
+        title: 'Top 10 accesses',
+        subtitle: 'Top 10 all time.',
+      },
+      bars: 'horizontal' // Required for Material Bar Charts.
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+    chart.draw(data, options);
+  }
+</script>
+@endsection
+
 @section('content')
 
 <div class="container">
 
 	<div class="jumbotron">
     <h1>DashBoard</h1>
-    <p>information.</p>
-    <p><a class="btn btn-primary btn-lg">Learn more</a></p>
+    <p>
+			<div id="barchart_material" style="width: 900px; height: 500px;"></div>
+		</p>
+
 	</div>
 
 	<div class="row">

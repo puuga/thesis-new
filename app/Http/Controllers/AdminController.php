@@ -3,6 +3,8 @@
 use App\Category;
 use App\User;
 use App\School;
+use App\Content;
+use DB;
 
 class AdminController extends Controller {
 
@@ -17,11 +19,19 @@ class AdminController extends Controller {
 		$users = User::all();
 		$schools = School::all();
 		$categories = Category::all();
-		
+		$contents = Content::all();
+		$top10Contents = DB::select("select c.id,c.name, count(h.id) countt
+			from contents c inner join histories h on c.id = h.content_id
+			group by c.id
+			order by countt desc
+			limit 0,10");
+
 		return view('admin.dashboard',[
 			'users' => $users,
 			'schools' => $schools,
-			'categories' => $categories
+			'categories' => $categories,
+			'contents' => $contents,
+			'top10Contents' => $top10Contents
 		]);
 	}
 
