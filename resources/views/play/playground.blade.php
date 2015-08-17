@@ -99,6 +99,7 @@
 
 	<script src="{{ asset('/js/jquery.pep2.js') }}"></script>
 	<script src="{{ asset('/js/extend.array.js') }}"></script>
+	<script src="{{ asset('/js/extend.compare.js') }}"></script>
 
 	<script type="text/javascript">
 		activityCount = {{ count($history->content->activities) }};
@@ -186,7 +187,11 @@
 		track("answer",cString.toString());
 		if ( currentActivity.activity_type_id === "2" ) {
 			cString = JSON.stringify(currentHoldObj);
-			if ( cString.toString() === JSON.stringify(currentOptionTrueArr).toString() ) {
+			console.log("check");
+			console.log(cString.toString());
+			console.log(JSON.stringify(currentOptionTrueArr).toString());
+			console.log(deepCompare(JSON.parse(cString), currentOptionTrueArr));
+			if ( deepCompare(JSON.parse(cString), currentOptionTrueArr) ) {
 				// correct answer
 				activateEndCorrectAnswerAnimation();
 	    } else {

@@ -15,6 +15,33 @@ function getColor($percent) {
 		<h1>Result</h1>
 
 		<?php
+			// user_response, answer
+			function deepCompare($objectA, $objectB) {
+			  // check member length
+			  if (count($objectA) != count($objectB)) {
+			    return false;
+			  }
+
+			  // check member
+			  for ($i = 0; $i < count($objectA); $i++) {
+			    $a = $objectA[$i];
+			    $b = $objectB[$i];
+
+			    if (count($a->members) != count($b->members)) {
+			      return false;
+			    } else {
+			      for ($j = 0; $j < count($b->members); $j++) {
+			        $bm = $b->members[$j];
+			        if ( !in_array($bm, $a->members) ) {
+			          return false;
+			        }
+			      }
+			    }
+			  }
+
+			  return true;
+			}
+
 			$activity_arr = explode(",",$history->activity_order);
 			$score = 0;
 
@@ -33,7 +60,8 @@ function getColor($percent) {
 																->where('history_id',$history->id)
 																->where('action','answer_correct')
 																->first();
-							if ( $correctAnswer->detail === $answers[$i]->detail ) {
+							// if ( $correctAnswer->detail === $answers[$i]->detail ) {
+							if ( deepCompare(json_decode($answers[$i]->detail),json_decode($correctAnswer->detail)) ) {
 								$score++;
 							}
 							break;
