@@ -61,7 +61,7 @@ function getColor($percent) {
 																->where('action','answer_correct')
 																->first();
 							// if ( $correctAnswer->detail === $answers[$i]->detail ) {
-							if ( deepCompare(json_decode($answers[$i]->detail),json_decode($correctAnswer->detail)) ) {
+							if ( Helper::deepCompare(json_decode($answers[$i]->detail),json_decode($correctAnswer->detail)) ) {
 								$score++;
 							}
 							break;

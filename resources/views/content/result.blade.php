@@ -42,7 +42,8 @@
 																->where('action','answer_correct')
 																->first();
 						?>
-						@if( $correctAnswer->detail === $answers[$i]->detail )
+
+						@if( Helper::deepCompare(json_decode($answers[$i]->detail),json_decode($correctAnswer->detail)) )
 							<br/>answer: {{ $correctAnswer->detail }} --> c_answer<br/>
 							+1
 							<?php $score++; ?>
