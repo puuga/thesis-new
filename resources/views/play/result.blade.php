@@ -15,70 +15,14 @@ function getColor($percent) {
 		<h1>Result</h1>
 
 		<?php
-			// user_response, answer
-			function deepCompare($objectA, $objectB) {
-			  // check member length
-			  if (count($objectA) != count($objectB)) {
-			    return false;
-			  }
-
-			  // check member
-			  for ($i = 0; $i < count($objectA); $i++) {
-			    $a = $objectA[$i];
-			    $b = $objectB[$i];
-
-			    if (count($a->members) != count($b->members)) {
-			      return false;
-			    } else {
-			      for ($j = 0; $j < count($b->members); $j++) {
-			        $bm = $b->members[$j];
-			        if ( !in_array($bm, $a->members) ) {
-			          return false;
-			        }
-			      }
-			    }
-			  }
-
-			  return true;
-			}
-
 			$activity_arr = explode(",",$history->activity_order);
 			$score = 0;
 
 			for ( $i=0; $i<count($activity_arr) ; $i++ ) {
 				$act = $history->content->activities[$activity_arr[$i]-1];
 				if ( isset($answers[$i]) && $act->id === $answers[$i]->activity_id ) {
-					switch ( $act->activity_type_id ) {
-						case '1':
-							if ( $act->content===str_replace(",","",$answers[$i]->detail )) {
-								$score++;
-							}
-							break;
-						case '2':
-							$correctAnswer = DB::table('interactivities')
-																->where('activity_id',$act->id)
-																->where('history_id',$history->id)
-																->where('action','answer_correct')
-																->first();
-							// if ( $correctAnswer->detail === $answers[$i]->detail ) {
-							if ( Helper::deepCompare(json_decode($answers[$i]->detail),json_decode($correctAnswer->detail)) ) {
-								$score++;
-							}
-							break;
-						case '5':
-							if ( $act->extra2===$answers[$i]->detail ) {
-								$score++;
-							}
-							break;
-						case '6':
-							if ( $act->extra2===$answers[$i]->detail ) {
-								$score++;
-							}
-							break;
-
-						default:
-							# code...
-							break;
+					if ( Helper::isCorrectAnswer($history, $act, $answers[$i]) ) {
+						$score++;
 					}
 				}
 			}

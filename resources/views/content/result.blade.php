@@ -28,37 +28,15 @@
 				title: {{ $act->title }}<br/>
 				content: {{ $act->content }}<br/>
 				@if ( isset($answers[$i]) && $act->id === $answers[$i]->activity_id)
-			    answer: {{ $answers[$i]->detail }}
-					@if ( $act->activity_type_id === "1" )
-						@if( $act->content===str_replace(",","",$answers[$i]->detail) )
-							+1
-							<?php $score++; ?>
-						@endif
-					@elseif ( $act->activity_type_id === "2" )
-						<?php
-							$correctAnswer = DB::table('interactivities')
-																->where('activity_id',$act->id)
-																->where('history_id',$history->id)
-																->where('action','answer_correct')
-																->first();
-						?>
-
-						@if( Helper::deepCompare(json_decode($answers[$i]->detail),json_decode($correctAnswer->detail)) )
-							<br/>answer: {{ $correctAnswer->detail }} --> c_answer<br/>
-							+1
-							<?php $score++; ?>
-						@endif
-					@elseif ( $act->activity_type_id === "5" )
-						@if( $act->extra2===$answers[$i]->detail )
-							+1
-							<?php $score++; ?>
-						@endif
-					@elseif ( $act->activity_type_id === "6" )
-						@if( $act->extra2===$answers[$i]->detail )
-							+1
-							<?php $score++; ?>
-						@endif
+			    answer: {{ $answers[$i]->detail }}<br>
+					is correct?:
+					@if( Helper::isCorrectAnswer($history, $act, $answers[$i]) )
+						+1
+						<?php $score++; ?>
+					@else
+						+0
 					@endif
+					<br>
 				@else
 			    answer: not answer!
 				@endif

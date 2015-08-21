@@ -99,6 +99,16 @@ Route::group(array('prefix' => 'contents'), function() {
 		'uses'=>'ContentController@updateActivityAnimation']);
 });
 
+// monitor
+Route::group(array('prefix' => 'monitor'), function() {
+	Route::get('/mycontent', [
+		'as'=>'mMyContents',
+		'uses'=>'MonitorController@myContent']);
+	Route::get('{id}/monitorDetail', [
+		'as'=>'monitorDetail',
+		'uses'=>'MonitorController@monitorDetail']);
+});
+
 // admin
 Route::group(array('prefix' => 'admin'), function() {
 	Route::get('/home', [
