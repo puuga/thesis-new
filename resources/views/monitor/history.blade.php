@@ -52,29 +52,43 @@
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
-            <th>user / activity.id</th>
-            @foreach ($histories[0]->content->activities as $activity)
-            <th>id / yes-no / time</th>
-            @endforeach
+            <th>user</th>
+            <?php $content_count=count($histories[0]->content->activities);?>
+            @for ($i = 0; $i < $content_count; $i++)
+              <th>id / yes-no / time</th>
+            @endfor
             <th>Total time</th>
           </tr>
         </thead>
         <tbody>
+          <?php $sum_time=0; ?>
           @foreach ($histories as $history)
           <tr>
             <td>{{ $history->user->id }}, {{ $history->user->name }}</td>
+            <?php $time=0; ?>
             @for ($i = 0; $i < count($history->activity_order_arr); $i++)
               <td>
                 {{ $history->activity_order_arr[$i] }}
                 {{ $history->answer_arr[$i] ? "yes" : "no" }}
-                {{ isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : "-1" }}
+                <?php $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0; ?>
+                {{ $timediff }}
+                <?php $time += $timediff; ?>
               </td>
             @endfor
+            <td>
+              <?php $sum_time += $time; ?>
+              {{ $time."s" }}
+            </td>
           </tr>
           @endforeach
         </tbody>
         <tfoot>
-
+          <tr class="success">
+            <td colspan="{{ $content_count+1 }}">Average time</td>
+            <td>
+              {{ $sum_time/count($histories) }}
+            </td>
+          </tr>
         </tfoot>
       </table>
     </p>
