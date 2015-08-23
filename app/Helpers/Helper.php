@@ -48,6 +48,9 @@ class Helper extends Facade {
                         ->where('history_id',$history->id)
                         ->where('action','answer_correct')
                         ->first();
+      if ( is_null($correctAnswer) ) {
+        return false;
+      }
       if ( Helper::deepCompare(json_decode($answer->detail),json_decode($correctAnswer->detail) ) ) {
         return true;
       } else {
