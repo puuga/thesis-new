@@ -40,7 +40,8 @@
 	<div class="row">
 
 		<div class="jumbotron">
-			<div id='calendar_div' style='width: 800; height: {{$year_count[0]->year_count*200}}px'></div>
+			<div id='calendar_div'
+      style='width: 800; height: {{ isset($year_count[0]->year_count)?$year_count[0]->year_count*200:200}}px'></div>
 		</div>
 
     {{-- <p>

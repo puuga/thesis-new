@@ -1,6 +1,7 @@
 <?php namespace App\Helpers;
 
 use Illuminate\Support\Facades\Facade;
+use DB;
 
 class Helper extends Facade {
 
@@ -47,7 +48,7 @@ class Helper extends Facade {
                         ->where('history_id',$history->id)
                         ->where('action','answer_correct')
                         ->first();
-      if ( $this->deepCompare(json_decode($answer->detail),json_decode($correctAnswer->detail) ) ) {
+      if ( Helper::deepCompare(json_decode($answer->detail),json_decode($correctAnswer->detail) ) ) {
         return true;
       } else {
         return false;
