@@ -50,8 +50,8 @@ return [
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'AKIAJNHBZBFTJZQDX4NQ',
-			'secret' => 'a+6wcbFCYJvkNbK6AlE/oLEFmmTvZ73qYTY2p7xv',
+			'key'    => 'AKIAIDKTHH2RHNDJEB2Q',
+			'secret' => '9+jR3hQKWQjMDNkB0N8Wfi+fiHSdjptzAyD+Dq9R',
 			// 'region' => 'your-region',
 			'bucket' => 'thesis-laravel',
 		],
