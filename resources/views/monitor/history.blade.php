@@ -43,9 +43,9 @@
 			<div id='calendar_div' style='width: 800; height: {{$year_count[0]->year_count*200}}px'></div>
 		</div>
 
-    <p>
+    {{-- <p>
       {{ print_r($histories) }}
-    </p>
+    </p> --}}
 
     <h1>Time by user</h1>
     <p>
