@@ -47,14 +47,19 @@
       {{ print_r($histories) }}
     </p>
 
-    <h1>Time</h1>
+    <h1>Time by user</h1>
     <p>
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th>user</th>
-            <?php $content_count=count($histories[0]->content->activities);?>
-            @for ($i = 0; $i < $content_count; $i++)
+            <?php
+              $activity_count=count($histories[0]->content->activities);
+              for ($i=0; $i < $activity_count; $i++) {
+                $activity_id_arr[] = $histories[0]->content->activities[$i]->id;
+              }
+            ?>
+            @for ($i = 0; $i < $activity_count; $i++)
               <th>id / yes-no / time</th>
             @endfor
             <th>Total time</th>
@@ -68,11 +73,26 @@
             <?php $time=0; ?>
             @for ($i = 0; $i < count($history->activity_order_arr); $i++)
               <td>
-                {{ $history->activity_order_arr[$i] }}
-                {{ $history->answer_arr[$i] ? "yes" : "no" }}
-                <?php $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0; ?>
-                {{ $timediff }}
-                <?php $time += $timediff; ?>
+                <?php
+                $key = $history->activity_order_arr[$i];
+                $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0;
+                $answer = !isset($history->answer_arr[$i]) ? "null" : $history->answer_arr[$i] ? "yes" : "no";
+                ?>
+                {{ $key }}
+                {{ $answer }}
+                {{ $timediff."s" }}
+                <?php
+                $time += $timediff;
+                if ( !isset($sum_results[$key]["time"]) ) {
+                  $sum_results[$key]["time"] = 0;
+                }
+                if ( !isset($sum_results[$key]["answer"]) ) {
+                  $sum_results[$key]["answer"] = 0;
+                }
+                $sum_results[$key]["time"] += $timediff;
+                $sum_results[$key]["answer"] += $answer==="yes"?1:0;
+                echo $answer==="yes"?1:0;
+                ?>
               </td>
             @endfor
             <td>
@@ -84,10 +104,20 @@
         </tbody>
         <tfoot>
           <tr class="success">
-            <td colspan="{{ $content_count+1 }}">Average time</td>
+            <td colspan="{{ $activity_count+1 }}">Average time</td>
             <td>
               {{ $sum_time/count($histories) }}
             </td>
+          </tr>
+          <tr class="info">
+            <td>statistic</td>
+            @for ($i = 1; $i <= $activity_count; $i++)
+            <td>
+              {{ $i }}
+              {{ $sum_results[$i]["answer"]/count($histories)."%" }}
+              {{ $sum_results[$i]["time"]/count($histories)."s" }}
+            </td>
+            @endfor
           </tr>
         </tfoot>
       </table>

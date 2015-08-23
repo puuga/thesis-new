@@ -83,11 +83,20 @@ class MonitorController extends Controller {
     ['history_id' => $history->id]);
 
     $timediff_arr = [];
+		if ( count($answers)==0 ) {
+			return $timediff_arr;
+		}
+
     for ( $i=0; $i<count($history->activity_order_arr) ; $i++ ) {
       $act = $history->content->activities[$history->activity_order_arr[$i]-1];
       if ( $act->id === $answers[$i*2]->activity_id ) {
         $starttime = strtotime($answers[$i*2]->action_at);
-        $endtime = strtotime($answers[$i*2+1]->action_at);
+				if ( isset($answers[$i*2+1]) ) {
+					$endtime = strtotime($answers[$i*2+1]->action_at);
+				} else {
+					$endtime = $starttime;
+				}
+
         $timediff_arr[] = $endtime - $starttime;
       }
     }
@@ -103,6 +112,10 @@ class MonitorController extends Controller {
     ['history_id' => $history->id]);
 
     $answer_arr = [];
+		if ( count($answers)==0 ) {
+			return $answer_arr;
+		}
+
     for ( $i=0; $i<count($history->activity_order_arr) ; $i++ ) {
       $act = $history->content->activities[$history->activity_order_arr[$i]-1];
       if ( $act->id === $answers[$i]->activity_id ) {
