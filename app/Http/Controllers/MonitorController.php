@@ -88,7 +88,14 @@ class MonitorController extends Controller {
 		}
 
     for ( $i=0; $i<count($history->activity_order_arr) ; $i++ ) {
+			if ( !isset($history->activity_order_arr[$i]) ) {
+				continue;
+			}
       $act = $history->content->activities[$history->activity_order_arr[$i]-1];
+			if ( !isset($answers[$i*2]) ) {
+				$timediff_arr[] = 0;
+				continue;
+			}
       if ( $act->id === $answers[$i*2]->activity_id ) {
         $starttime = strtotime($answers[$i*2]->action_at);
 				if ( isset($answers[$i*2+1]) ) {
@@ -118,6 +125,10 @@ class MonitorController extends Controller {
 
     for ( $i=0; $i<count($history->activity_order_arr) ; $i++ ) {
       $act = $history->content->activities[$history->activity_order_arr[$i]-1];
+			if ( !isset($answers[$i]) ) {
+				$answer_arr[] = false;
+				continue;
+			}
       if ( $act->id === $answers[$i]->activity_id ) {
         if ( Helper::isCorrectAnswer($history, $act, $answers[$i]) ) {
           $answer_arr[] = true;
