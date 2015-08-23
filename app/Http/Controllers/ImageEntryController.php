@@ -33,7 +33,8 @@ class ImageEntryController extends Controller {
 
 	private function saveImage($file) {
 		$extension = $file->getClientOriginalExtension();
-		Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
+		// Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
+		Storage::disk('s3')->put($file->getFilename().'.'.$extension,  File::get($file));
 		$entry = new ImageEntry();
 		$entry->user_id = Auth::user()->id;
 		$entry->filename = $file->getFilename().'.'.$extension;
@@ -91,14 +92,25 @@ class ImageEntryController extends Controller {
 
 	public function getByFilename($filename) {
 		$entry = ImageEntry::where('filename', '=', $filename)->firstOrFail();
-		$file = Storage::disk('local')->get($entry->filename);
+		$file = $this->getFile($entry);
+
 		return (new Response($file, 200))->header('Content-Type', $entry->mime);
 	}
 
 	public function getById($id) {
 		$entry = ImageEntry::find($id);
-		$file = Storage::disk('local')->get($entry->filename);
+		$file = $this->getFile($entry);
+		
 		return (new Response($file, 200))->header('Content-Type', $entry->mime);
+	}
+
+	function getFile($entry) {
+		if ( Storage::disk('local')->exists($entry->filename) ) {
+			return Storage::disk('local')->get($entry->filename);
+		} elseif (Storage::disk('s3')->exists($entry->filename)) {
+			return Storage::disk('s3')->get($entry->filename);
+		}
+		return Storage::disk('local')->get($entry->filename);
 	}
 
 
