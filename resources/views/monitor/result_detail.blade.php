@@ -49,30 +49,43 @@
 	</div>
 
 	<div class="row">
-		<h1>Interactivitis</h1>
-		<ul>
-		@foreach($history->interactivities as $interactivity)
-			<li>
-				{{ $interactivity->sequence_number }}
-				{{ $interactivity->id }}
-				{{ $interactivity->action_at }}
-				<?php
-				if ( !isset($lTime) ) {
-					$lTime = strtotime($interactivity->action_at);
-					$cTime = $lTime;
-					$dTime = 0;
-				} else {
-					$lTime = $cTime;
-					$cTime = strtotime($interactivity->action_at);
-					$dTime = $cTime - $lTime;
-				}
-				?>
-				+{{ $dTime }}
-				<span class="{{ strpos($interactivity->action, 'start activity')!== false ? "badge" : "" }}">{{ $interactivity->action }}</span>
-				{{ $interactivity->detail }}
-			</li>
-		@endforeach
-		</ul>
+		<h1>Interactivities</h1>
+		<table class="table table-striped table-bordered table-hover">
+		  <thead>
+		  	<tr>
+					<th>sequence number</th>
+					<th>id</th>
+					<th>action at</th>
+					<th>diff</th>
+					<th>action</th>
+					<th>detail</th>
+		  	</tr>
+		  </thead>
+			<tbody>
+				@foreach($history->interactivities as $interactivity)
+				<tr class="{{ strpos($interactivity->action, 'start activity')!== false ? "warning" : "" }}">
+					<td>{{ $interactivity->sequence_number }}</td>
+					<td>{{ $interactivity->id }}</td>
+					<td>{{ $interactivity->action_at }}</td>
+					<?php
+					if ( !isset($lTime) ) {
+						$lTime = strtotime($interactivity->action_at);
+						$cTime = $lTime;
+						$dTime = 0;
+					} else {
+						$lTime = $cTime;
+						$cTime = strtotime($interactivity->action_at);
+						$dTime = $cTime - $lTime;
+					}
+					?>
+					<td>+{{ $dTime }}</td>
+					<td>{{ $interactivity->action }}</td>
+					<td>{{ $interactivity->detail }}</td>
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
+
 	</div>
 
 </div>
