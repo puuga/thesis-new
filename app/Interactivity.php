@@ -19,4 +19,8 @@ class Interactivity extends Model {
 		return $this->belongsTo('App\Activity');
 	}
 
+	public function history() {
+		return $this->belongsTo('App\History');
+	}
+
 }

@@ -141,7 +141,7 @@ class MonitorController extends Controller {
     return $answer_arr;
   }
 
-	public function scoreByHistory($id, $history_id) {
+	public function monitorDetailByHistory($id, $history_id) {
 		$history = History::find($history_id);
 
 		$answers = DB::select("
@@ -150,7 +150,10 @@ class MonitorController extends Controller {
 		where history_id = :history_id and action='answer'",
 		['history_id' => $history_id]);
 
-		return view('monitor.result', ['history'=>$history,'answers'=>$answers]);
+		return view('monitor.result_detail', [
+			'history'=>$history,
+			'answers'=>$answers
+			]);
 	}
 
 }

@@ -17,4 +17,9 @@ class History extends Model {
     return $this->belongsTo('App\Content');
   }
 
+	public function interactivities()
+	{
+		return $this->hasMany('App\Interactivity')->orderBy('sequence_number');
+	}
+
 }
