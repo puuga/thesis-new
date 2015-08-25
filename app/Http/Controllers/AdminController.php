@@ -37,4 +37,12 @@ class AdminController extends Controller {
 		]);
 	}
 
+	public function contentList() {
+		$contents = Content::orderBy('user_id')->get();
+
+		return view('admin.content',[
+			'contents' => $contents
+		]);
+	}
+
 }

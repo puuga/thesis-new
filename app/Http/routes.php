@@ -151,6 +151,13 @@ Route::group(array('prefix' => 'admin'), function() {
 			'uses'=>'CategoryController@createCategory']);
 	});
 
+	// content
+	Route::group(array('prefix' => 'content'), function() {
+		Route::get('/', [
+			'as'=>'contentList',
+			'uses'=>'AdminController@contentList']);
+	});
+
 });
 
 // image

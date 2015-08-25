@@ -101,7 +101,7 @@
             {{ count($published_contents) / count($contents) *100 }} %
 					</p>
 					<p class="text-right">
-						<a href="{{ route('categoryList') }}" class="btn btn-flat btn-primary">Explore</a>
+						<a href="{{ route('contentList') }}" class="btn btn-flat btn-primary">Explore</a>
 					</p>
 		    </div>
 			</div>
