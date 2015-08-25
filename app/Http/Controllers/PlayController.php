@@ -29,6 +29,8 @@ class PlayController extends Controller {
 
 		// 2. random activity order
 		$content = Content::find($id);
+		$content->count = $content->count+1;
+		$content->save();
 		$length = count($content->activities);
 		$randomOrderArray = $this->randomNumberArray($length);
 		$activityIdByOrders = $this->activityIdByOrders($randomOrderArray, $history);

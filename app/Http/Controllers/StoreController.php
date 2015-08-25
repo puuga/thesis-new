@@ -54,8 +54,8 @@ class StoreController extends Controller {
 
 	public function contentById($id) {
 		$content = Content::find($id);
-		$content->count = $content->count+1;
-		$content->save();
+		// $content->count = $content->count+1;
+		// $content->save();
 		return view('store.content', ['content'=>$content]);
 	}
 
