@@ -77,13 +77,23 @@
 						$cTime = strtotime($interactivity->action_at);
 						$dTime = $cTime - $lTime;
 					}
+					if ( !isset($totalTime) ) {
+						$totalTime = 0;
+					}
+					$totalTime += $interactivity->action==="start activity" ? 0 : $dTime;
 					?>
-					<td>+{{ $dTime }}</td>
+					<td>+{{ $interactivity->action==="start activity" ? 0 : $dTime }}s</td>
 					<td>{{ $interactivity->action }}</td>
 					<td>{{ $interactivity->detail }}</td>
 				</tr>
 				@endforeach
 			</tbody>
+			<tfoot>
+				<tr class="info">
+					<td colspan="3">Total</td>
+					<td colspan="3">{{ $totalTime }}s</td>
+				</tr>
+			</tfoot>
 		</table>
 
 	</div>

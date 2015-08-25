@@ -133,7 +133,7 @@
 				activity_order {{ $history->activity_order }}<br/>
 				at {{ $history->created_at }}<br/>
 				by user_id {{ $history->user->id }}, {{ $history->user->name }} <br/>
-				<a href="{{ route('monitorDetailByHistory',[$history->content_id,$history->id]) }}">score</a><br/>
+				<a href="{{ route('monitorDetailByHistory',[$history->content_id,$history->id]) }}">Fine Detail</a><br/>
 			</p>
 		@endforeach
 
