@@ -160,6 +160,7 @@
 		            <li><a href="{{ route('userList') }}">Users</a></li>
 								<li><a href="{{ route('schoolList') }}">Schools</a></li>
 								<li><a href="{{ route('categoryList') }}">Categories</a></li>
+								<li><a href="{{ route('contentList') }}">Contents</a></li>
 		          </ul>
 		        </li>
 
