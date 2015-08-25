@@ -106,7 +106,7 @@ class ImageEntryController extends Controller {
 	}
 
 	function getFile($entry) {
-		$user_id = Auth::user()->id;
+		$user_id = $entry->user_id;
 		if ( Storage::disk('local')->exists($entry->filename) ) {
 			return Storage::disk('local')->get($entry->filename);
 		} elseif (Storage::disk('s3')->exists($entry->filename)) {
