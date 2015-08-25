@@ -483,6 +483,8 @@
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
 									Layout 2
+									<img class="img-responsive img-thumbnail"
+										src="{{ asset('/images/text-2.png') }}" alt="Layout 2" />
 								</label>
 							</div>
 						</div>
