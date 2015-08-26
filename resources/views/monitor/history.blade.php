@@ -53,6 +53,8 @@
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
+            <th>id</th>
+            <th>at</th>
             <th>user</th>
             <?php
               $activity_count=count($histories[0]->content->activities);
@@ -70,6 +72,8 @@
           <?php $sum_time=0; ?>
           @foreach ($histories as $history)
           <tr>
+            <td>{{ $history->id }}</td>
+            <td>{{ $history->created_at }}</td>
             <td>{{ $history->user->id }}, {{ $history->user->name }}</td>
             <?php $time=0; ?>
             @for ($i = 0; $i < count($history->activity_order_arr); $i++)
@@ -105,18 +109,19 @@
         </tbody>
         <tfoot>
           <tr class="success">
-            <td colspan="{{ $activity_count+1 }}">Average time</td>
+            <td colspan="{{ $activity_count+3 }}">Average time</td>
             <td>
               {{ $sum_time/count($histories) }}
             </td>
           </tr>
           <tr class="info">
-            <td>statistic</td>
+            <td colspan="3">statistic</td>
             @for ($i = 1; $i <= $activity_count; $i++)
             <td>
-              {{ $i }}
-              {{ $sum_results[$i]["answer"]/count($histories)."%" }}
-              {{ $sum_results[$i]["time"]/count($histories)."s" }}
+              activity: {{ $i }}<br/>
+              yes: {{ $sum_results[$i]["answer"]/count($histories)."%" }}<br/>
+              no: {{ 1-$sum_results[$i]["answer"]/count($histories)."%" }}<br/>
+              avg time: {{ $sum_results[$i]["time"]/count($histories)."s" }}<br/>
             </td>
             @endfor
           </tr>
