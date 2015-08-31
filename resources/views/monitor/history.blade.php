@@ -94,9 +94,15 @@
                 if ( !isset($sum_results[$key]["answer"]) ) {
                   $sum_results[$key]["answer"] = 0;
                 }
+                if ( !isset($sum_results[$key]["counter"]) ) {
+                  $sum_results[$key]["counter"] = 0;
+                }
                 $sum_results[$key]["time"] += $timediff;
                 $sum_results[$key]["answer"] += $answer==="yes"?1:0;
-                echo $answer==="yes"?1:0;
+                if ($timediff!=0) {
+                  $sum_results[$key]["counter"]++;
+                }
+                // echo $answer==="yes"?1:0;
                 ?>
               </td>
             @endfor
@@ -110,15 +116,18 @@
         <tfoot>
           <tr class="info">
             <td colspan="3">statistic</td>
+            <?php $sum_avg_time = 0; ?>
             @for ($i = 1; $i <= $activity_count; $i++)
             <td>
               activity: {{ $i }}<br/>
-              yes: {{ $sum_results[$i]["answer"]/count($histories)."%" }}<br/>
-              no: {{ 1-$sum_results[$i]["answer"]/count($histories)."%" }}<br/>
-              avg time: {{ $sum_results[$i]["time"]/count($histories)."s" }}<br/>
+              yes: {{ $sum_results[$i]["answer"]/$sum_results[$i]["counter"]."%" }}<br/>
+              no: {{ 1-$sum_results[$i]["answer"]/$sum_results[$i]["counter"]."%" }}<br/>
+              <?php $sum_avg_time_i = $sum_results[$i]["time"]/$sum_results[$i]["counter"]; ?>
+              <?php $sum_avg_time += $sum_avg_time_i; ?>
+              avg time: {{ $sum_avg_time_i."s" }}<br/>
             </td>
             @endfor
-            <td>{{ $sum_time/count($histories) }}s</td>
+            <td>{{ $sum_avg_time }}s</td>
           </tr>
         </tfoot>
       </table>
