@@ -48,7 +48,7 @@
       {{ print_r($histories) }}
     </p> --}}
 
-    <h1>Time by user</h1>
+    <h1>User Analytic ({{ count($histories) }})</h1>
     <p>
       <table class="table table-striped table-bordered table-hover">
         <thead>
@@ -71,7 +71,7 @@
         <tbody>
           <?php $sum_time=0; ?>
           @foreach ($histories as $history)
-          <tr>
+          <tr data-href="{{ route('monitorDetailByHistory',[$history->content_id,$history->id]) }}">
             <td>{{ $history->id }}</td>
             <td>{{ $history->created_at }}</td>
             <td>{{ $history->user->id }}, {{ $history->user->name }}</td>
@@ -108,12 +108,6 @@
           @endforeach
         </tbody>
         <tfoot>
-          <tr class="success">
-            <td colspan="{{ $activity_count+3 }}">Average time</td>
-            <td>
-              {{ $sum_time/count($histories) }}
-            </td>
-          </tr>
           <tr class="info">
             <td colspan="3">statistic</td>
             @for ($i = 1; $i <= $activity_count; $i++)
@@ -124,26 +118,20 @@
               avg time: {{ $sum_results[$i]["time"]/count($histories)."s" }}<br/>
             </td>
             @endfor
+            <td>{{ $sum_time/count($histories) }}s</td>
           </tr>
         </tfoot>
       </table>
     </p>
 
-		<h1>history count: {{ count($histories) }}</h1>
-
-		@foreach ($histories as $history)
-	    <p>
-				id {{ $history->id }}<br/>
-				content_id {{ $history->content->id }}<br/>
-				activity_order {{ $history->activity_order }}<br/>
-				at {{ $history->created_at }}<br/>
-				by user_id {{ $history->user->id }}, {{ $history->user->name }} <br/>
-				<a href="{{ route('monitorDetailByHistory',[$history->content_id,$history->id]) }}">Fine Detail</a><br/>
-			</p>
-		@endforeach
-
 	</div>
 
 </div>
+
+<script type="text/javascript">
+$('tr[data-href]').on("click", function() {
+  document.location = $(this).data('href');
+});
+</script>
 
 @endsection
