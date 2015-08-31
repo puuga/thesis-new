@@ -91,18 +91,24 @@
                 if ( !isset($sum_results[$key]["time"]) ) {
                   $sum_results[$key]["time"] = 0;
                 }
-                if ( !isset($sum_results[$key]["answer"]) ) {
-                  $sum_results[$key]["answer"] = 0;
+                if ( !isset($sum_results[$key]["answer_yes_counter"]) ) {
+                  $sum_results[$key]["answer_yes_counter"] = 0;
+                }
+                if ( !isset($sum_results[$key]["answer_no_counter"]) ) {
+                  $sum_results[$key]["answer_no_counter"] = 0;
                 }
                 if ( !isset($sum_results[$key]["counter"]) ) {
                   $sum_results[$key]["counter"] = 0;
                 }
                 $sum_results[$key]["time"] += $timediff;
-                $sum_results[$key]["answer"] += $answer==="yes"?1:0;
+                if ($answer==="yes" && $timediff!=0) {
+                  $sum_results[$key]["answer_yes_counter"]++;
+                } else if ($answer==="no" && $timediff!=0) {
+                  $sum_results[$key]["answer_no_counter"]++;
+                }
                 if ($timediff!=0) {
                   $sum_results[$key]["counter"]++;
                 }
-                // echo $answer==="yes"?1:0;
                 ?>
               </td>
             @endfor
@@ -120,11 +126,12 @@
             @for ($i = 1; $i <= $activity_count; $i++)
             <td>
               activity: {{ $i }}<br/>
-              yes: {{ $sum_results[$i]["answer"]/$sum_results[$i]["counter"]."%" }}<br/>
-              no: {{ 1-$sum_results[$i]["answer"]/$sum_results[$i]["counter"]."%" }}<br/>
+              complete: {{ $sum_results[$i]["counter"]/count($histories) }}%<br/>
+              yes: {{ $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"] }}%<br/>
+              no: {{ $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"] }}%<br/>
               <?php $sum_avg_time_i = $sum_results[$i]["time"]/$sum_results[$i]["counter"]; ?>
               <?php $sum_avg_time += $sum_avg_time_i; ?>
-              avg time: {{ $sum_avg_time_i."s" }}<br/>
+              avg time: {{ $sum_avg_time_i }}s<br/>
             </td>
             @endfor
             <td>{{ $sum_avg_time }}s</td>
