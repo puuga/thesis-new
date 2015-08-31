@@ -50,10 +50,10 @@ return [
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'AKIAIDKTHH2RHNDJEB2Q',
-			'secret' => '9+jR3hQKWQjMDNkB0N8Wfi+fiHSdjptzAyD+Dq9R',
+			'key'    => env('AWS_KEY', ''),
+			'secret' => env('AWS_SECRET', ''),
 			// 'region' => 'your-region',
-			'bucket' => 'thesis-laravel',
+			'bucket' => env('AWS_BUCKET', ''),
 		],
 
 		'rackspace' => [
