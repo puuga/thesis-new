@@ -117,7 +117,7 @@
 	        </li>
 					@endif
 
-					@if ( !Auth::guest()  )
+					@if ( !Auth::guest() )
 						@if ( Auth::user()->isTeacher() )
 						<li class="dropdown {{ Request::is('contents/*') ? 'active' : '' }}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
