@@ -734,7 +734,7 @@
         $(".pep.qz"+(i+1)).css({"background":"#4CAF50"});
       }
       // $(".pep.qz"+(i+1)).css({"top":$(".droppable.hz"+(i+1)).position().top-120});
-      $(".pep.qz"+(i+1)).css({"top":"20%"});
+      $(".pep.qz"+(i+1)).css({"top":"12%"});
       $(".pep.qz"+(i+1)).css({"left":""+(i*margin+10)+"%"});
       $(".pep.qz"+(i+1)).css({"border":"1"});
       $(".pep.qz"+(i+1)).css({"padding":"10px"});
@@ -766,7 +766,7 @@
     for (i=0; i<content.length; i++) {
 
       // $(".pep.qz"+(i+1)).css({"top":$(".droppable.hz"+(i+1)).position().top-120});
-      $(".pep.qz"+(i+1)).css({"top":"20%"});
+      $(".pep.qz"+(i+1)).css({"top":"12%"});
       $(".pep.qz"+(i+1)).css({"left":""+(i*margin+10)+"%"});
       $(".pep.qz"+(i+1)).css({"border":"1"});
       $(".pep.qz"+(i+1)).css({"padding":"10px"});
@@ -1116,11 +1116,6 @@
 	<div class="row" id="preview" style="height:100%">
 
 		<div class="text-center" style="height:15%">
-			<h1>
-				<span id="pTitle">
-
-				</span>
-			</h1>
 		</div>
 
 		<div
@@ -1135,6 +1130,13 @@
 		</div>
 
 		<div class="col-xs-6" style="height:50%">
+			<div class="text-center" style="height:15%">
+				<h1>
+					<span id="pTitle">
+
+					</span>
+				</h1>
+			</div>
 			<div class="text-center" id="txt-hint">
 				Hint:<br/>
 				<span id="pHint"></span>
