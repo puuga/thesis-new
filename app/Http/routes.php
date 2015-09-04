@@ -162,7 +162,9 @@ Route::group(array('prefix' => 'admin'), function() {
 
 // image
 Route::group(array('prefix' => 'imageentry'), function() {
-	Route::get('all', 'ImageEntryController@allImageBelongToUser');
+	Route::get('all', [
+		'as'=>'get_all_image',
+		'uses'=>'ImageEntryController@allImageBelongToUser']);
 	Route::get('getbyname/{filename}', [
 		'as'=>'getimagebyfilename',
 		'uses'=>'ImageEntryController@getByFilename']);

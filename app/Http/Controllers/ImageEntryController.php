@@ -26,7 +26,8 @@ class ImageEntryController extends Controller {
 	}
 
 	public function allImageBelongToUser() {
-		$images = Auth::user()->imageEntries;
+		// $images = ImageEntry::all();
+		$images = Auth::user()->imageEntries()->orderBy('id','desc')->get();
 
 		// return view('', ['images'=>$images]);
 		return response($images, 200)->header('Content-Type', 'application/json');
