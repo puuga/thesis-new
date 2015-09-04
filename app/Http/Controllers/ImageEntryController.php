@@ -28,7 +28,13 @@ class ImageEntryController extends Controller {
 	public function allImageBelongToUser() {
 		$images = Auth::user()->imageEntries;
 
-		return view('', ['images'=>$images]);
+		// return view('', ['images'=>$images]);
+		return response($images, 200)->header('Content-Type', 'application/json');
+		return response()->json([
+			'result'=>'success',
+			'action'=>'all image',
+			'images'=>$images
+		]);
 	}
 
 	private function saveImage($file) {
@@ -115,6 +121,35 @@ class ImageEntryController extends Controller {
 			return Storage::disk('s3')->get($user_id."/".$entry->filename);
 		}
 		return Storage::disk('local')->get($entry->filename);
+	}
+
+	function deleteEntry($id) {
+		$entry = ImageEntry::find($id);
+		if ( Storage::disk('local')->exists($entry->filename) ) {
+			$size = Storage::disk('local')->size($entry->filename);
+			Storage::disk('local')->delete($entry->filename);
+		}
+		elseif (Storage::disk('s3')->exists($entry->filename)) {
+			$size = Storage::disk('s3')->size($entry->filename);
+			Storage::disk('s3')->delete($entry->filename);
+		}
+		elseif (Storage::disk('s3')->exists($user_id."/".$entry->filename)) {
+			$size = Storage::disk('s3')->size($user_id."/".$entry->filename);
+			Storage::disk('s3')->delete($user_id."/".$entry->filename);
+		}
+
+		$entryid = $entry->id;
+		$filename = $entry->filename;
+
+		$entry->delete();
+
+		return response()->json([
+			'result'=>'success',
+			'action'=>'delete entry',
+			'id'=>$entryid,
+			'filename'=>$filename,
+			'size'=>$size
+		]);
 	}
 
 
