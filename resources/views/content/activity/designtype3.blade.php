@@ -325,6 +325,9 @@
 	}
 
 	function uploadImageToServer() {
+		if ( $("#imagefield").val()==='' ) {
+			return;
+		}
 		$("#btnUploadImage").attr("disabled","disabled");
 		var form = $("#imageUploadForm");
 		var data = new FormData(form[0]);
