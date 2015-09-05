@@ -183,6 +183,9 @@ Route::group(array('prefix' => 'imageentry'), function() {
 	Route::post('addtoactivity',[
 		'as'=>'addimageentrytoctivity',
 		'uses'=>'ImageEntryController@addToActivity']);
+	Route::get('delete/{id}', [
+		'as'=>'delete_image_by_id',
+		'uses'=>'ImageEntryController@deleteEntry']);
 });
 
 // Static pages
