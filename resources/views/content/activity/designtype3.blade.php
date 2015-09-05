@@ -62,23 +62,25 @@
 						name="inText"
 						type="number"
 						min="1"
-						max="8"
+						max="6"
 						placeholder="Text"
 						onkeyup="javascript:updateNumberOfObject()"
 						onchange="javascript:updateNumberOfObject()"
 						value="{{ is_null($activity->content) || $activity->content==="" ? '0' : $activity->content }}">
 					</div>
-					Minimum is 1 and maximum is 8
+					Minimum is 1 and maximum is 6
 				</div>
 
-				@for ($i = 1; $i <= 8; $i++)
+				@for ($i = 1; $i <= 6; $i++)
 				<div class="form-group" id="inObject{{$i}}">
 					<label for="inObject{{$i}}img" class="col-xs-4 control-label">Object {{$i}}</label>
 					<div class="col-xs-8">
-						<input class="form-control" type="file" accept="image/*"
-						name="inObject{{$i}}img" id="inObject{{$i}}img"
-						value=""
-						placeholder="{{$i}}">
+						<button class="btn btn-flat btn-primary" type="button"
+						data-toggle="modal"
+						data-target="#modalSelectImage"
+						data-box-number="{{$i}}">
+							Select Image box {{$i}}
+						</button>
 					</div>
 				</div>
 				@endfor
@@ -240,7 +242,117 @@
 	</div>
 </div>
 
+<div class="modal fade" id="modalSelectImage" tabindex="-1" role="dialog" aria-labelledby="modalSelectImageLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<span aria-hidden="true">&times;</span>
+				</button>
+        <h4 class="modal-title" id="modalSelectImageLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+				<div class="container-fluid">
+
+					<div class="row">
+						<div class="col-md-8 col-md-offset-2">
+							<form class="form-horizontal" id="imageUploadForm" name="imageUploadForm">
+								<fieldset>
+					        <legend>Upload Image</legend>
+									<div class="form-group">
+				            <label for="imagefield" class="col-md-2 control-label">File</label>
+				            <div class="col-md-10">
+											<input type="file" class="form-control" id="imagefield" name="imagefield" accept="image/*" required="required">
+				            </div>
+					        </div>
+									<div class="form-group">
+				            <div class="col-lg-10 col-lg-offset-2">
+			                <button type="button" id="btnUploadImage" class="btn btn-primary" onclick="uploadImageToServer()">Upload</button>
+				            </div>
+					        </div>
+								</fieldset>
+							</form>
+						</div>
+          </div>
+
+					<div class="row" id="img-row">
+          </div>
+				</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Use</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
+
+	$('#modalSelectImage').on('show.bs.modal', function (event) {
+	  var button = $(event.relatedTarget) // Button that triggered the modal
+	  var recipient = button.data('box-number') // Extract info from data-* attributes
+	  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		loadImages();
+
+	  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	  var modal = $(this);
+	  // modal.find('.modal-title').text('Image for box ' + recipient);
+		$("#modalSelectImageLabel").html('Image for box ' + recipient)
+	  // modal.find('.modal-body input').val(recipient);
+	});
+
+	function loadImages() {
+		$.ajax({
+		  method: "GET",
+		  url: "{{ route('get_all_image') }}",
+		})
+	  .done(function( images ) {
+	    console.log(images);
+			var output = "";
+			for (var i = 0; i < images.length; i++) {
+				var image = images[i];
+				output += "<div class='col-md-3'>";
+				output += '<img src="'+image.image_path+'" class="img-responsive img-thumbnail">';
+				output += "</div>";
+			}
+			$("#img-row").html(output);
+	  });
+	}
+
+	function setSelectedImage() {
+
+	}
+
+	function uploadImageToServer() {
+		$("#btnUploadImage").attr("disabled","disabled");
+		var form = $("#imageUploadForm");
+		var data = new FormData(form[0]);
+		$.ajax({
+			url : "{{ route('addWithResponse') }}",
+			method : 'POST',
+			data	: data,
+			processData: false,
+			contentType: false
+		})
+		.done(function( result ) {
+			if ( result.result==='success' ) {
+				$('#imageUploadForm')[0].reset();
+				// console.log(result);
+
+				loadImages();
+				$("#btnUploadImage").removeAttr("disabled");
+			} else if ( result.result==='unsuccess') {
+				alert(result.action);
+				$("#btnUploadImage").removeAttr("disabled");
+			}
+		})
+		.fail(function() {
+			alert( "error" );
+		});
+
+	}
+
 	function updateTitle() {
 		var text = $("#inTitle").val() !== "" ? $("#inTitle").val() : "&lt;&lt; Title &gt;&gt;" ;
 		$("#pTitle").html(text);
@@ -263,11 +375,11 @@
 
 	function updateNumberOfObject() {
 		var number = parseInt($("#inText").val());
-		if ( isNaN(number) || number<1 || number>8) {
+		if ( isNaN(number) || number<1 || number>6) {
 			return;
 		}
 
-		for (var i = 1; i <= 8; i++) {
+		for (var i = 1; i <= 6; i++) {
 			if ( i<=number ) {
 				$('#inObject'+i).show();
 			} else {
@@ -293,8 +405,6 @@
 			holds += "<div id='pMemberHold"+(i+1)+"_4'></div>";
 			holds += "<div id='pMemberHold"+(i+1)+"_5'></div>";
 			holds += "<div id='pMemberHold"+(i+1)+"_6'></div>";
-			holds += "<div id='pMemberHold"+(i+1)+"_7'></div>";
-			holds += "<div id='pMemberHold"+(i+1)+"_8'></div>";
 			holds += "</div>";
 		}
 		$("#pHold").html(holds);
@@ -432,8 +542,6 @@
 			member.child4 = $('#pMemberHold'+(i+1)+'_4').text();
 			member.child5 = $('#pMemberHold'+(i+1)+'_5').text();
 			member.child6 = $('#pMemberHold'+(i+1)+'_6').text();
-			member.child7 = $('#pMemberHold'+(i+1)+'_7').text();
-			member.child8 = $('#pMemberHold'+(i+1)+'_8').text();
 
 			arr.push(member);
 		}
@@ -485,8 +593,6 @@
 			$('#pMemberHold'+(i+1)+'_4').text(phpData[i].child4);
 			$('#pMemberHold'+(i+1)+'_5').text(phpData[i].child5);
 			$('#pMemberHold'+(i+1)+'_6').text(phpData[i].child6);
-			$('#pMemberHold'+(i+1)+'_7').text(phpData[i].child7);
-			$('#pMemberHold'+(i+1)+'_8').text(phpData[i].child8);
 		}
 	}
 
