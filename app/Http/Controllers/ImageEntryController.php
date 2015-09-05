@@ -126,6 +126,7 @@ class ImageEntryController extends Controller {
 
 	function deleteEntry($id) {
 		$entry = ImageEntry::find($id);
+		$user_id = Auth::user()->id;
 		if ( Storage::disk('local')->exists($entry->filename) ) {
 			$size = Storage::disk('local')->size($entry->filename);
 			Storage::disk('local')->delete($entry->filename);
