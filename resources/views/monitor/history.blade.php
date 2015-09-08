@@ -81,7 +81,7 @@
                 <?php
                 $key = $history->activity_order_arr[$i];
                 $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0;
-                $answer = !isset($history->answer_arr[$i]) ? "null" : $history->answer_arr[$i] ? "yes" : "no";
+                $answer = !isset($history->answer_arr[$i]) ? "null" : $history->answer_arr[$i] ? "correct" : "incorrect";
                 ?>
                 {{ $key }}
                 {{ $answer }}
@@ -101,9 +101,9 @@
                   $sum_results[$key]["counter"] = 0;
                 }
                 $sum_results[$key]["time"] += $timediff;
-                if ($answer==="yes" && $timediff!=0) {
+                if ($answer==="correct" && $timediff!=0) {
                   $sum_results[$key]["answer_yes_counter"]++;
-                } else if ($answer==="no" && $timediff!=0) {
+                } else if ($answer==="incorrect" && $timediff!=0) {
                   $sum_results[$key]["answer_no_counter"]++;
                 }
                 if ($timediff!=0) {
@@ -119,22 +119,57 @@
           </tr>
           @endforeach
         </tbody>
+
+      </table>
+    </p>
+
+    <h1>Statistic</h1>
+    <p>
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Activity id</th>
+            <th>Complete (%)</th>
+            <th>Correct Answer (%)</th>
+            <th>Incorrect Answer (%)</th>
+            <th>Average Time (s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            $sum_avg_time = 0;
+
+            $total_complete = 0;
+            $total_correct = 0;
+            $total_incorrect = 0;
+          ?>
+          @for ($i = 1; $i <= $activity_count; $i++)
+          <?php
+            $total_complete += $sum_results[$i]["counter"]/count($histories)*100;
+            $total_correct += $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"]*100;
+            $total_incorrect += $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"]*100;
+          ?>
+          <tr>
+            <td>{{ $i }}</td>
+            <td>
+              {{ $sum_results[$i]["counter"] }} / {{ count($histories) }}
+              = {{ $sum_results[$i]["counter"]/count($histories)*100 }}
+            </td>
+            <td>{{ $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"]*100 }}</td>
+            <td>{{ $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"]*100 }}</td>
+            <?php $sum_avg_time_i = $sum_results[$i]["time"]/$sum_results[$i]["counter"]; ?>
+            <?php $sum_avg_time += $sum_avg_time_i; ?>
+            <td>{{ $sum_avg_time_i }}</td>
+          </tr>
+          @endfor
+        </tbody>
         <tfoot>
           <tr class="info">
-            <td colspan="3">statistic</td>
-            <?php $sum_avg_time = 0; ?>
-            @for ($i = 1; $i <= $activity_count; $i++)
-            <td>
-              activity: {{ $i }}<br/>
-              complete: {{ $sum_results[$i]["counter"]/count($histories) }}%<br/>
-              yes: {{ $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"] }}%<br/>
-              no: {{ $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"] }}%<br/>
-              <?php $sum_avg_time_i = $sum_results[$i]["time"]/$sum_results[$i]["counter"]; ?>
-              <?php $sum_avg_time += $sum_avg_time_i; ?>
-              avg time: {{ $sum_avg_time_i }}s<br/>
-            </td>
-            @endfor
-            <td>{{ $sum_avg_time }}s</td>
+            <td>Total</td>
+            <td>{{ $total_complete/$activity_count }}</td>
+            <td>{{ $total_correct/$activity_count }}</td>
+            <td>{{ $total_incorrect/$activity_count }}</td>
+            <td>{{ $sum_avg_time/$activity_count }}</td>
           </tr>
         </tfoot>
       </table>

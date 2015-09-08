@@ -312,12 +312,18 @@
 			var output = "";
 			for (var i = 0; i < images.length; i++) {
 				var image = images[i];
-				output += "<div class='col-md-3'>";
+				output += "<div class='col-md-3 aaa' id='divImg"+image.id+"' onclick='hilight("+image.id+")'>";
 				output += '<img src="'+image.image_path+'" class="img-responsive img-thumbnail">';
 				output += "</div>";
 			}
 			$("#img-row").html(output);
 	  });
+	}
+
+	function hilight(id) {
+		$(".aaa").removeClass("bg-danger");
+		$("#divImg"+id).addClass("bg-danger");
+		console.log(id);
 	}
 
 	function setSelectedImage() {
