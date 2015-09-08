@@ -18,6 +18,7 @@ Route::get('home', 'StoreController@home');
 
 // Route::get('seedusera', 'UserController@createSeedUserA');
 // Route::get('seeduserb', 'UserController@createSeedUserB');
+Route::get('createsueuser', 'UserController@createSueUser');
 
 // store
 Route::group(array('prefix' => 'store'), function() {
