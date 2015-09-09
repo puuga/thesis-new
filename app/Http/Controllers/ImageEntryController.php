@@ -41,8 +41,14 @@ class ImageEntryController extends Controller {
 	private function saveImage($file) {
 		$extension = $file->getClientOriginalExtension();
 		$user_id = Auth::user()->id;
+		// oldest
 		// Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
-		Storage::disk('s3')->put($user_id."/".$file->getFilename().'.'.$extension,  File::get($file));
+
+		// AWS S3
+		// Storage::disk('s3')->put($user_id."/".$file->getFilename().'.'.$extension,  File::get($file));
+
+		// Local
+		Storage::disk('local')->put($user_id."/".$file->getFilename().'.'.$extension,  File::get($file));
 		$entry = new ImageEntry();
 		$entry->user_id = $user_id;
 		$entry->filename = $file->getFilename().'.'.$extension;
@@ -116,9 +122,11 @@ class ImageEntryController extends Controller {
 		$user_id = $entry->user_id;
 		if ( Storage::disk('local')->exists($entry->filename) ) {
 			return Storage::disk('local')->get($entry->filename);
-		} elseif (Storage::disk('s3')->exists($entry->filename)) {
+		} elseif (Storage::disk('local')->exists($user_id."/".$entry->filename) ) {
+			return Storage::disk('local')->get($user_id."/".$entry->filename);
+		} elseif (Storage::disk('s3')->exists($entry->filename) ) {
 			return Storage::disk('s3')->get($entry->filename);
-		} elseif (Storage::disk('s3')->exists($user_id."/".$entry->filename)) {
+		} elseif (Storage::disk('s3')->exists($user_id."/".$entry->filename) ) {
 			return Storage::disk('s3')->get($user_id."/".$entry->filename);
 		}
 		return Storage::disk('local')->get($entry->filename);
