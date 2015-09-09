@@ -2,6 +2,9 @@
 
 @section('headExtend')
 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+
 	<!-- prefetch images -->
 	@foreach ($history->content->activities as $activity)
 		@if( !is_null($activity->image_placeholder) )
@@ -121,18 +124,21 @@
 		var focusPepText = "";
 		var focusDropText = "";
 
-		function launchIntoFullscreen(element) {
+		function launchIntoFullscreen(doc) {
 			$("#pText").hide();
 			$("#txt-hint").show();
 			$("#pImage").show();
-		  if(element.requestFullscreen) {
-		    element.requestFullscreen();
-		  } else if(element.mozRequestFullScreen) {
-		    element.mozRequestFullScreen();
-		  } else if(element.webkitRequestFullscreen) {
-		    element.webkitRequestFullscreen();
-		  } else if(element.msRequestFullscreen) {
-		    element.msRequestFullscreen();
+
+			var element = doc.documentElement;
+			var requestFullScreen = element.requestFullscreen ||
+				element.mozRequestFullScreen ||
+				element.webkitRequestFullScreen ||
+				element.msRequestFullscreen;
+			if(!doc.fullscreenElement &&
+				!doc.mozFullScreenElement &&
+				!doc.webkitFullscreenElement &&
+				!doc.msFullscreenElement) {
+		    requestFullScreen.call(element);
 		  }
 
 			loadActivities({{ $history->content->id }});
@@ -146,6 +152,22 @@
 		    document.mozCancelFullScreen();
 		  } else if(document.webkitExitFullscreen) {
 		    document.webkitExitFullscreen();
+		  }
+
+			var doc = window.document;
+		  var docEl = doc.documentElement;
+			var cancelFullScreen = doc.exitFullscreen ||
+				doc.mozCancelFullScreen ||
+				doc.webkitExitFullscreen ||
+				doc.msExitFullscreen;
+			if(!doc.fullscreenElement && 
+				!doc.mozFullScreenElement &&
+				!doc.webkitFullscreenElement &&
+				!doc.msFullscreenElement) {
+		    // requestFullScreen.call(docEl);
+		  }
+		  else {
+		    cancelFullScreen.call(doc);
 		  }
 		}
 	</script>
@@ -1122,7 +1144,7 @@
 		class="text-center text-uppercase"
 		id="pText"
 		style="height:15%;">
-			<button onclick="launchIntoFullscreen(document.documentElement);"
+			<button onclick="launchIntoFullscreen(window.document);"
 			id="btn-fullscreen"
 			class="btn btn-primary btn-lg">
 				Play Activity
