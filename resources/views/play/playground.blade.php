@@ -47,11 +47,11 @@
 		@-webkit-keyframes pulse {
 			from {
 				opacity: 0.0;
-				font-size: 100%;
+				font-size: medium;
 			}
 			to {
 				opacity: 1.0;
-				font-size: 2000%;
+				font-size: xx-large;
 			}
 		}
 
@@ -60,33 +60,39 @@
 		}
 
 		.anim1 {
-		  -webkit-animation-name: pulse;
+			animation: pulse 2s ease-in-out 0s 1 normal forwards;
+			-webkit-animation: pulse 2s ease-in-out 0s 1 normal forwards;
+			-webkit-animation-name: pulse;
 		  -webkit-animation-duration: 2s;
 		  -webkit-animation-iteration-count: 1;
 		  -webkit-animation-timing-function: ease-in-out;
 		  /*-webkit-animation-direction: alternate;*/
 			-webkit-animation-direction: normal;
-			-webkit-animation-fill-mode:forwards
+			-webkit-animation-fill-mode:forwards;
 		}
 
 		.anim2 {
+			animation: pulse 2s ease-in-out 0s 1 normal forwards;
+			-webkit-animation: pulse 2s ease-in-out 0s 1 normal forwards;
 		  -webkit-animation-name: pulse;
 		  -webkit-animation-duration: 2s;
 		  -webkit-animation-iteration-count: 1;
 		  -webkit-animation-timing-function: ease-in-out;
 		  /*-webkit-animation-direction: alternate;*/
 			-webkit-animation-direction: normal;
-			-webkit-animation-fill-mode:forwards
+			-webkit-animation-fill-mode:forwards;
 		}
 
 		.anim3 {
+			animation: pulse 2s ease-in-out 0s 1 normal forwards;
+			-webkit-animation: pulse 2s ease-in-out 0s 1 normal forwards;
 		  -webkit-animation-name: pulse;
 		  -webkit-animation-duration: 2s;
 		  -webkit-animation-iteration-count: 1;
 		  -webkit-animation-timing-function: ease-in-out;
 		  /*-webkit-animation-direction: alternate;*/
 			-webkit-animation-direction: normal;
-			-webkit-animation-fill-mode:forwards
+			-webkit-animation-fill-mode:forwards;
 		}
 
 		.image-option-preview {
@@ -125,28 +131,57 @@
 			$("#pText").hide();
 			$("#txt-hint").show();
 			$("#pImage").show();
-		  if(element.requestFullscreen) {
-		    element.requestFullscreen();
-		  } else if(element.mozRequestFullScreen) {
-		    element.mozRequestFullScreen();
-		  } else if(element.webkitRequestFullscreen) {
-		    element.webkitRequestFullscreen();
-		  } else if(element.msRequestFullscreen) {
-		    element.msRequestFullscreen();
-		  }
+
+			var doc = window.document;
+		  var docEl = doc.documentElement;
+
+			var requestFullScreen = docEl.requestFullscreen
+				|| docEl.mozRequestFullScreen
+				|| docEl.webkitRequestFullScreen
+				|| docEl.msRequestFullscreen;
+
+			if (requestFullScreen != undefined) {
+				requestFullScreen.call(docEl);
+			}
+
+		  // if(element.requestFullscreen) {
+		  //   element.requestFullscreen();
+			// 	console.log("normal fullscreen");
+		  // } else if(element.mozRequestFullScreen) {
+		  //   element.mozRequestFullScreen();
+			// 	console.log("moz fullscreen");
+		  // } else if(element.webkitRequestFullscreen) {
+		  //   element.webkitRequestFullscreen();
+			// 	console.log("webkit fullscreen");
+		  // } else if(element.msRequestFullscreen) {
+		  //   element.msRequestFullscreen();
+			// 	console.log("ms fullscreen");
+		  // }
 
 			loadActivities({{ $history->content->id }});
 		}
 
-		// Whack fullscreen
+		// exit fullscreen
 		function exitFullscreen() {
-		  if(document.exitFullscreen) {
-		    document.exitFullscreen();
-		  } else if(document.mozCancelFullScreen) {
-		    document.mozCancelFullScreen();
-		  } else if(document.webkitExitFullscreen) {
-		    document.webkitExitFullscreen();
-		  }
+			var doc = window.document;
+		  var docEl = doc.documentElement;
+
+			var cancelFullScreen = doc.exitFullscreen
+				|| doc.mozCancelFullScreen
+				|| doc.webkitExitFullscreen
+				|| doc.msExitFullscreen;
+
+			if (cancelFullScreen != undefined) {
+				cancelFullScreen.call(doc);
+			}
+
+		  // if(document.exitFullscreen) {
+		  //   document.exitFullscreen();
+		  // } else if(document.mozCancelFullScreen) {
+		  //   document.mozCancelFullScreen();
+		  // } else if(document.webkitExitFullscreen) {
+		  //   document.webkitExitFullscreen();
+		  // }
 		}
 	</script>
 @endsection
@@ -1111,7 +1146,7 @@
 
 </script>
 
-<div class="container" style="height:100%">
+<div class="container" style="height:100%; background-color:white;">
 
 	<div class="row" id="preview" style="height:100%">
 
@@ -1122,7 +1157,7 @@
 		class="text-center text-uppercase"
 		id="pText"
 		style="height:15%;">
-			<button onclick="launchIntoFullscreen(document.documentElement);"
+			<button onclick="launchIntoFullscreen();"
 			id="btn-fullscreen"
 			class="btn btn-primary btn-lg">
 				Play Activity
@@ -1143,7 +1178,7 @@
 			</div>
 		</div>
 
-		<div class="col-xs-6 text-center" style="height:50%">
+		<div class="col-xs-6 text-center" style="height:50%;">
 			<img
 			class="image-preview img-thumbnail"
 			id="pImage"
