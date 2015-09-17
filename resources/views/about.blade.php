@@ -4,12 +4,7 @@
 <div class="container">
 
 	<h1>
-		About<br/>
-		<small>
-			This web-application is part of
-			"A Platform-Independent Framework for Authoring and Monitoring Contents on Tablets"
-			research.
-		</small>
+			A Platform-Independent Framework for Authoring and Monitoring Contents on Tablets
 	</h1>
 
 	<div class="panel panel-info">
@@ -25,7 +20,8 @@
 	    </p>
 	  </div>
 		<div class="panel-footer">
-			Keywords— tablets; interactive content; authoring and monitoring tool; students’ learning interactivity
+			Keywords— tablets; interactive content; authoring and monitoring tool; students’ learning interactivity<br/>
+			At Miticon2015
 		</div>
 	</div>
 
