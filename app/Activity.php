@@ -29,15 +29,17 @@ class Activity extends Model {
 	}
 
 	public function getContentArrAttribute() {
-		if ($this->attributes['activity_type_id'] === "2") {
+		if ($this->attributes['activity_type_id'] === "2"
+			|| $this->attributes['activity_type_id'] === "6") {
 			return "";
 		}
-		
+
 		return str_split($this->content);
 	}
 
 	private function genShuffleContent() {
-		if ($this->attributes['activity_type_id'] === "2") {
+		if ($this->attributes['activity_type_id'] === "2"
+			|| $this->attributes['activity_type_id'] === "6") {
 			return "";
 		}
 
