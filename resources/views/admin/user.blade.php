@@ -14,6 +14,7 @@
 					<th>ID</th>
 					<th>Firstname</th>
 					<th>Lastname</th>
+					<th>Email</th>
 					<th>School</th>
 					<th>Type [ Teacher || Student ]</th>
 					<th>Admin [ Yes || No ]</th>
@@ -25,6 +26,7 @@
 					<td>{{ $user->id }}</td>
 					<td>{{ $user->firstname }}</td>
 					<td>{{ $user->lastname }}</td>
+					<td>{{ $user->email }}</td>
 					<td>{{ $user->school->name }}</td>
 					<td>
 						<a class="btn btn-default btn-sm" href="javascript:switchPermission({{ $user->id }})" role="button">
