@@ -65,6 +65,7 @@
             @for ($i = 0; $i < $activity_count; $i++)
               <th>id / yes-no / time</th>
             @endfor
+            <th>Score</th>
             <th>Total time</th>
           </tr>
         </thead>
@@ -75,16 +76,27 @@
             <td>{{ $history->id }}</td>
             <td>{{ $history->created_at }}</td>
             <td>{{ $history->user->id }}, {{ $history->user->name }}</td>
-            <?php $time=0; ?>
+            <?php
+              $time=0;
+              $score = 0;
+            ?>
             @for ($i = 0; $i < count($history->activity_order_arr); $i++)
               <td>
                 <?php
                 $key = $history->activity_order_arr[$i];
                 $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0;
-                $answer = !isset($history->answer_arr[$i]) ? "null" : $history->answer_arr[$i] ? "correct" : "incorrect";
+                $answer = "";
+                if ($timediff==0) {
+                  $answer = "null";
+                } elseif (isset($history->answer_arr[$i])) {
+                  $answer = "correct";
+                  $score++;
+                } else {
+                  $answer = "incorrect";
+                }
                 ?>
-                {{ $key }}
-                {{ $answer }}
+                {{ $key }}<br/>
+                {{ $answer }}<br/>
                 {{ $timediff."s" }}
                 <?php
                 $time += $timediff;
@@ -112,6 +124,7 @@
                 ?>
               </td>
             @endfor
+            <td>{{ $score }}</td>
             <td>
               <?php $sum_time += $time; ?>
               {{ $time."s" }}
