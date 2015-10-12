@@ -144,20 +144,6 @@
 				requestFullScreen.call(docEl);
 			}
 
-		  // if(element.requestFullscreen) {
-		  //   element.requestFullscreen();
-			// 	console.log("normal fullscreen");
-		  // } else if(element.mozRequestFullScreen) {
-		  //   element.mozRequestFullScreen();
-			// 	console.log("moz fullscreen");
-		  // } else if(element.webkitRequestFullscreen) {
-		  //   element.webkitRequestFullscreen();
-			// 	console.log("webkit fullscreen");
-		  // } else if(element.msRequestFullscreen) {
-		  //   element.msRequestFullscreen();
-			// 	console.log("ms fullscreen");
-		  // }
-
 			loadActivities({{ $history->content->id }});
 		}
 
@@ -174,14 +160,6 @@
 			if (cancelFullScreen != undefined) {
 				cancelFullScreen.call(doc);
 			}
-
-		  // if(document.exitFullscreen) {
-		  //   document.exitFullscreen();
-		  // } else if(document.mozCancelFullScreen) {
-		  //   document.mozCancelFullScreen();
-		  // } else if(document.webkitExitFullscreen) {
-		  //   document.webkitExitFullscreen();
-		  // }
 		}
 	</script>
 @endsection
@@ -528,8 +506,12 @@
 		$('#pHint').html(activity.placeholder);
 		if ( activity.image_placeholder!=null ) {
 			$('#pImage').attr('src', activity.image_path);
+			$('#main_image').show();
+			$('#main_content').removeClass('col-xs-12').addClass('col-xs-6');
 		} else {
 			$('#pImage').attr('src', "");
+			$('#main_image').hide();
+			$('#main_content').removeClass('col-xs-6').addClass('col-xs-12');
 		}
 
 		if (activity.content !== null) {
@@ -542,11 +524,15 @@
 	function renderActivityType2(activity) {
 		$('#pTitle').html(activity.title);
 		// $('#pText').html(activity.shuffled_content);
-		// $('#pHint').html(activity.placeholder);
+		$('#pHint').html("");
 		if ( activity.image_placeholder!=null ) {
 			$('#pImage').attr('src', activity.image_path);
+			$('#main_image').show();
+			$('#main_content').removeClass('col-xs-12').addClass('col-xs-6');
 		} else {
 			$('#pImage').attr('src', "");
+			$('#main_image').hide();
+			$('#main_content').removeClass('col-xs-6').addClass('col-xs-12');
 		}
 
 		if (activity.content !== null) {
@@ -558,11 +544,15 @@
 
 	function renderActivityType5(activity) {
 		$('#pTitle').html(activity.title);
-		$('#pText').html(activity.content);
+		// $('#pHint').html(activity.content);
 		if ( activity.image_placeholder!=null ) {
 			$('#pImage').attr('src', activity.image_path);
+			$('#main_image').show();
+			$('#main_content').removeClass('col-xs-12').addClass('col-xs-6');
 		} else {
 			$('#pImage').attr('src', "");
+			$('#main_image').hide();
+			$('#main_content').removeClass('col-xs-6').addClass('col-xs-12');
 		}
 
 		if (activity.extra1 !== null) {
@@ -573,11 +563,15 @@
 
 	function renderActivityType6(activity) {
 		$('#pTitle').html(activity.title);
-		$('#pText').html(activity.content);
+		// $('#pHint').html(activity.content);
 		if ( activity.image_placeholder!=null ) {
 			$('#pImage').attr('src', activity.image_path);
+			$('#main_image').show();
+			$('#main_content').removeClass('col-xs-12').addClass('col-xs-6');
 		} else {
 			$('#pImage').attr('src', "");
+			$('#main_image').hide();
+			$('#main_content').removeClass('col-xs-6').addClass('col-xs-12');
 		}
 
 		if (activity.extra1 !== null) {
@@ -652,7 +646,7 @@
 		//<a href="javascript:void(0)" class="btn btn-flat btn-primary">Primary</a>
 		var options = activity.extra1.split(",");
 		var answerOptions = activity.extra2.split(",");
-		var output = "";
+		var output = "<h2>"+activity.content+"</h2>";
 
 		// set default answer
 		currentHoldObj = defaultAnswerForOprions(activity);
@@ -682,7 +676,7 @@
 		//<a href="javascript:void(0)" class="btn btn-flat btn-primary">Primary</a>
 		var options = activity.extra1.split(",");
 		var answerOptions = activity.extra2.split(",");
-		var output = "";
+		var output = "<h2>"+activity.content+"</h2>";
 
 		// set default answer
 		currentHoldObj = defaultAnswerForOprions(activity);
@@ -865,6 +859,12 @@
 				focusPepText = $b[0].innerText;
 				if (result) {
 					focusDropText = $a[0].innerText;
+					console.log(focusDropText);
+					// if ( currentActivity.activity_type_id === "2" && isPepInDropable ) {
+					// 	// track
+				  //   track("on", focusDropText);
+					// 	updateHoldObjType2("on", focusPepText, focusDropText)
+					// }
 				}
 
 				// console.log($a);
@@ -970,8 +970,17 @@
 
 		if ( currentActivity.activity_type_id === "2" && isPepInDropable ) {
 			// track
-	    track("on", focusDropText);
-			updateHoldObjType2("on", focusPepText, focusDropText)
+	    // track("on", focusDropText);
+			// updateHoldObjType2("on", focusPepText, focusDropText);
+
+			var focusPepTextTemp = focusPepText;
+
+			function delayTrack() {
+				track("on", focusDropText);
+				updateHoldObjType2("on", focusPepTextTemp, focusDropText);
+	    }
+
+			setTimeout(delayTrack, 500);
 		}
   }
 
@@ -1164,21 +1173,20 @@
 			</button>
 		</div>
 
-		<div class="col-xs-6" style="height:50%">
+		<div class="col-xs-6" id="main_content" style="height:50%">
 			<div class="text-center" style="height:15%">
-				<h1>
+				<h2>
 					<span id="pTitle">
 
 					</span>
-				</h1>
+				</h2>
 			</div>
 			<div class="text-center" id="txt-hint">
-				Hint:<br/>
 				<span id="pHint"></span>
 			</div>
 		</div>
 
-		<div class="col-xs-6 text-center" style="height:50%;">
+		<div class="col-xs-6 text-center" id="main_image" style="height:50%;">
 			<img
 			class="image-preview img-thumbnail"
 			id="pImage"

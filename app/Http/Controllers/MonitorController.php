@@ -67,6 +67,8 @@ class MonitorController extends Controller {
       $histories[$i]->timediff_arr = $this->getTime($histories[$i]);
     }
 
+		// dd($histories);
+
 		return view('monitor.history', [
 			'histories'=>$histories,
 			'frequencies'=>$frequencies,
@@ -132,11 +134,15 @@ class MonitorController extends Controller {
       if ( $act->id === $answers[$i]->activity_id ) {
         if ( Helper::isCorrectAnswer($history, $act, $answers[$i]) ) {
           $answer_arr[] = true;
+					continue;
         } else {
           $answer_arr[] = false;
+					continue;
         }
       }
     }
+
+		// dd($answer_arr);
 
     return $answer_arr;
   }

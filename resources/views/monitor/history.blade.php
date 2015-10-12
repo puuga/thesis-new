@@ -88,7 +88,7 @@
                 $answer = "";
                 if ($timediff==0) {
                   $answer = "null";
-                } elseif (isset($history->answer_arr[$i])) {
+                } elseif (isset($history->answer_arr[$i]) && $history->answer_arr[$i]==true) {
                   $answer = "correct";
                   $score++;
                 } else {
@@ -158,9 +158,9 @@
           ?>
           @for ($i = 1; $i <= $activity_count; $i++)
           <?php
-            $total_complete += $sum_results[$i]["counter"]/count($histories)*100;
-            $total_correct += $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"]*100;
-            $total_incorrect += $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"]*100;
+            $total_complete += count($histories)!=0 ? $sum_results[$i]["counter"]/count($histories)*100 : 0;
+            $total_correct += $sum_results[$i]["counter"]!=0 ? $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"]*100 : 0;
+            $total_incorrect += $sum_results[$i]["counter"]!=0 ? $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"]*100 : 0;
           ?>
           <tr>
             <td>{{ $i }}</td>
@@ -168,9 +168,9 @@
               {{ $sum_results[$i]["counter"] }} / {{ count($histories) }}
               = {{ $sum_results[$i]["counter"]/count($histories)*100 }}
             </td>
-            <td>{{ $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"]*100 }}</td>
-            <td>{{ $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"]*100 }}</td>
-            <?php $sum_avg_time_i = $sum_results[$i]["time"]/$sum_results[$i]["counter"]; ?>
+            <td>{{ $sum_results[$i]["counter"]!=0 ? $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"]*100 : 0}}</td>
+            <td>{{ $sum_results[$i]["counter"]!=0 ? $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"]*100 : 0}}</td>
+            <?php $sum_avg_time_i = $sum_results[$i]["counter"]!=0 ? $sum_results[$i]["time"]/$sum_results[$i]["counter"] : 0; ?>
             <?php $sum_avg_time += $sum_avg_time_i; ?>
             <td>{{ $sum_avg_time_i }}</td>
           </tr>

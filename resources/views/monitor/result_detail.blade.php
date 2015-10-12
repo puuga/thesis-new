@@ -28,7 +28,8 @@
 				title: {{ $act->title }}<br/>
 				content: {{ $act->content }}<br/>
 				@if ( isset($answers[$i]) && $act->id === $answers[$i]->activity_id)
-			    answer: {{ $answers[$i]->detail }}<br>
+					canswer: {{ $act->extra2 }}<br>
+			    uanswer: {{ $answers[$i]->detail }}<br>
 					is correct?:
 					@if( Helper::isCorrectAnswer($history, $act, $answers[$i]) )
 						+1
