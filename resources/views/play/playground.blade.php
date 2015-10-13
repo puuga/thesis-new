@@ -856,10 +856,11 @@
 		              rect2.bottom  < rect1.bottom  );
 
 				isPepInDropable = result | isPepInDropable;
-				focusPepText = $b[0].innerText;
+				// isPepInDropable = result;
+				// focusPepText = $b[0].innerText;
 				if (result) {
 					focusDropText = $a[0].innerText;
-					console.log(focusDropText);
+					// console.log(focusDropText);
 					// if ( currentActivity.activity_type_id === "2" && isPepInDropable ) {
 					// 	// track
 				  //   track("on", focusDropText);
@@ -975,12 +976,15 @@
 
 			var focusPepTextTemp = focusPepText;
 
-			function delayTrack() {
-				track("on", focusDropText);
-				updateHoldObjType2("on", focusPepTextTemp, focusDropText);
-	    }
+			track("on", focusDropText);
+			updateHoldObjType2("on", focusPepTextTemp, focusDropText);
 
-			setTimeout(delayTrack, 500);
+			// function delayTrack() {
+			// 	track("on", focusDropText);
+			// 	updateHoldObjType2("on", focusPepTextTemp, focusDropText);
+	    // }
+
+			// setTimeout(delayTrack, 500);
 		}
   }
 
