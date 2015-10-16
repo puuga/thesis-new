@@ -103,7 +103,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('/css/main.css') }}">
 
-	<script src="{{ asset('/js/jquery.pep2.js') }}"></script>
+	<script src="{{ asset('/js/jquery.pep3.js') }}"></script>
 	<script src="{{ asset('/js/extend.array.js') }}"></script>
 	<script src="{{ asset('/js/extend.compare.js') }}"></script>
 
