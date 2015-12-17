@@ -108,6 +108,9 @@ Route::group(array('prefix' => 'monitor'), function() {
 	Route::get('{id}/monitorDetail', [
 		'as'=>'monitorDetail',
 		'uses'=>'MonitorController@monitorDetail']);
+	Route::get('{id}/monitorCSV', [
+		'as'=>'monitorCSV',
+		'uses'=>'MonitorController@monitorCSV']);
 	Route::get('{id}/monitorDetail/{history_id}', [
 		'as'=>'monitorDetailByHistory',
 		'uses'=>'MonitorController@monitorDetailByHistory']);

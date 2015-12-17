@@ -70,6 +70,53 @@ class MonitorController extends Controller {
 		// dd($histories);
 
 		return view('monitor.history', [
+			'content_id'=>$id,
+			'histories'=>$histories,
+			'frequencies'=>$frequencies,
+			'year_count'=>$year_count
+		]);
+	}
+
+	public function monitorCSV($id) {
+		$histories = Content::find($id)->histories()->orderBy('created_at', 'desc')->get();
+
+		$frequencies = DB::select('SELECT
+			    YEAR(created_at) year_ac,
+			    MONTH(created_at) month_ac,
+			    DAY(created_at) day_ac,
+			    COUNT(id) count
+			FROM
+			    histories
+			WHERE
+			    content_id = ?
+			GROUP BY DATE(created_at)',[$id]
+		);
+
+		$year_count = DB::select('SELECT
+			    count(distinct YEAR(created_at)) year_count
+			FROM
+			    histories
+			WHERE
+			    content_id = ?
+			GROUP BY YEAR(created_at)',[$id]
+		);
+
+    for ($i=0; $i < count($histories); $i++) {
+      // activity array
+      $activity_arr = explode(",",$histories[$i]->activity_order);
+      $histories[$i]->activity_order_arr = $activity_arr;
+
+      // ans for each activity
+      $histories[$i]->answer_arr = $this->getAnswer($histories[$i]);
+
+      // todo: total time for each activity
+      $histories[$i]->timediff_arr = $this->getTime($histories[$i]);
+    }
+
+		// dd($histories);
+
+		return view('monitor.csv', [
+			'content'=>$content = Content::find($id),
 			'histories'=>$histories,
 			'frequencies'=>$frequencies,
 			'year_count'=>$year_count

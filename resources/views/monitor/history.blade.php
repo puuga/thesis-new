@@ -50,6 +50,11 @@
 
     <h1>User Analytic ({{ count($histories) }})</h1>
     <p>
+      <a href="{{ route('monitorCSV',[$content_id]) }}">
+        CSV
+      </a>
+    </p>
+    <p>
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
@@ -182,7 +187,8 @@
             <td>{{ $total_complete/$activity_count }}</td>
             <td>{{ $total_correct/$activity_count }}</td>
             <td>{{ $total_incorrect/$activity_count }}</td>
-            <td>{{ $sum_avg_time/$activity_count }}</td>
+            {{-- <td>{{ $sum_avg_time/$activity_count }}</td> --}}
+            <td>-</td>
           </tr>
         </tfoot>
       </table>
