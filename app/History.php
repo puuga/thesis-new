@@ -22,4 +22,12 @@ class History extends Model {
 		return $this->hasMany('App\Interactivity')->orderBy('sequence_number');
 	}
 
+	public function interactivities_count()
+	{
+		return $this->hasMany('App\Interactivity')
+			->where('action', '=', 'choose')
+			->orWhere('action', '=', 'click')
+			->orderBy('sequence_number');
+	}
+
 }

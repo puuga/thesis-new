@@ -94,6 +94,16 @@
 								$arr["answer_".$key] = $answer;
 								$arr["timediff_".$key] = $timediff;
 
+								$interactivity_count = DB::table('interactivities')
+									->where('history_id', '=', $history->id)
+									->where('activity_id', '=', $activity_id_arr[$i])
+									->where(function($q){
+										$q->where('action', '=', 'choose')
+										->orWhere('action', '=', 'click');
+									})
+									->get();
+								$arr["interactivity_count".$key] = count($interactivity_count);
+
                 $time += $timediff;
                 if ( !isset($sum_results[$key]["time"]) ) {
                   $sum_results[$key]["time"] = 0;
@@ -164,6 +174,58 @@
 			@endforeach
 		</p>
 
+	</div>
+
+	<div class="row">
+		<h1>CSV ({{ count($histories) }}) with inter-activity count</h1>
+		<p>
+			@RELATION content{{ $content->id }}
+		</p>
+    <p>
+			@attribute history_id NUMERIC<br/>
+			@attribute user_id NUMERIC<br/>
+			@attribute user_name STRING<br/>
+
+			@for ($i = 0; $i < count($content->activities); $i++)
+				@attribute activity_answer_{{ $i+1 }} {0,1}<br/>
+				@attribute activity_time_{{ $i+1 }} NUMERIC<br/>
+				@attribute interactivity_count_{{ $i+1 }} NUMERIC<br/>
+
+			@endfor
+
+      @attribute score NUMERIC<br/>
+      @attribute total_time NUMERIC<br/>
+    </p>
+		<p>
+			@data
+		</p>
+		<p>
+			@foreach($new_results as $new_result)
+				@for($i=1; $i <= count($content->activities); $i++)
+					@if($new_result["answer_".$i]=="null")
+						<?php
+						$conti=true;
+						break;
+						?>
+					@endif
+					<?php $conti=false ?>
+				@endfor
+				@if($conti==true)
+					<?php continue;?>
+				@endif
+
+				{{ $new_result["history_id"] }},
+				{{ $new_result["user_id"] }},
+				{{ str_replace(" ", "_", $new_result["user_name"]) }},
+				@for($i=1; $i <= count($content->activities); $i++)
+					{{ $new_result["answer_".$i]=="correct" ? 1 : 0 }},
+					{{ $new_result["timediff_".$i] }},
+					{{ $new_result["interactivity_count".$i] }},
+				@endfor
+				{{ $new_result["score"] }},
+				{{ $new_result["time"] }}<br/>
+			@endforeach
+		</p>
 	</div>
 
 </div>
