@@ -32,7 +32,10 @@
 					</td>
 					<td>{{ $content->is_inprogress==="1"?"inprogress":"done" }}</td>
 					<td>{{ $content->is_public==="1"?"Yes":"No" }}</td>
-					<td>{{ $content->count }}</td>
+					<td>
+						{{ $content->count }}
+						<a href="{{ route('monitorCSV',[$content->id]) }}">CSV</a>
+					</td>
 					</td>
 				</tr>
 				@endforeach
