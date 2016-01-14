@@ -176,6 +176,29 @@
   documentWidth = $(document).width();
 
 	console.log("activityIds: "+activityIds.toString());
+
+	var startData = {
+		content_id: {{ $history->content->id }},
+		activityIds : "activityIds.toString()",
+		action : "start_content"
+		userName : "{{ Auth::user()->name }}",
+		userId : "{{ Auth::user()->id }}"
+	};
+	$.ajax({
+		url: "http://{{ Request::server("SERVER_NAME") }}:8081/monitor",
+		// jsonp: "callback",
+		dataType: "jsonp",
+		data: startData
+	})
+	.done(function( msg ) {
+		console.log( "Data Saved: " + msg.toString() );
+		console.log( msg );
+	})
+	.fail(function( msg ) {
+		console.log( "error: " + msg.toString() );
+		console.log( msg );
+	});
+
 	// loadActivities({{ $history->content->id }});
 @endsection
 

@@ -143,7 +143,7 @@
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Real time</a></li>
+								<li><a href="{{ route('mMyContents') }}">Real time</a></li>
 								<li class="divider"></li>
 								<li><a href="{{ route('mMyContents') }}">By History</a></li>
 							</ul>

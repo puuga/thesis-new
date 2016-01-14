@@ -16,8 +16,9 @@ app.get('/', function(req, res) {
 });
 
 app.get('/monitor', function(req, res) {
-  io.emit('monitor_message', req.query);
-  res.send({"message":"ok"});
+  io.emit('monitor_message_content_id_'+req.query.content_id, req.query);
+  var returnData = {message:"ok"};
+  res.send(returnData);
 });
 
 io.on('connection', function(socket){

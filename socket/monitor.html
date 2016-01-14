@@ -1,34 +1,88 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      #userName { border: 0; padding: 10px; width: 15%; margin-right: .5%; }
-      #m { border: 0; padding: 10px; width: 70%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+    <title>Realtime Monitoring Tool</title>
+
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+    <script type="text/javascript">
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    </script>
+
+    <style media="screen">
+      .panel-body {
+        max-height: 300px;
+        overflow: scroll;
+      }
+    </style>
 
   </head>
   <body>
-    <ul id="messages"></ul>
+    <div class="container">
+      <h1>Realtime Monitoring Tool</h1>
+
+      <div class="row" id="row">
+      </div>
+
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <!-- <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script> -->
     <script>
       var socket = io();
 
-      socket.on('monitor_message', function(msg){
+      var socketName = "monitor_message_content_id_"+getParameterByName('content_id');
+
+      var allData = new Object();
+
+      socket.on(socketName, function(msg){
         console.log(msg);
-        $('#messages').prepend($('<li>').text(msg.userName + ": "+msg.action+ ": "+msg.detail));
+        if ( typeof allData["student"+msg.userId] === 'undefined') {
+          allData["student"+msg.userId] = [];
+          allData["student"+msg.userId].push(msg);
+
+          var box = fBox("messages_student_"+msg.userId, msg);
+          $('#row').append(box);
+        }
+        $('#messages_student_'+msg.userId).prepend($('<li>').text(msg.action+ ": "+msg.detail));
+
+        console.log(allData);
       });
+      console.log('Listen to: ' + socketName);
+
+      function fBox(id, msg) {
+        var box = "<div class=\"col-md-6\">";
+        box += "<div class=\"panel panel-default\">";
+        box += "<div class=\"panel-heading\">";
+        box += "<h3 class=\"panel-title\">"+msg.userName+"</h3>";
+        box += "</div>";
+        box += "<div class=\"panel-body\">";
+        box += "<ul id=\""+id+"\"></ul>"
+        box += "</div>";
+        box += "</div>";
+        box += "</div>";
+
+        return box;
+      }
+
+
     </script>
   </body>
 </html>

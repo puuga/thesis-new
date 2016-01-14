@@ -61,6 +61,12 @@
 					<div class="text-right">
 						<a role="button"
 						class="btn btn-flat btn-info"
+						href="http://{{ Request::server("SERVER_NAME") }}:8081?content_id={{ $content->id }}">
+							<span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
+							Real-Time
+						</a>
+						<a role="button"
+						class="btn btn-flat btn-info"
 						href="{{ route('monitorDetail',[$content->id]) }}">
 							<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
 							detail

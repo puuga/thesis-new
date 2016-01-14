@@ -114,6 +114,9 @@ Route::group(array('prefix' => 'monitor'), function() {
 	Route::get('{id}/monitorDetail/{history_id}', [
 		'as'=>'monitorDetailByHistory',
 		'uses'=>'MonitorController@monitorDetailByHistory']);
+	Route::get('dummy', [
+		'as'=>'monitorDummy',
+		'uses'=>'MonitorController@monitorDummy']);
 });
 
 // admin

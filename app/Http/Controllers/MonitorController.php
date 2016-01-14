@@ -209,4 +209,8 @@ class MonitorController extends Controller {
 			]);
 	}
 
+	public function monitorDummy() {
+		return view('monitor.dummy');
+	}
+
 }
