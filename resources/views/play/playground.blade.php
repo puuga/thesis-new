@@ -107,6 +107,12 @@
 	<script src="{{ asset('/js/extend.array.js') }}"></script>
 	<script src="{{ asset('/js/extend.compare.js') }}"></script>
 
+	{{-- socket.io --}}
+	{{-- <script src="{{ Request::server("SERVER_NAME") }}:8081/socket.io/socket.io.js"></script> --}}
+	{{-- <script src="http://localhost:8081/socket.io/socket.io.js"></script> --}}
+	{{-- <script src="{{ asset('/socket.io/socket.io.js') }}"></script> --}}
+	{{-- <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script> --}}
+
 	<script type="text/javascript">
 		activityCount = {{ count($history->content->activities) }};
 		currentActivityIndex = 0;
@@ -1003,6 +1009,9 @@
 		}
   }
 
+	// socket.io
+	// var socket = io().connect("{{ Request::server("SERVER_NAME") }}:8081");
+
 
 	function track(action, detail) {
     var now = new Date();
@@ -1017,17 +1026,38 @@
 
 		console.log("action:"+action+" detail:"+detail);
 
+		var trackData = {
+			content_id: {{ $history->content->id }},
+			activity_id: currentActivityId,
+			history_id: {{ $history->id }},
+			action: action,
+			action_at: now,
+			detail: detail,
+			action_sequence_number: sequenceNumber++ };
+
     $.ajax({
       type: "POST",
       url: "{{ route('trackInteractivity') }}",
-      data: {
-        content_id: {{ $history->content->id }},
-		    activity_id: currentActivityId,
-        history_id: {{ $history->id }},
-        action: action,
-        action_at: now,
-        detail: detail,
-        action_sequence_number: sequenceNumber++ }
+      data: trackData
+    })
+    .done(function( msg ) {
+      console.log( "Data Saved: " + msg.toString() );
+      console.log( msg );
+    })
+    .fail(function( msg ) {
+      console.log( "error: " + msg.toString() );
+      console.log( msg );
+    });
+
+		// socket.io
+		trackData.userName = "{{ Auth::user()->name }}";
+		trackData.userId = "{{ Auth::user()->id }}";
+		// socket.emit('monitor_message', trackData);
+		$.ajax({
+      url: "http://{{ Request::server("SERVER_NAME") }}:8081/monitor",
+			// jsonp: "callback",
+			dataType: "jsonp",
+      data: trackData
     })
     .done(function( msg ) {
       console.log( "Data Saved: " + msg.toString() );
