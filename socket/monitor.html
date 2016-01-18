@@ -58,20 +58,53 @@
           allData["student"+msg.userId] = [];
           allData["student"+msg.userId].push(msg);
 
-          var box = fBox("messages_student_"+msg.userId, msg);
+          var msgId = "messages_student_"+msg.userId;
+          var progId = "progId_"+msg.userId;
+
+          var box = fBox(msgId, msg, progId);
           $('#row').append(box);
         }
         $('#messages_student_'+msg.userId).prepend($('<li>').text(msg.action+ ": "+msg.detail));
+
+        if ( msg.action === "start_content" ) {
+          $("#progId_"+msg.userId).attr("data-activity", msg.detail);
+          $("#progId_"+msg.userId).attr("data-current-activity", "0");
+        }
+
+        if ( msg.action === "start activity" ) {
+          var currentActivity = $("#progId_"+msg.userId).attr("data-current-activity");
+          currentActivity = parseInt(currentActivity) + 1;
+          $("#progId_"+msg.userId).attr("data-current-activity", ""+currentActivity);
+
+          var contentLength = $("#progId_"+msg.userId).attr("data-activity").split(",").length;
+          var percent = currentActivity / contentLength * 100;
+          $("#progId_"+msg.userId).css("width", percent+"%");
+          $("#progId_"+msg.userId).html(currentActivity + " / " + contentLength);
+          console.log($("#progId_"+msg.userId).attr("data-activity"));
+          console.log($("#progId_"+msg.userId).attr("data-current-activity"));
+        }
+
+        if ( msg.action === "answer") {
+          var currentActivity = parseInt($("#progId_"+msg.userId).attr("data-current-activity"));
+          var contentLength = $("#progId_"+msg.userId).attr("data-activity").split(",").length;
+          if (currentActivity === contentLength) {
+            $("#progId_"+msg.userId).removeClass("active");
+          }
+        }
 
         console.log(allData);
       });
       console.log('Listen to: ' + socketName);
 
-      function fBox(id, msg) {
+      function fBox(id, msg, progId) {
         var box = "<div class=\"col-md-6\">";
         box += "<div class=\"panel panel-default\">";
         box += "<div class=\"panel-heading\">";
         box += "<h3 class=\"panel-title\">"+msg.userName+"</h3>";
+        box += "<div class=\"progress\">"
+        box += "<div id=\""+progId+"\" class=\"progress-bar progress-bar-striped active\" data-activity=\"0\" data-current-activity=\"0\" style=\"width: 0%\">"
+        box += "</div>"
+        box += "</div>"
         box += "</div>";
         box += "<div class=\"panel-body\">";
         box += "<ul id=\""+id+"\"></ul>"

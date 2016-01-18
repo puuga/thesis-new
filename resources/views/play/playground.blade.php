@@ -180,10 +180,12 @@
 	var startData = {
 		content_id: {{ $history->content->id }},
 		activityIds : "activityIds.toString()",
-		action : "start_content"
+		action : "start_content",
+		detail : activityIds.toString(),
 		userName : "{{ Auth::user()->name }}",
 		userId : "{{ Auth::user()->id }}"
 	};
+	////
 	$.ajax({
 		url: "http://{{ Request::server("SERVER_NAME") }}:8081/monitor",
 		// jsonp: "callback",
