@@ -497,7 +497,7 @@
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3" disabled>
 									Layout 1
 								</label>
 							</div>
