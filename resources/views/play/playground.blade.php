@@ -1270,7 +1270,13 @@
 	ontouchstart="nextActivityLogic()">
 	<div>Tab To Continue.</div>
 	<div id="correctTextAnswer" class="text-in-result">
-		Very Good!
+		Very Good!<br/>
+		Yes, that is correct!<br/>
+		เก่งมาก นั่นคือคำตอบที่ถูกต้อง
+	</div>
+	<div>
+		Tab or Click To Continue.<br/>
+		กดหรือคลิ๊กเพื่อไปต่อ
 	</div>
 </div>
 
@@ -1280,7 +1286,13 @@
 	ontouchstart="nextActivityLogic()">
 	<div>Tab To Continue.</div>
 	<div id="incorrectTextAnswer" class="text-in-result">
-		Try more!
+		Try more!<br/>
+		Sorry, that's incorrect.<br/>
+		เสียใจด้วย นั่นไม่ใช่คำตอบที่ถูกต้อง
+	</div>
+	<div>
+		Tab or Click To Continue.<br/>
+		กดหรือคลิ๊กเพื่อไปต่อ
 	</div>
 </div>
 
