@@ -23,6 +23,11 @@
 						</dl>
 
 						<dl class="dl-horizontal">
+						  <dt>Category</dt>
+						  <dd>{{ $content->category->name }}</dd>
+						</dl>
+
+						<dl class="dl-horizontal">
 						  <dt>Level</dt>
 						  <dd>{{ $content->level }}</dd>
 						</dl>

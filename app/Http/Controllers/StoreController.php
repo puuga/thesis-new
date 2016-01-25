@@ -72,13 +72,24 @@ class StoreController extends Controller {
 
 	public function categoryByIdWithAuth($id) {
 		$contents = Content::
-			where('is_public', 1)
-			->where('is_inprogress',0)
-			->whereHas('category', function($query) use($id) {
-					$query->where('id',$id);
+			where(function($query) use($id) {
+				$query->where('is_public', 1)
+					->where('is_inprogress',0)
+					->whereHas('category', function($query) use($id) {
+							$query->where('id',$id);
+					});
 			})
-			->orWhere(function($query){
+			// where('is_public', 1)
+			// ->where('is_inprogress',0)
+			// ->whereHas('category', function($query) use($id) {
+			// 		$query->where('id',$id);
+			// })
+			->orWhere(function($query) use($id) {
 				$query->where('is_public', 0)
+					->where('is_inprogress',0)
+					->whereHas('category', function($query) use($id) {
+							$query->where('id',$id);
+					})
 					->WhereHas('user', function($query) {
 							$query->where('school_id',Auth::user()->school->id);
 					});
