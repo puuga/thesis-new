@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use DB;
+use App\Content;
 
 class Helper extends Facade {
 
@@ -72,6 +73,17 @@ class Helper extends Facade {
       }
     }
 
+  }
+
+  public static function getContentsByCategoryProgress($category_id, $is_inprogress) {
+    $contents = Content::where(function($query) use($category_id, $is_inprogress) {
+			$query->where('is_inprogress',$is_inprogress)
+				->whereHas('category', function($query) use($category_id) {
+						$query->where('id',$category_id);
+				});
+		})->get();
+
+    return $contents;
   }
 
 }

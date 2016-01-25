@@ -16,6 +16,9 @@
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
+					<th>Number of Published Contents</th>
+					<th>Number of Inprogress Contents</th>
+					<th>Number of Total Contents</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -23,6 +26,9 @@
 				<tr>
 					<td>{{ $category->id }}</td>
 					<td>{{ $category->name }}</td>
+					<td>{{ count(Helper::getContentsByCategoryProgress($category->id,0)) }}</td>
+					<td>{{ count(Helper::getContentsByCategoryProgress($category->id,1)) }}</td>
+					<td>{{ count($category->contents) }}</td>
 					</td>
 				</tr>
 				@endforeach
