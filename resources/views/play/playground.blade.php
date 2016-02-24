@@ -1275,6 +1275,9 @@
 		เก่งมาก นั่นคือคำตอบที่ถูกต้อง
 	</div>
 	<div>
+		<img src="{{ asset('/images/face-smiley.png') }}">
+	</div>
+	<div>
 		Tab or Click To Continue.<br/>
 		กดหรือคลิ๊กเพื่อไปต่อ
 	</div>
@@ -1289,6 +1292,9 @@
 		Try more!<br/>
 		Sorry, that's incorrect.<br/>
 		เสียใจด้วย นั่นไม่ใช่คำตอบที่ถูกต้อง
+	</div>
+	<div>
+		<img src="{{ asset('/images/face-cry.png') }}">
 	</div>
 	<div>
 		Tab or Click To Continue.<br/>
