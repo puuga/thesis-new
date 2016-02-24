@@ -555,7 +555,7 @@
 	function renderActivityType2(activity) {
 		$('#pTitle').html(activity.title);
 		// $('#pText').html(activity.shuffled_content);
-		$('#pHint').html("");
+		$('#pHint').html(activity.placeholder);
 		if ( activity.image_placeholder!=null ) {
 			$('#pImage').attr('src', activity.image_path);
 			$('#main_image').show();
