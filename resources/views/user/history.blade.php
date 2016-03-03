@@ -41,7 +41,7 @@
 
 		<div class="jumbotron">
       @if (count($year_count) > 0)
-        <div id='calendar_div' style='width: 800; height: {{$year_count[0]->year_count*200}}px'></div>
+        <div id='calendar_div' style='width: 800; height: {{count($year_count)*200}}px'></div>
       @else
         I don't have any records!
       @endif
