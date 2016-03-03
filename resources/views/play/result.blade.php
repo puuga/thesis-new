@@ -38,9 +38,9 @@ function getColor($percent) {
 
 		<p class="text-center">
 			@if ( $percent >= 0.8 )
-				very Good!
+				Very Good!
 			@else
-				may the force be with you!
+				May the force be with you!
 			@endif
 		</p>
 
@@ -65,6 +65,20 @@ function getColor($percent) {
 			</h1>
 		</p>
 
+	</div>
+
+	<br/>
+	<br/>
+
+	<div class="row">
+		<p class="text-center">
+			<a class="btn btn-default" href="{{ route('contentById', $history->content->id) }}">
+				<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Redo
+			</a>
+			<a class="btn btn-primary" href="{{ url('store') }}">
+				<span class="glyphicon glyphicon-send" aria-hidden="true"></span> Finnish
+			</a>
+		</p>
 	</div>
 
 </div>

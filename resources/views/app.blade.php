@@ -207,7 +207,7 @@
 	@if ( Request::is('store') || Request::is('/') || Request::is('store/category*'))
 		<div class="container">
 			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-3">
 					<div class="panel panel-default">
 				    <div class="panel-body">
 
@@ -220,9 +220,6 @@
 								<button type="submit" class="btn btn-primary">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 								</button>
-								<a class="btn btn-primary btn-flat" href="javascript:void(0)">
-									Advance
-								</a>
 							</form>
 
 				    </div>
