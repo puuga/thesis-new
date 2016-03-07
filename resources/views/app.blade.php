@@ -248,6 +248,12 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li>
+						<a href="http://goo.gl/forms/jWcE9hkkiF" target="_blank">
+							<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+							Student Questionnaire
+						</a>
+					</li>
+					<li>
 						<a href="{{ url('about') }}">
 							<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 							About
@@ -274,13 +280,14 @@
 
 	<!-- Google Analytics -->
 	<script>
-	  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		//
-	  // ga('create', 'UA-40963799-4', 'auto');
-	  // ga('send', 'pageview');
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-40963799-4', 'auto');
+	  ga('send', 'pageview');
+
 	</script>
 
 </body>
