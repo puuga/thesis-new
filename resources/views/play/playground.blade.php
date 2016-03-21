@@ -133,6 +133,8 @@
 		var focusPepText = "";
 		var focusDropText = "";
 
+		var trackDatas = [];
+
 		function launchIntoFullscreen(element) {
 			$("#pText").hide();
 			$("#txt-hint").show();
@@ -1060,19 +1062,12 @@
 			detail: detail,
 			action_sequence_number: sequenceNumber++ };
 
-    $.ajax({
-      type: "POST",
-      url: "{{ route('trackInteractivity') }}",
-      data: trackData
-    })
-    .done(function( msg ) {
-      console.log( "Data Saved: " + msg.toString() );
-      console.log( msg );
-    })
-    .fail(function( msg ) {
-      console.log( "error: " + msg.toString() );
-      console.log( msg );
-    });
+		// if action == "answer" do ajax and clear array else keep trackData in array
+		trackDatas.push(trackData);
+    if (action === "answer") {
+    	sendTrackDataToServer(trackDatas);
+			trackDatas = [];
+    }
 
 		// socket.io
 		trackData.userName = "{{ Auth::user()->name }}";
@@ -1093,6 +1088,23 @@
       console.log( msg );
     });
   }
+
+	function sendTrackDataToServer(trackDatas) {
+		console.log( "sendTrackDataToServer" );
+		$.ajax({
+      type: "POST",
+      url: "{{ route('trackInteractivity') }}",
+      data: {trackDatas: trackDatas}
+    })
+    .done(function( msg ) {
+      console.log( "Data Saved: " + msg.toString() );
+      console.log( msg );
+    })
+    .fail(function( msg ) {
+      console.log( "error: " + msg.toString() );
+      console.log( msg );
+    });
+	}
 
   function updateHoldObj(action, obj, pep) {
     if ( action=="on" ) {

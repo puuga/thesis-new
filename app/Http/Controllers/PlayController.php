@@ -82,19 +82,26 @@ class PlayController extends Controller {
 	}
 
 	public function track(Request $request) {
-		$interactivity = new Interactivity;
-		$interactivity->user_id = Auth::user()->id;
-		$interactivity->content_id = $request->input('content_id');
-		$interactivity->activity_id = $request->input('activity_id');
-		$interactivity->history_id = $request->input('history_id');
-		$interactivity->action = $request->input('action');
-		$interactivity->action_at = $request->input('action_at');
-		$interactivity->detail = $request->input('detail');
-		$interactivity->sequence_number = $request->input('action_sequence_number');
+		// $interactivities = array();
+		// dd($request->input('trackDatas'));
 
-		$interactivity->save();
+		foreach ($request->input('trackDatas') as $inter) {
+			$interactivity = new Interactivity;
+			$interactivity->user_id = Auth::user()->id;
+			$interactivity->content_id = $inter["content_id"];
+			$interactivity->activity_id = $inter["activity_id"];
+			$interactivity->history_id = $inter["history_id"];
+			$interactivity->action = $inter["action"];
+			$interactivity->action_at = $inter["action_at"];
+			$interactivity->detail = $inter["detail"];
+			$interactivity->sequence_number = $inter["action_sequence_number"];
 
-		return response()->json(['result' => 'success','interactivity' => $interactivity]);
+			$interactivity->save();
+			
+			$interactivities[] = $interactivity;
+		}
+
+		return response()->json(['result' => 'success','interactivities' => $interactivities]);
 
 	}
 
