@@ -162,5 +162,4 @@ class ImageEntryController extends Controller {
 		]);
 	}
 
-
 }

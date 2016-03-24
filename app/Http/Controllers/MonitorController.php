@@ -11,6 +11,9 @@ use Illuminate\Http\Response;
 use DB;
 use Helper;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 class MonitorController extends Controller {
 
 	public function __construct()
@@ -77,9 +80,20 @@ class MonitorController extends Controller {
 		]);
 	}
 
-	public function monitorCSV($id) {
-		$histories = Content::find($id)->histories()->orderBy('created_at', 'desc')->get();
+	function getYearCount($id) {
+		$year_count = DB::select('SELECT
+			    count(distinct YEAR(created_at)) year_count
+			FROM
+			    histories
+			WHERE
+			    content_id = ?
+			GROUP BY YEAR(created_at)',[$id]
+		);
 
+		return $year_count;
+	}
+
+	function getFrequencies($id) {
 		$frequencies = DB::select('SELECT
 			    YEAR(created_at) year_ac,
 			    MONTH(created_at) month_ac,
@@ -92,16 +106,13 @@ class MonitorController extends Controller {
 			GROUP BY DATE(created_at)',[$id]
 		);
 
-		$year_count = DB::select('SELECT
-			    count(distinct YEAR(created_at)) year_count
-			FROM
-			    histories
-			WHERE
-			    content_id = ?
-			GROUP BY YEAR(created_at)',[$id]
-		);
+		return $frequencies;
+	}
 
-    for ($i=0; $i < count($histories); $i++) {
+	function getHistories($id) {
+		$histories = Content::find($id)->histories()->orderBy('created_at', 'desc')->get();
+
+		for ($i=0; $i < count($histories); $i++) {
       // activity array
       $activity_arr = explode(",",$histories[$i]->activity_order);
       $histories[$i]->activity_order_arr = $activity_arr;
@@ -113,6 +124,16 @@ class MonitorController extends Controller {
       $histories[$i]->timediff_arr = $this->getTime($histories[$i]);
     }
 
+		return $histories;
+	}
+
+	public function monitorCSV($id) {
+		$histories = $this->getHistories($id);
+
+		$frequencies = $this->getFrequencies($id);
+
+		$year_count = $this->getYearCount($id);
+
 		// dd($histories);
 
 		return view('monitor.csv', [
@@ -120,6 +141,48 @@ class MonitorController extends Controller {
 			'histories'=>$histories,
 			'frequencies'=>$frequencies,
 			'year_count'=>$year_count
+		]);
+	}
+
+	public function createArffFile1($id) {
+		$content = Content::find($id);
+		$histories = $this->getHistories($id);
+		$frequencies = $this->getFrequencies($id);
+		//Usage
+		// File::put($path,$contents);
+		//Example
+		// File::put('web/text/mytextdocument.txt','John Doe');
+		// Local
+		Storage::disk('local')->put(
+			"arff".$id."/arff".$id.'.1.arff',
+			Helper::createArff1Content($content, $histories, $frequencies)
+		);
+
+		return response()->json([
+			'result'=>'success',
+			'action'=>'arff file created',
+			'filename'=>"arff".$id.'.1.arff'
+		]);
+	}
+
+	public function createArffFile2($id) {
+		$content = Content::find($id);
+		$histories = $this->getHistories($id);
+		$frequencies = $this->getFrequencies($id);
+		//Usage
+		// File::put($path,$contents);
+		//Example
+		// File::put('web/text/mytextdocument.txt','John Doe');
+		// Local
+		Storage::disk('local')->put(
+			"arff".$id."/arff".$id.'.2.arff',
+			Helper::createArff2Content($content, $histories, $frequencies)
+		);
+
+		return response()->json([
+			'result'=>'success',
+			'action'=>'arff file created',
+			'filename'=>"arff".$id.'.2.arff'
 		]);
 	}
 
