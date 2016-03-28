@@ -1280,7 +1280,7 @@
 	class="result1"
 	onclick="nextActivityLogic()"
 	ontouchstart="nextActivityLogic()">
-	<div>Tab To Continue.</div>
+	<div>Tap To Continue.</div>
 	<div id="correctTextAnswer" class="text-in-result">
 		Very Good!<br/>
 		Yes, that is correct!<br/>
@@ -1290,7 +1290,7 @@
 		<img src="{{ asset('/images/face-smiley.png') }}">
 	</div>
 	<div>
-		Tab or Click To Continue.<br/>
+		Tap or Click To Continue.<br/>
 		กดหรือคลิ๊กเพื่อไปต่อ
 	</div>
 </div>
@@ -1299,7 +1299,7 @@
 	class="result1"
 	onclick="nextActivityLogic()"
 	ontouchstart="nextActivityLogic()">
-	<div>Tab To Continue.</div>
+	<div>Tap To Continue.</div>
 	<div id="incorrectTextAnswer" class="text-in-result">
 		Try more!<br/>
 		Sorry, that's incorrect.<br/>
@@ -1309,7 +1309,7 @@
 		<img src="{{ asset('/images/face-cry.png') }}">
 	</div>
 	<div>
-		Tab or Click To Continue.<br/>
+		Tap or Click To Continue.<br/>
 		กดหรือคลิ๊กเพื่อไปต่อ
 	</div>
 </div>

@@ -76,7 +76,7 @@ function getColor($percent) {
 				<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Redo
 			</a>
 			<a class="btn btn-primary" href="{{ url('store') }}">
-				<span class="glyphicon glyphicon-send" aria-hidden="true"></span> Finnish
+				<span class="glyphicon glyphicon-send" aria-hidden="true"></span> Finish
 			</a>
 		</p>
 	</div>
