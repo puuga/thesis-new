@@ -196,7 +196,7 @@
     <div class="col-lg-12">
       <h3>Extra</h3>
       <a class="btn btn-primary btn-flat" href="{{ route('monitorCSV',[$content_id]) }}">
-        raw CSV
+        raw arff
       </a>
 
       <a class="btn btn-primary btn-flat" href="javascript:makeArffFile({{$content_id}},1)">
