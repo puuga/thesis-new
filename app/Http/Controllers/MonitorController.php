@@ -154,14 +154,17 @@ class MonitorController extends Controller {
 		// File::put('web/text/mytextdocument.txt','John Doe');
 		// Local
 		Storage::disk('local')->put(
-			"arff".$id."/arff".$id.'.1.arff',
+			"arff".$id."/arff.".$id.'.1.arff',
 			Helper::createArff1Content($content, $histories, $frequencies)
 		);
+
+		$filename = "arff.".$id.'.1.arff';
 
 		return response()->json([
 			'result'=>'success',
 			'action'=>'arff file created',
-			'filename'=>"arff".$id.'.1.arff'
+			'filename'=>$filename,
+			'url'=>route('getArffFile', ['id' => $id, 'filename'=>$filename])
 		]);
 	}
 
@@ -175,15 +178,27 @@ class MonitorController extends Controller {
 		// File::put('web/text/mytextdocument.txt','John Doe');
 		// Local
 		Storage::disk('local')->put(
-			"arff".$id."/arff".$id.'.2.arff',
+			"arff".$id."/arff.".$id.'.2.arff',
 			Helper::createArff2Content($content, $histories, $frequencies)
 		);
+
+		$filename = "arff.".$id.'.2.arff';
 
 		return response()->json([
 			'result'=>'success',
 			'action'=>'arff file created',
-			'filename'=>"arff".$id.'.2.arff'
+			'filename'=>"arff.".$id.'.2.arff',
+			'url'=>route('getArffFile', ['id' => $id, 'filename'=>$filename])
 		]);
+	}
+
+	public function getArffFile($id, $filename) {
+		$filenameWithPath =  "arff".$id."/".$filename;
+		if ( Storage::disk('local')->exists($filenameWithPath) ) {
+			$file =  Storage::disk('local')->get($filenameWithPath);
+			return (new Response($file, 200))->header('Content-Type', 'application/octet-stream');
+		}
+		abort(404);
 	}
 
   function getTime($history) {

@@ -49,11 +49,7 @@
     </p> --}}
 
     <h1>User Analytic ({{ count($histories) }})</h1>
-    <p>
-      <a href="{{ route('monitorCSV',[$content_id]) }}">
-        CSV
-      </a>
-    </p>
+
     <p>
       <table class="table table-striped table-bordered table-hover">
         <thead>
@@ -195,6 +191,56 @@
     </p>
 
 	</div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h3>Extra</h3>
+      <a class="btn btn-primary btn-flat" href="{{ route('monitorCSV',[$content_id]) }}">
+        raw CSV
+      </a>
+
+      <a class="btn btn-primary btn-flat" href="javascript:makeArffFile({{$content_id}},1)">
+        get arff file (1: time and result)
+      </a>
+
+      <a class="btn btn-primary btn-flat" href="javascript:makeArffFile({{$content_id}},2)">
+        get arff file (2 tile, result and interactivity count)
+      </a>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    function makeArffFile(id, type) {
+      var url = "";
+      if (type===1) {
+        url = "{{ route('createArffFile1',[$content_id]) }}";
+      } else if (type===2) {
+        url = "{{ route('createArffFile2',[$content_id]) }}";
+      }
+
+      var jqxhr = $.ajax({
+        method: "GET",
+        url: url
+      })
+      .done(function(data) {
+        // alert( "success" );
+        console.log(data);
+
+        if (data.result===false) {
+          return;
+        }
+
+        window.location = data.url;
+      })
+      .fail(function() {
+        alert( "error" );
+      });
+    }
+  </script>
+
+  <br/>
+  <br/>
 
 </div>
 

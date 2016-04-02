@@ -117,6 +117,9 @@ Route::group(array('prefix' => 'monitor'), function() {
 	Route::get('{id}/createArffFile2', [
 		'as'=>'createArffFile2',
 		'uses'=>'MonitorController@createArffFile2']);
+	Route::get('{id}/getArffFile/{filename}', [
+		'as'=>'getArffFile',
+		'uses'=>'MonitorController@getArffFile']);
 	Route::get('{id}/monitorDetail/{history_id}', [
 		'as'=>'monitorDetailByHistory',
 		'uses'=>'MonitorController@monitorDetailByHistory']);
