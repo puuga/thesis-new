@@ -67,7 +67,7 @@
 ?>
 <div class="container">
 	<div class="row">
-		<a class="btn btn-primary" href="{{ route('designContent',$activity->content_id) }}">
+		<a class="btn btn-primary btn-flat" href="{{ route('designContent',$activity->content_id) }}">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			Content
 		</a>
@@ -75,159 +75,155 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-6">
-			<h3>Infomation</h3>
 
-			<form class="form-horizontal" name="myForm" id="myForm">
-			</form>
+			<div class="row">
+				<div class="col-xs-12 bg-info">
+					<h3>Infomation</h3>
 
-			<div class="form-group">
-				<label for="inTitle" class="col-xs-2 control-label">Title</label>
-				<div class="col-xs-10">
-			    <input
-					class="form-control"
-					form="myForm"
-					id="inTitle"
-					name="inTitle"
-					type="text"
-					placeholder="Title"
-					data-hint="You should really write something here"
-					onkeyup="javascript:updateTitle()"
-					value="{{ !is_null($activity->title) ? $activity->title : ''}}">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="inText" class="col-xs-2 control-label">Sub-Title</label>
-				<div class="col-xs-10">
-			    <input
-					class="form-control"
-					form="myForm"
-					id="inSubTitle"
-					name="inSubTitle"
-					type="text"
-					placeholder="sub title"
-					data-hint="You should really write something here"
-					onkeyup="javascript:updateSubTitle()"
-					value="{{ !is_null($activity->content) ? $activity->content : ''}}">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="inOption1" class="col-xs-2 control-label">option1</label>
-				<div class="col-xs-1">
-					<div class="checkbox">
-            <label>
-              <input form="myForm"
-								type="checkbox" id="inOptionChk1" value="0"
-								onchange="markCorrectIncorrectOption(this)"
-								{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[0]==="true" ? 'checked': '' : '' }}>
-            </label>
-          </div>
-				</div>
-				<div class="col-xs-8">
-					<form name="imageForm1" id="imageForm1">
-						<input class="form-control" type="file" name="imagefield" id="imageId1" accept="image/*">
-						<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('1')">Save Image</a>
+					<form class="form-horizontal" name="myForm" id="myForm">
 					</form>
-				</div>
-			</div>
 
-			<div class="form-group">
-				<label for="inOption2" class="col-xs-2 control-label">option2</label>
-				<div class="col-xs-1">
-					<div class="checkbox">
-            <label>
-              <input form="myForm"
-								type="checkbox" id="inOptionChk2" value="1"
-								onchange="markCorrectIncorrectOption(this)"
-								{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[1]==="true" ? 'checked': '' : '' }}>
-            </label>
-          </div>
-				</div>
-				<div class="col-xs-8">
-					<form name="imageForm2" id="imageForm2">
-						<input class="form-control" type="file" name="imagefield" id="imageId2" accept="image/*">
-						<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('2')">Save Image</a>
-					</form>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="inOption3" class="col-xs-2 control-label">option3</label>
-				<div class="col-xs-1">
-					<div class="checkbox">
-            <label>
-              <input form="myForm"
-								type="checkbox" id="inOptionChk3" value="2"
-								onchange="markCorrectIncorrectOption(this)"
-								{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[2]==="true" ? 'checked': '' : '' }}>
-            </label>
-          </div>
-				</div>
-				<div class="col-xs-8">
-					<form name="imageForm3" id="imageForm3">
-						<input class="form-control" type="file" name="imagefield" id="imageId3" accept="image/*">
-						<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('3')">Save Image</a>
-					</form>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="inOption4" class="col-xs-2 control-label">option4</label>
-				<div class="col-xs-1">
-					<div class="checkbox">
-            <label>
-              <input form="myForm"
-								type="checkbox" id="inOptionChk4" value="3"
-								onchange="markCorrectIncorrectOption(this)"
-								{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[3]==="true" ? 'checked': '' : '' }}>
-            </label>
-          </div>
-				</div>
-				<div class="col-xs-8">
-					<form name="imageForm4" id="imageForm4">
-						<input class="form-control" type="file" name="imagefield" id="imageId4" accept="image/*">
-						<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('4')">Save Image</a>
-					</form>
-				</div>
-			</div>
-
-			<div class="form-group">
-        <div class="col-xs-10 col-xs-offset-2">
-					<button form="myForm" type="button" class="btn btn-default" onclick="resetForm()">Reset</button>
-          <button form="myForm" type="button" class="btn btn-primary" onclick="saveInformation()">Save</button>
-        </div>
-      </div>
-
-			<hr/>
-			<h3>Image</h3>
-
-			<form class="form-horizontal" id="imageForm">
-
-				<input type="hidden" name="activity_id" value="{{$activity->id}}">
-
-				<div class="form-group">
-					<label for="inImage" class="col-xs-2 control-label">Image</label>
-					<div class="col-xs-10">
-				    <input
-						class="form-control"
-						id="inImage"
-						name="inImage"
-						type="file"
-						accept="image/*">
+					<div class="form-group">
+						<label for="inTitle" class="col-xs-2 control-label">Title</label>
+						<div class="col-xs-10">
+					    <input
+							class="form-control"
+							form="myForm"
+							id="inTitle"
+							name="inTitle"
+							type="text"
+							placeholder="Title"
+							data-hint="You should really write something here"
+							onkeyup="javascript:updateTitle()"
+							value="{{ !is_null($activity->title) ? $activity->title : ''}}">
+						</div>
 					</div>
+
+					<div class="form-group">
+						<label for="inText" class="col-xs-2 control-label">Sub-Title</label>
+						<div class="col-xs-10">
+					    <input
+							class="form-control"
+							form="myForm"
+							id="inSubTitle"
+							name="inSubTitle"
+							type="text"
+							placeholder="sub title"
+							data-hint="You should really write something here"
+							onkeyup="javascript:updateSubTitle()"
+							value="{{ !is_null($activity->content) ? $activity->content : ''}}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inOption1" class="col-xs-2 control-label">option1</label>
+						<div class="col-xs-1">
+							<div class="checkbox">
+		            <label>
+		              <input form="myForm"
+										type="checkbox" id="inOptionChk1" value="0"
+										onchange="markCorrectIncorrectOption(this)"
+										{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[0]==="true" ? 'checked': '' : '' }}>
+		            </label>
+		          </div>
+						</div>
+						<div class="col-xs-8">
+							<form name="imageForm1" id="imageForm1">
+								<input class="form-control" type="file" name="imagefield" id="imageId1" accept="image/*">
+								<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('1')">Save Image</a>
+							</form>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inOption2" class="col-xs-2 control-label">option2</label>
+						<div class="col-xs-1">
+							<div class="checkbox">
+		            <label>
+		              <input form="myForm"
+										type="checkbox" id="inOptionChk2" value="1"
+										onchange="markCorrectIncorrectOption(this)"
+										{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[1]==="true" ? 'checked': '' : '' }}>
+		            </label>
+		          </div>
+						</div>
+						<div class="col-xs-8">
+							<form name="imageForm2" id="imageForm2">
+								<input class="form-control" type="file" name="imagefield" id="imageId2" accept="image/*">
+								<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('2')">Save Image</a>
+							</form>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inOption3" class="col-xs-2 control-label">option3</label>
+						<div class="col-xs-1">
+							<div class="checkbox">
+		            <label>
+		              <input form="myForm"
+										type="checkbox" id="inOptionChk3" value="2"
+										onchange="markCorrectIncorrectOption(this)"
+										{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[2]==="true" ? 'checked': '' : '' }}>
+		            </label>
+		          </div>
+						</div>
+						<div class="col-xs-8">
+							<form name="imageForm3" id="imageForm3">
+								<input class="form-control" type="file" name="imagefield" id="imageId3" accept="image/*">
+								<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('3')">Save Image</a>
+							</form>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inOption4" class="col-xs-2 control-label">option4</label>
+						<div class="col-xs-1">
+							<div class="checkbox">
+		            <label>
+		              <input form="myForm"
+										type="checkbox" id="inOptionChk4" value="3"
+										onchange="markCorrectIncorrectOption(this)"
+										{{ !is_null($activity->extra2) ? explode(",",$activity->extra2)[3]==="true" ? 'checked': '' : '' }}>
+		            </label>
+		          </div>
+						</div>
+						<div class="col-xs-8">
+							<form name="imageForm4" id="imageForm4">
+								<input class="form-control" type="file" name="imagefield" id="imageId4" accept="image/*">
+								<a class="btn btn-flat btn-primary" href="javascript:saveImageOption('4')">Save Image</a>
+							</form>
+						</div>
+					</div>
+
+					<div class="form-group">
+		        <div class="col-xs-10 col-xs-offset-2">
+							<button form="myForm" type="button" class="btn btn-default" onclick="resetForm()">Reset</button>
+		          <button form="myForm" type="button" class="btn btn-primary" onclick="saveInformation()">Save</button>
+		        </div>
+		      </div>
 				</div>
+			</div>
 
-				<div class="form-group">
-          <div class="col-xs-10 col-xs-offset-2">
-            <button type="button" class="btn btn-primary" onclick="saveImage()">Use new image</button>
-          </div>
-        </div>
-			</form>
+			<br/>
+			<br/>
 
-			<hr/>
-			<h3>Animation</h3>
-			@include('content.activity.animation')
+			<div class="row">
+				<div class="col-xs-12 bg-info">
+					<h3>Image</h3>
+
+					@include('content.activity.imagecover')
+				</div>
+			</div>
+
+			<br/>
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-12 bg-info">
+					<h3>Animation</h3>
+					@include('content.activity.animation')
+				</div>
+			</div>
 
 		</div>
 

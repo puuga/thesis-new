@@ -26,7 +26,7 @@
 @section('contentextend')
 <div class="container">
 	<div class="row">
-		<a class="btn btn-primary" href="{{ route('designContent',$activity->content_id) }}">
+		<a class="btn btn-primary btn-flat" href="{{ route('designContent',$activity->content_id) }}">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			Content
 		</a>
@@ -34,171 +34,167 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-6">
-			<h3>Infomation</h3>
 
-			<form class="form-horizontal" id="myForm">
+			<div class="row">
+				<div class="col-xs-12 bg-info">
+					<h3>Infomation</h3>
 
-				<div class="form-group">
-					<label for="inTitle" class="col-xs-2 control-label">Title</label>
-					<div class="col-xs-10">
-				    <input
-						class="form-control"
-						id="inTitle"
-						name="inTitle"
-						type="text"
-						placeholder="Title"
-						data-hint="You should really write something here"
-						onkeyup="javascript:updateTitle()"
-						value="{{ !is_null($activity->title) || $activity->title!=="" ? $activity->title : ''}}">
-					</div>
+					<form class="form-horizontal" id="myForm">
+
+						<div class="form-group">
+							<label for="inTitle" class="col-xs-2 control-label">Title</label>
+							<div class="col-xs-10">
+						    <input
+								class="form-control"
+								id="inTitle"
+								name="inTitle"
+								type="text"
+								placeholder="Title"
+								data-hint="You should really write something here"
+								onkeyup="javascript:updateTitle()"
+								value="{{ !is_null($activity->title) || $activity->title!=="" ? $activity->title : ''}}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inText" class="col-xs-2 control-label">Number of Object</label>
+							<div class="col-xs-2">
+						    <input
+								class="form-control"
+								id="inText"
+								name="inText"
+								type="number"
+								min="1"
+								max="6"
+								placeholder="Text"
+								onkeyup="javascript:updateNumberOfObject()"
+								onchange="javascript:updateNumberOfObject()"
+								value="{{ is_null($activity->content) || $activity->content==="" ? '0' : $activity->content }}">
+							</div>
+							Minimum is 1 and maximum is 6
+						</div>
+
+						@for ($i = 1; $i <= 6; $i++)
+						<div class="form-group" id="inObject{{$i}}">
+							<label for="inObject{{$i}}img" class="col-xs-4 control-label">Object {{$i}}</label>
+							<div class="col-xs-8">
+								<button class="btn btn-flat btn-primary" type="button"
+								data-toggle="modal"
+								data-target="#modalSelectImage"
+								data-box-number="{{$i}}">
+									Select Image box {{$i}}
+								</button>
+							</div>
+						</div>
+						@endfor
+
+						<div class="form-group">
+							<label for="inNumberOfHold" class="col-xs-2 control-label">Number Of Hold</label>
+							<div class="col-xs-2">
+						    <input
+								class="form-control"
+								id="inNumberOfHold"
+								name="inNumberOfHold"
+								type="number"
+								min="1"
+								max="4"
+								onchange="javascript:updateNumberOfHold()"
+								onkeyup="javascript:updateNumberOfHold()"
+								value="{{ is_null($activity->extra1) || $activity->extra1==="" ? 1 : count(explode(",",$activity->extra1)) }}">
+							</div>
+							Minimum is 1 and maximum is 4
+						</div>
+
+						<div class="form-group" id="inHold1">
+							<label for="inHold1Text" class="col-xs-4 control-label">Hold 1</label>
+							<div class="col-xs-8">
+								<input class="form-control" type="text"
+								name="inHold1Text" id="inHold1Text"
+								value="{{ count(explode(",",$activity->extra1))>0 ? explode(",",$activity->extra1)[0] : "" }}"
+								placeholder="1"
+								onkeyup="updateHoldPlaceholder()">
+							</div>
+						</div>
+
+						<div class="form-group" id="inHold2">
+							<label for="inHold2Text" class="col-xs-4 control-label">Hold 2</label>
+							<div class="col-xs-8">
+								<input class="form-control" type="text"
+								name="inHold2Text" id="inHold2Text"
+								value="{{ count(explode(",",$activity->extra1))>1 ? explode(",",$activity->extra1)[1] : "" }}"
+								placeholder="2"
+								onkeyup="updateHoldPlaceholder()">
+							</div>
+						</div>
+
+						<div class="form-group" id="inHold3">
+							<label for="inHold3Text" class="col-xs-4 control-label">Hold 3</label>
+							<div class="col-xs-8">
+								<input class="form-control" type="text"
+								name="inHold3Text" id="inHold3Text"
+								value="{{ count(explode(",",$activity->extra1))>2 ? explode(",",$activity->extra1)[2] : "" }}"
+								placeholder="3"
+								onkeyup="updateHoldPlaceholder()">
+							</div>
+						</div>
+
+						<div class="form-group" id="inHold4">
+							<label for="inHold4Text" class="col-xs-4 control-label">Hold 4</label>
+							<div class="col-xs-8">
+								<input class="form-control" type="text"
+								name="inHold4Text" id="inHold4Text"
+								value="{{ count(explode(",",$activity->extra1))>3 ? explode(",",$activity->extra1)[3] : "" }}"
+								placeholder="4"
+								onkeyup="updateHoldPlaceholder()">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inHint" class="col-xs-2 control-label">Hint</label>
+							<div class="col-xs-10">
+						    <input
+								class="form-control"
+								id="inHint"
+								name="inHint"
+								type="text"
+								placeholder="Hint"
+								data-hint="You should really write something here"
+								onkeyup="javascript:updateHint()"
+								value="{{ !is_null($activity->placeholder) || $activity->placeholder!=="" ? $activity->placeholder : ''}}">
+							</div>
+						</div>
+
+						<div class="form-group">
+		          <div class="col-xs-10 col-xs-offset-2">
+								<button type="button" class="btn btn-default" onclick="resetForm()">Reset</button>
+		            <button type="button" class="btn btn-primary" onclick="saveInformation()">Save</button>
+		          </div>
+		        </div>
+
+					</form>
 				</div>
+			</div>
 
-				<div class="form-group">
-					<label for="inText" class="col-xs-2 control-label">Number of Object</label>
-					<div class="col-xs-2">
-				    <input
-						class="form-control"
-						id="inText"
-						name="inText"
-						type="number"
-						min="1"
-						max="6"
-						placeholder="Text"
-						onkeyup="javascript:updateNumberOfObject()"
-						onchange="javascript:updateNumberOfObject()"
-						value="{{ is_null($activity->content) || $activity->content==="" ? '0' : $activity->content }}">
-					</div>
-					Minimum is 1 and maximum is 6
+			<br/>
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-12 bg-info">
+					<h3>Image</h3>
+
+					@include('content.activity.imagecover')
 				</div>
+			</div>
 
-				@for ($i = 1; $i <= 6; $i++)
-				<div class="form-group" id="inObject{{$i}}">
-					<label for="inObject{{$i}}img" class="col-xs-4 control-label">Object {{$i}}</label>
-					<div class="col-xs-8">
-						<button class="btn btn-flat btn-primary" type="button"
-						data-toggle="modal"
-						data-target="#modalSelectImage"
-						data-box-number="{{$i}}">
-							Select Image box {{$i}}
-						</button>
-					</div>
+			<br/>
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-12 bg-info">
+					<h3>Animation</h3>
+					@include('content.activity.animation')
 				</div>
-				@endfor
-
-				<div class="form-group">
-					<label for="inNumberOfHold" class="col-xs-2 control-label">Number Of Hold</label>
-					<div class="col-xs-2">
-				    <input
-						class="form-control"
-						id="inNumberOfHold"
-						name="inNumberOfHold"
-						type="number"
-						min="1"
-						max="4"
-						onchange="javascript:updateNumberOfHold()"
-						onkeyup="javascript:updateNumberOfHold()"
-						value="{{ is_null($activity->extra1) || $activity->extra1==="" ? 1 : count(explode(",",$activity->extra1)) }}">
-					</div>
-					Minimum is 1 and maximum is 4
-				</div>
-
-				<div class="form-group" id="inHold1">
-					<label for="inHold1Text" class="col-xs-4 control-label">Hold 1</label>
-					<div class="col-xs-8">
-						<input class="form-control" type="text"
-						name="inHold1Text" id="inHold1Text"
-						value="{{ count(explode(",",$activity->extra1))>0 ? explode(",",$activity->extra1)[0] : "" }}"
-						placeholder="1"
-						onkeyup="updateHoldPlaceholder()">
-					</div>
-				</div>
-
-				<div class="form-group" id="inHold2">
-					<label for="inHold2Text" class="col-xs-4 control-label">Hold 2</label>
-					<div class="col-xs-8">
-						<input class="form-control" type="text"
-						name="inHold2Text" id="inHold2Text"
-						value="{{ count(explode(",",$activity->extra1))>1 ? explode(",",$activity->extra1)[1] : "" }}"
-						placeholder="2"
-						onkeyup="updateHoldPlaceholder()">
-					</div>
-				</div>
-
-				<div class="form-group" id="inHold3">
-					<label for="inHold3Text" class="col-xs-4 control-label">Hold 3</label>
-					<div class="col-xs-8">
-						<input class="form-control" type="text"
-						name="inHold3Text" id="inHold3Text"
-						value="{{ count(explode(",",$activity->extra1))>2 ? explode(",",$activity->extra1)[2] : "" }}"
-						placeholder="3"
-						onkeyup="updateHoldPlaceholder()">
-					</div>
-				</div>
-
-				<div class="form-group" id="inHold4">
-					<label for="inHold4Text" class="col-xs-4 control-label">Hold 4</label>
-					<div class="col-xs-8">
-						<input class="form-control" type="text"
-						name="inHold4Text" id="inHold4Text"
-						value="{{ count(explode(",",$activity->extra1))>3 ? explode(",",$activity->extra1)[3] : "" }}"
-						placeholder="4"
-						onkeyup="updateHoldPlaceholder()">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="inHint" class="col-xs-2 control-label">Hint</label>
-					<div class="col-xs-10">
-				    <input
-						class="form-control"
-						id="inHint"
-						name="inHint"
-						type="text"
-						placeholder="Hint"
-						data-hint="You should really write something here"
-						onkeyup="javascript:updateHint()"
-						value="{{ !is_null($activity->placeholder) || $activity->placeholder!=="" ? $activity->placeholder : ''}}">
-					</div>
-				</div>
-
-				<div class="form-group">
-          <div class="col-xs-10 col-xs-offset-2">
-						<button type="button" class="btn btn-default" onclick="resetForm()">Reset</button>
-            <button type="button" class="btn btn-primary" onclick="saveInformation()">Save</button>
-          </div>
-        </div>
-
-			</form>
-
-			<hr/>
-			<h3>Image</h3>
-
-			<form class="form-horizontal" id="imageForm">
-
-				<input type="hidden" name="activity_id" value="{{$activity->id}}">
-
-				<div class="form-group">
-					<label for="inImage" class="col-xs-2 control-label">Image</label>
-					<div class="col-xs-10">
-				    <input
-						class="form-control"
-						id="inImage"
-						name="inImage"
-						type="file"
-						accept="image/*">
-					</div>
-				</div>
-
-				<div class="form-group">
-          <div class="col-xs-10 col-xs-offset-2">
-            <button type="button" class="btn btn-primary" onclick="saveImage()">Use new image</button>
-          </div>
-        </div>
-			</form>
-
-			<hr/>
-			<h3>Animation</h3>
-			@include('content.activity.animation')
+			</div>
 
 		</div>
 
