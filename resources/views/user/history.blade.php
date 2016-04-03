@@ -49,18 +49,41 @@
 
 		<h1>history count: {{ count($histories) }}</h1>
 
-		@foreach ($histories as $history)
-	    <p>
-				id {{ $history->id }}<br/>
-				content_id {{ $history->content->id }}<br/>
-				activity_order {{ $history->activity_order }}<br/>
-				at {{ $history->created_at }}<br/>
-				<a href="{{ route('scoreByHistory',$history->id) }}">score</a><br/>
-			</p>
-		@endforeach
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Content name</th>
+          <th>At</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @foreach ($histories as $history)
+    	    {{-- <p>
+    				id {{ $history->id }}<br/>
+    				content_id {{ $history->content->id }}<br/>
+    				activity_order {{ $history->activity_order }}<br/>
+    				at {{ $history->created_at }}<br/>
+    				<a href="{{ route('scoreByHistory',$history->id) }}">score</a><br/>
+    			</p> --}}
+          <tr>
+            <td>{{ $history->content->name }}</td>
+            <td>{{ $history->created_at }}</td>
+            <td><a href="{{ route('scoreByHistory',$history->id) }}">score</a></td>
+          </tr>
+    		@endforeach
+
+      </tbody>
+
+    </table>
 
 	</div>
 
 </div>
+
+<br/>
+<br/>
 
 @endsection
