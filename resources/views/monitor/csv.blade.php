@@ -22,6 +22,7 @@
 		</p>
     <p>
 			@attribute history_id NUMERIC<br/>
+			@attribute time STRING<br/>
 			@attribute user_id NUMERIC<br/>
 			@attribute user_name STRING<br/>
 
@@ -57,6 +58,7 @@
 				@endif
 
 				{{ $new_result["history_id"] }},
+				{{ $new_result["created_at"] }},
 				{{ $new_result["user_id"] }},
 				{{ str_replace(" ", "_", $new_result["user_name"]) }},
 				@for($i=1; $i <= count($content->activities); $i++)
@@ -77,6 +79,7 @@
 		</p>
     <p>
 			@attribute history_id NUMERIC<br/>
+			@attribute time STRING<br/>
 			@attribute user_id NUMERIC<br/>
 			@attribute user_name STRING<br/>
 
@@ -109,6 +112,7 @@
 				@endif
 
 				{{ $new_result["history_id"] }},
+				{{ $new_result["created_at"] }},
 				{{ $new_result["user_id"] }},
 				{{ str_replace(" ", "_", $new_result["user_name"]) }},
 				@for($i=1; $i <= count($content->activities); $i++)

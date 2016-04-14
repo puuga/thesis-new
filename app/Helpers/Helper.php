@@ -90,6 +90,7 @@ class Helper extends Facade {
     $out = "";
     $out .= "@RELATION content".$content->id."\n";
     $out .= "@attribute history_id NUMERIC\n";
+    $out .= "@attribute time STRING\n";
     $out .= "@attribute user_id NUMERIC\n";
     $out .= "@attribute user_name STRING\n";
 
@@ -120,6 +121,7 @@ class Helper extends Facade {
       }
 
       $out .= $new_result["history_id"].",";
+      $out .= $new_result["created_at"].",";
       $out .= $new_result["user_id"].",";
       $out .= str_replace(" ", "_", $new_result["user_name"]).",";
       for($i=1; $i <= count($content->activities); $i++) {
@@ -137,6 +139,7 @@ class Helper extends Facade {
     $out = "";
     $out .= "@RELATION content".$content->id;
     $out .= "@attribute history_id NUMERIC\n";
+    $out .= "@attribute time STRING\n";
     $out .= "@attribute user_id NUMERIC\n";
     $out .= "@attribute user_name STRING\n";
 
@@ -152,6 +155,31 @@ class Helper extends Facade {
     $out .= "@data\n";
 
     $new_results = Helper::arffContent($content, $histories, $frequencies);
+
+    foreach($new_results as $new_result) {
+      for($i=1; $i <= count($content->activities); $i++) {
+        if($new_result["answer_".$i]=="null") {
+          $conti=true;
+          break;
+        }
+        $conti=false;
+      }
+      if($conti==true) {
+        continue;
+      }
+
+      $out .= $new_result["history_id"].",";
+      $out .= $new_result["created_at"].",";
+      $out .= $new_result["user_id"].",";
+      $out .= str_replace(" ", "_", $new_result["user_name"]).",";
+      for($i=1; $i <= count($content->activities); $i++) {
+        $out .= ($new_result["answer_".$i]=="correct" ? 1 : 0 ).",";
+        $out .= $new_result["timediff_".$i].",";
+        $out .= $new_result["interactivity_count".$i].",";
+      }
+      $out .= $new_result["score"].",";
+      $out .= $new_result["time"]."\n";
+    }
 
     return $out;
   }
@@ -169,6 +197,7 @@ class Helper extends Facade {
       $arr["history_id"] = $history->id;
       $arr["user_id"] = $history->user->id;
       $arr["user_name"] = $history->user->name;
+      $arr["created_at"] = $history->created_at;
       $time = 0;
       $score = 0;
 
