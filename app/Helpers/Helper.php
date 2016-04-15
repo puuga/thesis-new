@@ -121,7 +121,7 @@ class Helper extends Facade {
       }
 
       $out .= $new_result["history_id"].",";
-      $out .= $new_result["created_at"].",";
+      $out .= "\"".$new_result["created_at"]."\",";
       $out .= $new_result["user_id"].",";
       $out .= str_replace(" ", "_", $new_result["user_name"]).",";
       for($i=1; $i <= count($content->activities); $i++) {
@@ -139,7 +139,7 @@ class Helper extends Facade {
     $out = "";
     $out .= "@RELATION content".$content->id."\n";
     $out .= "@attribute history_id NUMERIC\n";
-    $out .= "@attribute time DATE \"yyyy-MM-dd'T'HH:mm:ss\"\n";
+    $out .= "@attribute time DATE \"yyyy-MM-dd HH:mm:ss\"\n";
     $out .= "@attribute user_id NUMERIC\n";
     $out .= "@attribute user_name STRING\n";
 
@@ -169,7 +169,7 @@ class Helper extends Facade {
       }
 
       $out .= $new_result["history_id"].",";
-      $out .= $new_result["created_at"].",";
+      $out .= "\"".$new_result["created_at"]."\",";
       $out .= $new_result["user_id"].",";
       $out .= str_replace(" ", "_", $new_result["user_name"]).",";
       for($i=1; $i <= count($content->activities); $i++) {
