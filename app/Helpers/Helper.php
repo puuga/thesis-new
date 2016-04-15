@@ -146,7 +146,7 @@ class Helper extends Facade {
     for ($i=0; $i < count($content->activities); $i++) {
       $out .= "@attribute activity_answer_".($i+1)." {0,1}\n";
       $out .= "@attribute activity_time_".($i+1)." NUMERIC\n";
-      $out .= "@attribute interactivity_count_{{ $i+1 }} NUMERIC\n";
+      $out .= "@attribute interactivity_count_".($i+1)." NUMERIC\n";
     }
 
     $out .= "@attribute score NUMERIC\n";
