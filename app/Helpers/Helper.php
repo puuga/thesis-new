@@ -137,7 +137,7 @@ class Helper extends Facade {
 
   public static function createArff2Content($content, $histories, $frequencies) {
     $out = "";
-    $out .= "@RELATION content".$content->id;
+    $out .= "@RELATION content".$content->id."\n";
     $out .= "@attribute history_id NUMERIC\n";
     $out .= "@attribute time STRING\n";
     $out .= "@attribute user_id NUMERIC\n";
