@@ -139,7 +139,7 @@ class Helper extends Facade {
     $out = "";
     $out .= "@RELATION content".$content->id."\n";
     $out .= "@attribute history_id NUMERIC\n";
-    $out .= "@attribute time DATE \"yyyy-MM-dd HH:mm:ss\"\n";
+    $out .= "@attribute time DATE \"yyyy-MM-dd'T'HH:mm:ss\"\n";
     $out .= "@attribute user_id NUMERIC\n";
     $out .= "@attribute user_name STRING\n";
 
