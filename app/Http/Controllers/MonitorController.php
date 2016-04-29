@@ -74,7 +74,7 @@ class MonitorController extends Controller {
 
 		return view('monitor.history', [
 			'content_id'=>$id,
-			'content'=>Content::find($id)->get(),
+			'content'=>Content::find($id),
 			'histories'=>$histories,
 			'frequencies'=>$frequencies,
 			'year_count'=>$year_count
