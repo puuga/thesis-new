@@ -19,6 +19,9 @@ function getColor($percent) {
 			$score = 0;
 
 			for ( $i=0; $i<count($activity_arr) ; $i++ ) {
+				if ( !isset($history->content->activities[$activity_arr[$i]-1]) ) {
+					continue;
+				}
 				$act = $history->content->activities[$activity_arr[$i]-1];
 				if ( isset($answers[$i]) && $act->id === $answers[$i]->activity_id ) {
 					if ( Helper::isCorrectAnswer($history, $act, $answers[$i]) ) {
