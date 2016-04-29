@@ -162,9 +162,16 @@
           ?>
           @for ($i = 1; $i <= $activity_count; $i++)
           <?php
+          if ( !isset($sum_results[$i]) ) {
+            // $total_complete = 0;
+            // $total_correct = 0;
+            // $total_incorrect = 0;
+            $sum_results[$i]["counter"] = 0;
+          } else {
             $total_complete += count($histories)!=0 ? $sum_results[$i]["counter"]/count($histories)*100 : 0;
             $total_correct += $sum_results[$i]["counter"]!=0 ? $sum_results[$i]["answer_yes_counter"]/$sum_results[$i]["counter"]*100 : 0;
             $total_incorrect += $sum_results[$i]["counter"]!=0 ? $sum_results[$i]["answer_no_counter"]/$sum_results[$i]["counter"]*100 : 0;
+          }
           ?>
           <tr>
             <td>{{ $i }}</td>
