@@ -21,7 +21,7 @@
 
 		@for ( $i = 0; $i < count($activity_arr); $i++ )
 			<?php
-				if (array_key_exists($i,$history->content->activities)) {
+				if (array_key_exists($activity_arr[$i]-1,$history->content->activities)) {
 					$act = $history->content->activities[$activity_arr[$i]-1];
 				} else {
 					continue;
