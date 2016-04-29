@@ -82,20 +82,23 @@
               $score = 0;
             ?>
             @for ($i = 0; $i < count($history->activity_order_arr); $i++)
+              <?php
+              $key = $history->activity_order_arr[$i];
+              if (count(Content::find($history->content_id)->activities)>$key) {
+                continue;
+              }
+              $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0;
+              $answer = "";
+              if ($timediff==0) {
+                $answer = "null";
+              } elseif (isset($history->answer_arr[$i]) && $history->answer_arr[$i]==true) {
+                $answer = "correct";
+                $score++;
+              } else {
+                $answer = "incorrect";
+              }
+              ?>
               <td>
-                <?php
-                $key = $history->activity_order_arr[$i];
-                $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0;
-                $answer = "";
-                if ($timediff==0) {
-                  $answer = "null";
-                } elseif (isset($history->answer_arr[$i]) && $history->answer_arr[$i]==true) {
-                  $answer = "correct";
-                  $score++;
-                } else {
-                  $answer = "incorrect";
-                }
-                ?>
                 {{ $key }}<br/>
                 {{ $answer }}<br/>
                 {{ $timediff."s" }}
