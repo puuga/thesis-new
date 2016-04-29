@@ -85,7 +85,7 @@
               <?php
               $key = $history->activity_order_arr[$i];
               if (count($content->activities)>$key) {
-                continue;
+                // continue;
               }
               $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0;
               $answer = "";
