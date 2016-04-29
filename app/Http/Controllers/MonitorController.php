@@ -218,6 +218,9 @@ class MonitorController extends Controller {
 			if ( !isset($history->activity_order_arr[$i]) ) {
 				continue;
 			}
+			if ( !isset($history->content->activities[$history->activity_order_arr[$i]-1]) ) {
+				continue;
+			}
       $act = $history->content->activities[$history->activity_order_arr[$i]-1];
 			if ( !isset($answers[$i*2]) ) {
 				$timediff_arr[] = 0;
