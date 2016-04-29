@@ -84,7 +84,7 @@
             @for ($i = 0; $i < count($history->activity_order_arr); $i++)
               <?php
               $key = $history->activity_order_arr[$i];
-              if (count(Content::find($history->content_id)->activities)>$key) {
+              if (count($content->activities)>$key) {
                 continue;
               }
               $timediff = isset($history->timediff_arr[$i]) ? $history->timediff_arr[$i] : 0;
