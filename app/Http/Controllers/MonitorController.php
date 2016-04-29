@@ -254,6 +254,9 @@ class MonitorController extends Controller {
 		}
 
     for ( $i=0; $i<count($history->activity_order_arr) ; $i++ ) {
+			if ( !isset($history->content->activities[$history->activity_order_arr[$i]-1]) ) {
+				continue;
+			}
       $act = $history->content->activities[$history->activity_order_arr[$i]-1];
 			if ( !isset($answers[$i]) ) {
 				$answer_arr[] = false;
