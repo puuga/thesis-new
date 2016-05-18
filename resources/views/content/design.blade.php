@@ -354,7 +354,11 @@
 						<span class="caret"></span>
 				  </button>
 				  <ul class="dropdown-menu" role="menu">
-				    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#moNewInteractiveActivity">New Interactive Activity</a></li>
+				    <li>
+							<a href="javascript:void(0)" data-toggle="modal" data-target="#moNewInteractiveActivity">
+								New Interactive Content
+							</a>
+						</li>
 				    {{-- <li><a href="javascript:void(0)">New Plain Activity</a></li> --}}
 				  </ul>
 				</div>
@@ -494,18 +498,18 @@
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h2 class="modal-title" id="moNewInteractiveActivityLabel">New Activity</h2>
+        <h2 class="modal-title" id="moNewInteractiveActivityLabel">New Content</h2>
       </div>
 
       <div class="modal-body">
 				<form class="form-horizontal" id="newActivityForm">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Text</label>
+						<label class="col-sm-2 control-label">Matching</label>
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
-									Layout 1
+									Alphabet Matching
 									<img class="img-responsive img-thumbnail"
 										src="{{ asset('/images/text-1.png') }}" alt="Layout 1" />
 								</label>
@@ -513,9 +517,15 @@
 							<div class="radio radio-primary">
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
-									Layout 2
+									Word Matching
 									<img class="img-responsive img-thumbnail"
 										src="{{ asset('/images/text-2.png') }}" alt="Layout 2" />
+								</label>
+							</div>
+							<div class="radio radio-primary">
+								<label>
+									<input type="radio" name="optionsRadios" id="optionsRadios3" value="3" disabled>
+									Picture Matching
 								</label>
 							</div>
 						</div>
@@ -523,7 +533,7 @@
 					</div>
 
 
-					<div class="form-group">
+					{{-- <div class="form-group">
 						<label class="col-sm-2 control-label">Image</label>
 						<div class="col-sm-10">
 							<div class="radio radio-primary">
@@ -539,7 +549,7 @@
 								</label>
 							</div>
 						</div>
-					</div>
+					</div> --}}
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Multiple Choices</label>
@@ -547,7 +557,7 @@
 							<div class="radio radio-primary">
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios2" value="5">
-									Layout 1
+									Picture
 									<img class="img-responsive img-thumbnail"
 										src="{{ asset('/images/multiple_choices-1.png') }}" alt="Layout 1" />
 								</label>
@@ -555,7 +565,7 @@
 							<div class="radio radio-primary">
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios3" value="6">
-									Layout 2
+									Word
 									<img class="img-responsive img-thumbnail"
 										src="{{ asset('/images/multiple_choices-2.png') }}" alt="Layout 2" />
 								</label>
@@ -573,7 +583,7 @@
 				class="btn btn-primary"
 				id="newActivity"
 				autocomplete="off"
-				data-loading-text="Creating...">New Activity</button>
+				data-loading-text="Creating...">New Content</button>
       </div>
     </div>
   </div>
