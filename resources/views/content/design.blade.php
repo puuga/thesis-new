@@ -143,11 +143,33 @@
 		var text = "";
 		var activity_type_name = (typeof activityType !== "undefined") ? activityType.name : activity.activity_type_name ;
 		var activity_type_layout = (typeof activityType !== "undefined") ? activityType.layout : activity.activity_type_layout ;
+		var activity_type_layout_name = "" ;
+		switch (activity.activity_type_id) {
+			case "1":
+				activity_type_layout_name = "Alphabet Matching";
+				break;
+			case "2":
+				activity_type_layout_name = "Word Matching";
+				break;
+			case "3":
+			case "4":
+				activity_type_layout_name = "Picture Matching";
+				break;
+			case "5":
+				activity_type_layout_name = "Multiple Choice (Word)";
+				break;
+			case "6":
+				activity_type_layout_name = "Multiple Choice (Picture)";
+				break;
+			default:
+
+		}
 		text += "<div class='panel panel-default'>";
 		text += "<div class='panel-body'>";
 		text += "<div class='col-md-3'>";// start 1st column
 		text += "Activity_id: " + activity.id +"<br/>";
-		text += "Type : "+ activity_type_name +"<br/>";
+		text += "Type : "+ activity_type_layout_name +"<br/>";
+		// text += "Type : "+ activity_type_name +"<br/>";
 		text += "Layout : "+ activity_type_layout +"<br/>";
 		text += "</div>";// close 1st column
 		text += "<div class='col-md-3'>";// start 2nd column
@@ -248,6 +270,11 @@
 						<dl class="dl-horizontal">
 						  <dt>Level</dt>
 						  <dd>{{ $content->level }}</dd>
+						</dl>
+
+						<dl class="dl-horizontal">
+						  <dt>Category</dt>
+						  <dd>{{ $content->category->name }}</dd>
 						</dl>
 
 						<dl class="dl-horizontal">
