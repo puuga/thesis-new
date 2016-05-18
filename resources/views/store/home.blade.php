@@ -14,6 +14,10 @@
 				</div>
 
 				<div class="panel-body">
+					<p>
+						<span class="label label-primary">{{ $content->level }}</span>
+						<span class="label label-info">{{ $content->category->name }}</span>
+					</p>
 					@if ( is_null($content->image_entry_id) )
 						<img src="{{ asset('/images/placeholder.svg') }}"
 						class="img-responsive img-rounded"
