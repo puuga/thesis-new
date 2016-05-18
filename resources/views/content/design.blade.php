@@ -219,7 +219,7 @@
 
 	<div class="row">
 		<h1>
-			Design Content
+			Design Lesson
 			<button type="button"
 			class="btn btn-default"
 			aria-label="Center Align"
@@ -236,7 +236,7 @@
 			    <div class="panel-body">
 
 						<dl class="dl-horizontal">
-						  <dt>Content name</dt>
+						  <dt>Lesson name</dt>
 						  <dd>{{ $content->name }}</dd>
 						</dl>
 
@@ -281,7 +281,7 @@
 			    <div class="panel-body">
 
 						<dl>
-						  <dt>Placeholder Image</dt>
+						  <dt>Cover Image</dt>
 						  <dd>
 								@if ( is_null($content->image_entry_id) )
 									<img src="{{ asset('/images/placeholder.svg') }}"
@@ -320,7 +320,7 @@
 		<div class="col-md-12">
 
 			<h2>
-				Activities (<span id="activityNumber">{{ count($content->activities)}}</span>)
+				Contents (<span id="activityNumber">{{ count($content->activities)}}</span>)
 				<div class="btn-group">
 				  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -328,7 +328,7 @@
 				  </button>
 				  <ul class="dropdown-menu" role="menu">
 				    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#moNewInteractiveActivity">New Interactive Activity</a></li>
-				    <li><a href="javascript:void(0)">New Plain Activity</a></li>
+				    {{-- <li><a href="javascript:void(0)">New Plain Activity</a></li> --}}
 				  </ul>
 				</div>
 			</h2>
@@ -352,7 +352,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-        <h4 class="modal-title" id="moEditContentLabel">Edit Content</h4>
+        <h4 class="modal-title" id="moEditContentLabel">Edit Lesson</h4>
       </div>
 
       <div class="modal-body">
@@ -361,14 +361,14 @@
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 					<div class="form-group">
-				    <label for="inName" class="col-sm-2 control-label">Name</label>
+				    <label for="inName" class="col-sm-2 control-label">Lesson Name</label>
 				    <div class="col-sm-10">
 				      <input
 							type="text"
 							class="form-control"
 							name="inName"
 							id="inName"
-							placeholder="Content Name"
+							placeholder="Lesson Name"
 							value="{{ $content->name }}"
 							required>
 				    </div>
@@ -424,6 +424,10 @@
 									value="publish"
 									{{ $content->is_public === '1' ? 'checked' : '' }}> Publish to Every User
 				        </label>
+								<p class="help-block">
+									Check this option for everyone can access-able.<br/>
+									Uncheck this option for only user has same school as creator can access-able.
+								</p>
 				      </div>
 				    </div>
 				  </div>
@@ -436,9 +440,9 @@
 									type="checkbox"
 									name="inProgress"
 									value="inProgress"
-									{{ $content->is_inprogress === '1' ? 'checked' : '' }}> inProgress
+									{{ $content->is_inprogress === '1' ? 'checked' : '' }}> In progress
 				        </label>
-								<p class="help-block">Check this option if the content is not ready to publish.</p>
+								<p class="help-block">Check this option if the lesson is not ready to publish.</p>
 				      </div>
 				    </div>
 				  </div>

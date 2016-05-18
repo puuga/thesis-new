@@ -4,7 +4,7 @@
 <div class="container">
 
 	<div class="row">
-		<h1>New Content</h1>
+		<h1>New Lesson</h1>
 	</div>
 
 	<div class="row">
@@ -13,9 +13,9 @@
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 			<div class="form-group">
-		    <label for="inName" class="col-sm-2 control-label">Name</label>
+		    <label for="inName" class="col-sm-2 control-label">Lesson Name</label>
 		    <div class="col-sm-8">
-		      <input type="text" class="form-control" name="inName" id="inName" placeholder="Content Name" required>
+		      <input type="text" class="form-control" name="inName" id="inName" placeholder="Lesson Name" required>
 		    </div>
 		  </div>
 
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" style="visibility: hidden;">
 		    <div class="col-sm-offset-2 col-sm-10">
 		      <div class="checkbox">
 		        <label>

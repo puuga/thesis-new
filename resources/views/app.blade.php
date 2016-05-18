@@ -130,9 +130,9 @@
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ route('newContent') }}">New Content</a></li>
+								<li><a href="{{ route('newContent') }}">New Lesson</a></li>
 								<li class="divider"></li>
-								<li><a href="{{ route('myContents') }}">My Contents</a></li>
+								<li><a href="{{ route('myContents') }}">My Lesson</a></li>
 							</ul>
 						</li>
 
