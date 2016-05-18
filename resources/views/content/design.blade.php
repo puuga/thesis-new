@@ -156,10 +156,10 @@
 				activity_type_layout_name = "Picture Matching";
 				break;
 			case "5":
-				activity_type_layout_name = "Multiple Choice (Word)";
+				activity_type_layout_name = "Multiple Choice (Picture)";
 				break;
 			case "6":
-				activity_type_layout_name = "Multiple Choice (Picture)";
+				activity_type_layout_name = "Multiple Choice (Word)";
 				break;
 			default:
 
@@ -170,7 +170,7 @@
 		text += "Activity_id: " + activity.id +"<br/>";
 		text += "Type : "+ activity_type_layout_name +"<br/>";
 		// text += "Type : "+ activity_type_name +"<br/>";
-		text += "Layout : "+ activity_type_layout +"<br/>";
+		// text += "Layout : "+ activity_type_layout +"<br/>";
 		text += "</div>";// close 1st column
 		text += "<div class='col-md-3'>";// start 2nd column
 		if (activity_type_name==="TEXT" && activity_type_layout==="1") {
