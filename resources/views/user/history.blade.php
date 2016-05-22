@@ -24,7 +24,7 @@
 		var chart = new google.visualization.Calendar(document.getElementById('calendar_div'));
 
 		var options = {
-		title: "Access frequency",
+		title: "Frequency Access",
 		};
 
 		chart.draw(dataTable, options);
@@ -52,7 +52,7 @@
     <table class="table table-striped table-bordered table-hover">
       <thead>
         <tr>
-          <th>Content name</th>
+          <th>Lesson name</th>
           <th>At</th>
           <th>Score</th>
         </tr>
