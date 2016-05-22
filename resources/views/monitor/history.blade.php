@@ -24,7 +24,7 @@
 		var chart = new google.visualization.Calendar(document.getElementById('calendar_div'));
 
 		var options = {
-		title: "Access frequency",
+		title: "Frequency Access Chart",
 		};
 
 		chart.draw(dataTable, options);
@@ -48,7 +48,7 @@
       {{ print_r($histories) }}
     </p> --}}
 
-    <h1>User Analytic ({{ count($histories) }})</h1>
+    <h1>Access Log ({{ count($histories) }})</h1>
 
     <p>
       <table class="table table-striped table-bordered table-hover">
@@ -64,7 +64,7 @@
               }
             ?>
             @for ($i = 0; $i < $activity_count; $i++)
-              <th>id / yes-no / time</th>
+              <th>content id<br/>correct-incorrect<br/>time</th>
             @endfor
             <th>Score</th>
             <th>Total time</th>
