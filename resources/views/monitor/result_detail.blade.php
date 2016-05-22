@@ -6,7 +6,9 @@
 
 	<div class="row">
 
-		<h1>history id: {{ $history->id }}</h1>
+		<h1>Access id: {{ $history->id }}</h1>
+
+		<h2>Raw data</h2>
 
 		<?php
 			$activity_arr = explode(",",$history->activity_order);
@@ -50,7 +52,7 @@
 	</div>
 
 	<div class="row">
-		<h1>Interactivities</h1>
+		<h2>Interactivities</h2>
 		<table class="table table-striped table-bordered table-hover">
 		  <thead>
 		  	<tr>
