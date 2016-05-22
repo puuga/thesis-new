@@ -7,7 +7,7 @@
 	<div class="row">
 
 		<h1>
-			All Content {{ count($contents) }}
+			All Lessons {{ count($contents) }}
 		</h1>
 
 		<table class="table table-striped table-bordered table-hover" id="myTable">
