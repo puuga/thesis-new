@@ -64,7 +64,7 @@
               }
             ?>
             @for ($i = 0; $i < $activity_count; $i++)
-              <th>content_id<br/>correct_incorrect<br/>time</th>
+              <th>content_id<br/>result<br/>time</th>
             @endfor
             <th>Score</th>
             <th>Total time</th>
