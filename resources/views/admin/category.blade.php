@@ -16,9 +16,9 @@
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
-					<th>Number of Published Contents</th>
-					<th>Number of Inprogress Contents</th>
-					<th>Number of Total Contents</th>
+					<th>Number of Published Lessons</th>
+					<th>Number of Inprogress Lessons</th>
+					<th>Number of Total Lessons</th>
 				</tr>
 			</thead>
 			<tbody>
