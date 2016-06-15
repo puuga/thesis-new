@@ -46,6 +46,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <!-- <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script> -->
     <script>
+      var contentLengthBig = 0;
+
       var socket = io();
 
       var socketName = "monitor_message_content_id_"+getParameterByName('content_id');
@@ -60,9 +62,11 @@
 
           var msgId = "messages_student_"+msg.userId;
           var progId = "progId_"+msg.userId;
+          var progTime = "progTime_"+msg.userId;
 
-          var box = fBox(msgId, msg, progId);
+          var box = fBox(msgId, msg, progId, progTime);
           $('#row').append(box);
+          $( "#"+msgId ).hide();
         }
         $('#messages_student_'+msg.userId).prepend($('<li>').text(msg.action+ ": "+msg.detail));
 
@@ -77,6 +81,7 @@
           $("#progId_"+msg.userId).attr("data-current-activity", ""+currentActivity);
 
           var contentLength = $("#progId_"+msg.userId).attr("data-activity").split(",").length;
+          contentLengthBig = contentLength;
           var percent = currentActivity / contentLength * 100;
           $("#progId_"+msg.userId).css("width", percent+"%");
           $("#progId_"+msg.userId).html(currentActivity + " / " + contentLength);
@@ -89,6 +94,7 @@
           var contentLength = $("#progId_"+msg.userId).attr("data-activity").split(",").length;
           if (currentActivity === contentLength) {
             $("#progId_"+msg.userId).removeClass("active");
+            $("#progTime_"+msg.userId).removeClass("active");
           }
         }
 
@@ -96,7 +102,7 @@
       });
       console.log('Listen to: ' + socketName);
 
-      function fBox(id, msg, progId) {
+      function fBox(id, msg, progId, progTime) {
         var box = "<div class=\"col-md-6\">";
         box += "<div class=\"panel panel-default\">";
         box += "<div class=\"panel-heading\">";
@@ -105,14 +111,39 @@
         box += "<div id=\""+progId+"\" class=\"progress-bar progress-bar-striped active\" data-activity=\"0\" data-current-activity=\"0\" style=\"width: 0%\">"
         box += "</div>"
         box += "</div>"
+        box += "<div class=\"progress\">"
+        box += "<div id=\""+progTime+"\" class=\"pptt progress-bar progress-bar-info progress-bar-striped active\" data-time-use=\"0\" style=\"width: 0%\">"
+        box += "</div>"
+        box += "</div>"
         box += "</div>";
         box += "<div class=\"panel-body\">";
+        box += "<button class=\"btn btn-info btn-xs\" onclick=\"fToggle('"+id+"')\">";
+        box += "<span class=\"glyphicon glyphicon-comment\" aria-hidden=\"true\"></span>";
+        box += "</button>";
         box += "<ul id=\""+id+"\"></ul>"
         box += "</div>";
         box += "</div>";
         box += "</div>";
 
         return box;
+      }
+
+      function fToggle(id) {
+        $( "#"+id ).toggle();
+      }
+
+      var myVarTimer = setInterval(myTimer, 1000);
+      function myTimer() {
+        var progressTimes = $(".pptt.active");
+        console.log("progressTimes.length:"+progressTimes.length);
+        progressTimes.each(function(i) {
+          var t = parseInt($(this).attr("data-time-use"));
+          $(this).attr("data-time-use", t+1);
+
+          var percent = t / (contentLengthBig*60) * 100;
+          $(this).css("width", percent+"%");
+          $(this).html(t);
+        });
       }
 
 
