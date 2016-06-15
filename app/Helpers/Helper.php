@@ -8,6 +8,11 @@ class Helper extends Facade {
 
   protected static function getFacadeAccessor() { return 'helper'; }
 
+  public static function getLevelText($level) {
+    $levelTexts = array("ประถมต้น", "ประถมปลาย", "มัธยมต้น", "มัธยมปลาย", "มหาวิทยาลัย", "ทัวไป");
+    return $level > count($levelTexts) ? $levelTexts[count($levelTexts)-1] : $levelTexts[$level-1];
+  }
+
   // user_response, answer
   public static function deepCompare($objectA, $objectB) {
     // check member length

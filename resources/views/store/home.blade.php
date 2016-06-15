@@ -15,7 +15,7 @@
 
 				<div class="panel-body">
 					<p>
-						<span class="label label-primary">{{ $content->level }}</span>
+						<span class="label label-primary">{{ Helper::getLevelText($content->level) }}</span>
 						<span class="label label-info">{{ $content->category->name }}</span>
 					</p>
 					@if ( is_null($content->image_entry_id) )

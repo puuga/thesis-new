@@ -269,7 +269,7 @@
 
 						<dl class="dl-horizontal">
 						  <dt>Level</dt>
-						  <dd>{{ $content->level }}</dd>
+						  <dd>{{ Helper::getLevelText($content->level) }}</dd>
 						</dl>
 
 						<dl class="dl-horizontal">
@@ -420,7 +420,7 @@
 					<div class="form-group">
 						<label for="inLevel" class="col-sm-2 control-label">For Level</label>
 				    <div class="col-sm-10">
-							<input
+							{{-- <input
 							type="number"
 							class="form-control"
 							name="inLevel"
@@ -428,7 +428,15 @@
 							min="1"
 							max="6"
 							value="{{ $content->level }}"
-							required>
+							required> --}}
+							<select class="form-control" name="inLevel" id="inLevel" required>
+							  <option value="1" {{ $content->level===1?"selected":""}}>{{ Helper::getLevelText(1) }}</option>
+							  <option value="2" {{ $content->level===2?"selected":""}}>{{ Helper::getLevelText(2) }}</option>
+							  <option value="3" {{ $content->level===3?"selected":""}}>{{ Helper::getLevelText(3) }}</option>
+							  <option value="4" {{ $content->level===4?"selected":""}}>{{ Helper::getLevelText(4) }}</option>
+								<option value="5" {{ $content->level===5?"selected":""}}>{{ Helper::getLevelText(5) }}</option>
+								<option value="6" {{ $content->level===6?"selected":""}}>{{ Helper::getLevelText(6) }}</option>
+							</select>
 				    </div>
 					</div>
 

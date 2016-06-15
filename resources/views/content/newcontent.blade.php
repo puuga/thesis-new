@@ -29,7 +29,15 @@
 			<div class="form-group">
 				<label for="inLevel" class="col-sm-2 control-label">For Level</label>
 		    <div class="col-sm-2">
-					<input type="number" class="form-control" name="inLevel" id="inLevel" min="1" max="6" required>
+					{{-- <input type="number" class="form-control" name="inLevel" id="inLevel" min="1" max="6" required> --}}
+					<select class="form-control" name="inLevel" id="inLevel" required>
+					  <option value="1">{{ Helper::getLevelText(1) }}</option>
+					  <option value="2">{{ Helper::getLevelText(2) }}</option>
+					  <option value="3">{{ Helper::getLevelText(3) }}</option>
+					  <option value="4">{{ Helper::getLevelText(4) }}</option>
+						<option value="5">{{ Helper::getLevelText(5) }}</option>
+						<option value="6">{{ Helper::getLevelText(6) }}</option>
+					</select>
 		    </div>
 			</div>
 

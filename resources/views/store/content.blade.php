@@ -29,7 +29,7 @@
 
 						<dl class="dl-horizontal">
 						  <dt>Level</dt>
-						  <dd>{{ $content->level }}</dd>
+						  <dd>{{ Helper::getLevelText($content->level) }}</dd>
 						</dl>
 
 					</div>
